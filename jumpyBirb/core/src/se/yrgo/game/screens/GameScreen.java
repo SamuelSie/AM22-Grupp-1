@@ -1,6 +1,7 @@
 package se.yrgo.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -63,6 +64,11 @@ public class GameScreen implements Screen {
         game.batch.draw(birbImg, birb.x, birb.y, birb.width, birb.height);
         game.batch.draw(topPipeImg, topPipe.x, topPipe.y, topPipe.width, topPipe.height );
         game.batch.end();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
+            game.setScreen(new DeathScreen(game));
+            dispose();
+        }
 
     }
 
