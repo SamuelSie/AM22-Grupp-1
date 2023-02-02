@@ -44,8 +44,8 @@ public class GameScreen implements Screen {
         birb.height = 24;
 
         topPipe = new Rectangle();
-        topPipe.x = game.WIDTH / 2 - topPipe.width / 2;
-        topPipe.y =game.HEIGHT;
+        topPipe.x = 50;
+        topPipe.y = game.HEIGHT - 320;
         topPipe.height = 320;
         topPipe.width = 52;
     }
