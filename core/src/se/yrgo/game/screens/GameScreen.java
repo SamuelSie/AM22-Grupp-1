@@ -9,22 +9,23 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import se.yrgo.game.JumpyBirb;
-
-import java.awt.*;
+import se.yrgo.game.objects.Doge;
 
 public class GameScreen implements Screen {
     private final JumpyBirb game;
-    private Texture birbImg;
+    private Doge doge;
     private Texture topPipeImg;
     private Music music;
-    private Rectangle birb;
     private  Rectangle topPipe;
     private OrthographicCamera camera;
+    private float deltaTime;
+
     public GameScreen(final JumpyBirb game) {
         this.game = game;
+        //create doge object with x & y position
+        doge = new Doge(50,350);
 
         // load images
-        birbImg = new Texture("bird.png");
         topPipeImg = new Texture("toptube.png");
 
         // background music
@@ -36,18 +37,16 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
 
         // create the rectangles
-        birb = new Rectangle();
-        birb.x = 50;
-        birb.y= game.HEIGHT/2 - 24/2;
-
-        birb.width = 34;
-        birb.height = 24;
 
         topPipe = new Rectangle();
         topPipe.x = 50;
         topPipe.y = game.HEIGHT - 320;
         topPipe.height = 320;
         topPipe.width = 52;
+
+        // deltatime är tiden mellan frames, mätt i sekunder.
+        //behövs för att flytta saker på skärmen, typ falla och hoppa.
+        deltaTime = Gdx.graphics.getDeltaTime();
     }
 
 
@@ -61,9 +60,19 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.batch.draw(birbImg, birb.x, birb.y, birb.width, birb.height);
+        game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, 160, 160);
+        //måste finnas bättre sätt att sätta storlek på objektet?
+        //verkar inte behöva någon rectangle när man gör gubben som ett objekt. kan ha fel.
+
         game.batch.draw(topPipeImg, topPipe.x, topPipe.y, topPipe.width, topPipe.height );
         game.batch.end();
+
+        //gör att doge faller nedåt
+        doge.fall(deltaTime);
+        //ändrar hastigheten på doge y-axis från minus till plus
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            doge.jump(deltaTime);
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
             game.setScreen(new DeathScreen(game));
@@ -102,7 +111,7 @@ public class GameScreen implements Screen {
 
         topPipeImg.dispose();
         music.dispose();
-        birbImg.dispose();
+
 
     }
 }
