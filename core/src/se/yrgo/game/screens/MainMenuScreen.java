@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
 import se.yrgo.game.JumpyBirb;
-import se.yrgo.game.Main;
 
 public class MainMenuScreen implements Screen {
 
