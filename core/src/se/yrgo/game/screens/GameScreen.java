@@ -49,10 +49,6 @@ public class GameScreen implements Screen {
         deltaTime = Gdx.graphics.getDeltaTime();
     }
 
-
-
-
-
     @Override
     public void render(float delta) {
 
@@ -62,15 +58,14 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, 160, 160);
-        //måste finnas bättre sätt att sätta storlek på objektet?
-        //verkar inte behöva någon rectangle när man gör gubben som ett objekt. kan ha fel.
+        game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getWidth(), doge.getTexture().getHeight());
 
         game.batch.draw(topPipeImg, topPipe.x, topPipe.y, topPipe.width, topPipe.height );
         game.batch.end();
 
         //gör att doge faller nedåt
         doge.fall(deltaTime);
+
         //ändrar hastigheten på doge y-axis från minus till plus
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             doge.jump(deltaTime);
@@ -113,6 +108,7 @@ public class GameScreen implements Screen {
 
         topPipeImg.dispose();
         music.dispose();
+        doge.dispose();
 
 
     }
