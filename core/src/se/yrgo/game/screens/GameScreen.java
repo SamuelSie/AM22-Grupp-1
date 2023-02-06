@@ -71,6 +71,12 @@ public class GameScreen implements Screen {
             doge.jump(deltaTime);
         }
 
+        // if doge hits bottom of screen, switch to DeathScreen
+        if (doge.getPosition().y <= 0) {
+            game.setScreen(new DeathScreen(game));
+            dispose();
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
             game.setScreen(new DeathScreen(game));
             dispose();
