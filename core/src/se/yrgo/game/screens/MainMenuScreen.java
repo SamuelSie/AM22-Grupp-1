@@ -3,17 +3,30 @@ package se.yrgo.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import se.yrgo.game.JumpyBirb;
 
 public class MainMenuScreen implements Screen {
 
     public final JumpyBirb game;
     private OrthographicCamera camera;
+    private Texture bg;
+    private Texture start;
 
     public MainMenuScreen(final JumpyBirb game) {
         this.game = game;
+
+        bg = new Texture("bg.png");
+        start = new Texture("start.png");
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
@@ -32,9 +45,12 @@ public class MainMenuScreen implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
+
         game.batch.begin();
-        game.font.draw(game.batch, "WELCOME TO JUMPY BIRB!", game.WIDTH / 2, game.HEIGHT / 2);
+        game.batch.draw(bg, 0, 0, game.WIDTH, game.HEIGHT);
+        game.batch.draw(start, (game.WIDTH / 2) - 150, (game.HEIGHT / 3) *2, 300, 30);
         game.batch.end();
+
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             game.setScreen(new GameScreen(game));
@@ -65,6 +81,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        bg.dispose();
     }
 }
