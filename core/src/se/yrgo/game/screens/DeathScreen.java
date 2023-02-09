@@ -12,17 +12,18 @@ import se.yrgo.game.JumpyBirb;
 public class DeathScreen implements Screen {
     private final JumpyBirb game;
     private OrthographicCamera camera;
-
+    GlyphLayout layout;
     public DeathScreen (final JumpyBirb game) {
         this.game = game;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
+        layout = new GlyphLayout();
 
     }
     @Override
     public void show() {
-
+        layout.setText(game.font, "WELCOME TO YOUR DOOM");
     }
 
     @Override
@@ -33,7 +34,7 @@ public class DeathScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.font.draw(game.batch, "WELCOME TO YOUR DOOOM!", game.WIDTH / 2 , game.HEIGHT /2);
+        game.font.draw(game.batch, layout, game.WIDTH/2 - layout.width/2, game.HEIGHT/2 - layout.height/2);
         game.batch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
