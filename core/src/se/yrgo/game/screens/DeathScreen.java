@@ -12,7 +12,7 @@ import se.yrgo.game.JumpyBirb;
 public class DeathScreen implements Screen {
     private final JumpyBirb game;
     private OrthographicCamera camera;
-    GlyphLayout layout;
+    private GlyphLayout layout;
     public DeathScreen (final JumpyBirb game) {
         this.game = game;
 
