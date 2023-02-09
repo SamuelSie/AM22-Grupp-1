@@ -1,6 +1,7 @@
 package se.yrgo.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import se.yrgo.game.screens.MainMenuScreen;
@@ -15,7 +16,7 @@ public class JumpyBirb extends Game {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        font = new BitmapFont();
+        font = new BitmapFont(Gdx.files.internal("myFont.fnt"));
 
         this.setScreen(new MainMenuScreen(this));
 

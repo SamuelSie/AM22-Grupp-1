@@ -1,19 +1,23 @@
 package se.yrgo.game.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
 import se.yrgo.game.JumpyBirb;
 
 public class DeathScreen implements Screen {
     private final JumpyBirb game;
     private OrthographicCamera camera;
+
     public DeathScreen (final JumpyBirb game) {
         this.game = game;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
-
 
     }
     @Override
@@ -23,14 +27,19 @@ public class DeathScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(1,0,0.2f,1);
+        ScreenUtils.clear(0,0,0.2f,1);
 
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.font.draw(game.batch, "WELCOME TO YOUR DOOOM!", game.WIDTH / 2 - 22, game.HEIGHT / 2);
+        game.font.draw(game.batch, "WELCOME TO YOUR DOOOM!", game.WIDTH / 2 , game.HEIGHT /2);
         game.batch.end();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            game.setScreen(new GameScreen(game));
+            dispose();
+        }
     }
 
     @Override
