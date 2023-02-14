@@ -20,13 +20,12 @@ public class MainMenuScreen implements Screen {
 
     public final JumpyBirb game;
     private OrthographicCamera camera;
-    private Texture bg;
     private GlyphLayout layout;
 
     public MainMenuScreen(final JumpyBirb game) {
         this.game = game;
 
-        bg = new Texture("bg.png");
+
         layout = new GlyphLayout();
 
         camera = new OrthographicCamera();
@@ -48,7 +47,7 @@ public class MainMenuScreen implements Screen {
 
 
         game.batch.begin();
-        game.batch.draw(bg, 0, 0, game.WIDTH, game.HEIGHT);
+        game.batch.draw(game.backGround, 0, 0, game.WIDTH, game.HEIGHT);
         game.font.draw(game.batch, layout, game.WIDTH/2 - layout.width/2, game.HEIGHT/2 + layout.height/2);
         game.batch.end();
 
@@ -82,6 +81,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        bg.dispose();
+
     }
 }
