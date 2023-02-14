@@ -122,5 +122,10 @@ public class GameScreen implements Screen {
         topPipeImg.dispose();
         music.dispose();
         doge.dispose();
+
+
+        ground.dispose();
+
+
     }
 }
