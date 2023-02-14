@@ -16,11 +16,11 @@ public class Doge {
     public Doge (int x, int y){
         dogeImg = new Texture("dogeBodyImg.png");
 
-        hitbox = new Rectangle(x, y, dogeImg.getWidth(), dogeImg.getHeight());
+        hitbox = new Rectangle(x, y, dogeImg.getWidth(), (dogeImg.getHeight()));
 
         position = new Vector3(x,y,0);
         velocity = new Vector3(0,0,0);
-        fallSpeed = -10;
+        fallSpeed = -1;
 
     }
 
