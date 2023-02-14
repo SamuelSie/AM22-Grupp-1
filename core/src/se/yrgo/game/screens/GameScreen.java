@@ -79,7 +79,7 @@ public class GameScreen implements Screen {
         }
 
         // if doge hits bottom of screen, switch to DeathScreen
-        if (doge.getPosition().y <= 0) {
+        if (doge.getHitbox().overlaps(ground.getGroundBox())) {
             game.setScreen(new DeathScreen(game));
             dispose();
         }
