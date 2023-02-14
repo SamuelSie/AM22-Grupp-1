@@ -38,7 +38,7 @@ public class DeathScreen implements Screen {
 
         game.batch.begin();
         game.font.draw(game.batch, layout, game.WIDTH/2 - layout.width/2, (game.HEIGHT/3) * 2 - layout.height/2);
-        game.font.draw(game.batch, layout2, game.WIDTH/2 - layout2.width/2, (game.HEIGHT/3) - layout2.height/2);
+        game.font.draw(game.batch, layout2, game.WIDTH/2 - layout2.width/2, (game.HEIGHT/2) - layout2.height/2);
         game.batch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
