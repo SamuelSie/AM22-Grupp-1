@@ -20,7 +20,7 @@ public class Doge {
 
         position = new Vector3(x,y,0);
         velocity = new Vector3(0,0,0);
-        fallSpeed = -1;
+        fallSpeed = -10;
 
     }
 
