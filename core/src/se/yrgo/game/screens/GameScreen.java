@@ -123,7 +123,9 @@ public class GameScreen implements Screen {
         music.dispose();
         doge.dispose();
 
+
         ground.dispose();
+
 
     }
 }
