@@ -63,6 +63,7 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
+        game.batch.draw(game.backGround, 0, 0, game.WIDTH, game.HEIGHT);
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getWidth(), doge.getTexture().getHeight());
 
         game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
@@ -118,10 +119,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
         topPipeImg.dispose();
         music.dispose();
         doge.dispose();
+
         ground.dispose();
 
     }
