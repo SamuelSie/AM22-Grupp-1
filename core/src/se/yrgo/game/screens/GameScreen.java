@@ -10,10 +10,14 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.objects.Doge;
+import se.yrgo.game.objects.Ground;
 
 public class GameScreen implements Screen {
     private final JumpyBirb game;
     private Doge doge;
+
+    private Ground ground;
+
     private Texture topPipeImg;
     private Music music;
     private  Rectangle topPipe;
@@ -22,8 +26,9 @@ public class GameScreen implements Screen {
 
     public GameScreen(final JumpyBirb game) {
         this.game = game;
-        //create doge object with x & y position
+        //create doge & ground object with x & y position
         doge = new Doge(50,350);
+        ground = new Ground(0, -50);
 
         // load images
         topPipeImg = new Texture("toptube.png");
@@ -61,6 +66,8 @@ public class GameScreen implements Screen {
         game.batch.draw(game.backGround, 0, 0, game.WIDTH, game.HEIGHT);
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getWidth(), doge.getTexture().getHeight());
 
+        game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
+
         game.batch.draw(topPipeImg, topPipe.x, topPipe.y, topPipe.width, topPipe.height );
         game.batch.end();
 
@@ -73,7 +80,7 @@ public class GameScreen implements Screen {
         }
 
         // if doge hits bottom of screen, switch to DeathScreen
-        if (doge.getPosition().y <= 0) {
+        if (doge.getHitbox().overlaps(ground.getGroundBox())) {
             game.setScreen(new DeathScreen(game));
             dispose();
         }
@@ -115,5 +122,8 @@ public class GameScreen implements Screen {
         topPipeImg.dispose();
         music.dispose();
         doge.dispose();
+
+        ground.dispose();
+
     }
 }

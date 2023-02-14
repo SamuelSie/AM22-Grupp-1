@@ -33,6 +33,8 @@ public class Doge {
 
         //adderar hastigheten i form av antal pixlar till position.
         position.add(0, velocity.y, 0);
+        hitbox.x = position.x;
+        hitbox.y = position.y;
 
         //nollställer för nästa uppdatering
         velocity.scl(1/deltaTime);
