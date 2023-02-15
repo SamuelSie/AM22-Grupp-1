@@ -44,7 +44,7 @@ public class GameScreen implements Screen {
         // create the rectangles
 
         topPipe = new Rectangle();
-        topPipe.x = 50;
+        topPipe.x = 150;
         topPipe.y = game.HEIGHT - 320;
         topPipe.height = 320;
         topPipe.width = 52;
@@ -79,8 +79,18 @@ public class GameScreen implements Screen {
             doge.jump(deltaTime);
         }
 
+        if (doge.getPosition().y >= (game.HEIGHT - 60)) {
+            doge.getPosition().y = (game.HEIGHT - 60);
+            doge.resetVelocity();
+        }
+
         // if doge hits bottom of screen, switch to DeathScreen
         if (doge.getHitbox().overlaps(ground.getGroundBox())) {
+            game.setScreen(new DeathScreen(game));
+            dispose();
+        }
+
+        if (doge.getHitbox().overlaps(topPipe)) {
             game.setScreen(new DeathScreen(game));
             dispose();
         }

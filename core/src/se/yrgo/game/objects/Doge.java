@@ -46,6 +46,10 @@ public class Doge {
         velocity.y = 350;
     }
 
+    public void resetVelocity() {
+        velocity.add(0,-100,0);
+    }
+
     public void dispose() {
         dogeImg.dispose();
     }
