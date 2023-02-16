@@ -23,9 +23,10 @@ public class GameScreen implements Screen {
     private Music music;
     private OrthographicCamera camera;
     private float deltaTime;
-    
+
     private BottomPipe bottomPipe;
     private TopPipe topPipe;
+
 
 
     public GameScreen(final JumpyBirb game) {
@@ -45,6 +46,8 @@ public class GameScreen implements Screen {
         // deltatime är tiden mellan frames, mätt i sekunder.
         //behövs för att flytta saker på skärmen, typ falla och hoppa.
         deltaTime = Gdx.graphics.getDeltaTime();
+        
+        
     }
 
     @Override
@@ -87,6 +90,7 @@ public class GameScreen implements Screen {
             dispose();
         }
         */
+
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
             game.setScreen(new DeathScreen(game));
