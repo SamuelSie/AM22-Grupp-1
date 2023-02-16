@@ -22,6 +22,7 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
     private float deltaTime;
 
+
     public GameScreen(final JumpyBirb game) {
         this.game = game;
         //create doge & ground object with x & y position
@@ -39,6 +40,8 @@ public class GameScreen implements Screen {
         // deltatime är tiden mellan frames, mätt i sekunder.
         //behövs för att flytta saker på skärmen, typ falla och hoppa.
         deltaTime = Gdx.graphics.getDeltaTime();
+
+
     }
 
     @Override
@@ -50,7 +53,7 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.batch.draw(game.backGround, 0, 0, game.CAMY, game.CAMY);
+        game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getWidth(), doge.getTexture().getHeight());
 
         game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
@@ -76,10 +79,11 @@ public class GameScreen implements Screen {
             dispose();
         }
 
-        if (doge.getHitbox().overlaps(topPipe)) {
+        /*if (doge.getHitbox().overlaps(topPipe)) {
             game.setScreen(new DeathScreen(game));
             dispose();
         }
+        */
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
             game.setScreen(new DeathScreen(game));
@@ -120,7 +124,6 @@ public class GameScreen implements Screen {
 
 
         ground.dispose();
-
 
     }
 }
