@@ -4,22 +4,22 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class BottomPipes {
+public class TopPipe {
     
-    private Texture bottomtubeImg;
+    private Texture toptubeImg;
     private Rectangle hitBox;
     private Vector3 position;
     
-    public BottomPipes(int x, int y) {
+    public TopPipe(int x, int y) {
         position = new Vector3(x, y,0);
-        bottomtubeImg = new Texture("bottomtube.png");
-        hitBox = new Rectangle(x,y, bottomtubeImg.getWidth(), bottomtubeImg.getHeight());
+        toptubeImg = new Texture("toptube.png");
+        hitBox = new Rectangle(x,y, toptubeImg.getWidth(), toptubeImg.getHeight());
     }
     
-    public void dispose(){bottomtubeImg.dispose();}
+    public void dispose(){toptubeImg.dispose();}
     
-    public Texture getBottomtubeImg() {
-        return bottomtubeImg;
+    public Texture getToptubeImg() {
+        return toptubeImg;
     }
     
     public Rectangle getHitBox() {
@@ -30,3 +30,4 @@ public class BottomPipes {
         return position;
     }
 }
+
