@@ -25,7 +25,7 @@ public class GameScreen implements Screen {
     public GameScreen(final JumpyBirb game) {
         this.game = game;
         //create doge & ground object with x & y position
-        doge = new Doge(50,350);
+        doge = new Doge(20,game.CAMY / 2);
         ground = new Ground(0, -50);
 
         // background music
@@ -34,7 +34,7 @@ public class GameScreen implements Screen {
 
         // create camera
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
+        camera.setToOrtho(false, game.CAMX, game.CAMY);
 
         // deltatime är tiden mellan frames, mätt i sekunder.
         //behövs för att flytta saker på skärmen, typ falla och hoppa.
@@ -50,7 +50,7 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.batch.draw(game.backGround, 0, 0, game.WIDTH, game.HEIGHT);
+        game.batch.draw(game.backGround, 0, 0, game.CAMY, game.CAMY);
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getWidth(), doge.getTexture().getHeight());
 
         game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
@@ -65,8 +65,8 @@ public class GameScreen implements Screen {
             doge.jump(deltaTime);
         }
 
-        if (doge.getPosition().y >= (game.HEIGHT - 60)) {
-            doge.getPosition().y = (game.HEIGHT - 60);
+        if (doge.getPosition().y >= (game.CAMY - 60)) {
+            doge.getPosition().y = (game.CAMY - 60);
             doge.resetVelocity();
         }
 
