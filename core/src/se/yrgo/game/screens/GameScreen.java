@@ -9,8 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import se.yrgo.game.JumpyBirb;
+import se.yrgo.game.objects.BottomPipe;
 import se.yrgo.game.objects.Doge;
 import se.yrgo.game.objects.Ground;
+import se.yrgo.game.objects.TopPipe;
 
 public class GameScreen implements Screen {
     private final JumpyBirb game;
@@ -21,6 +23,9 @@ public class GameScreen implements Screen {
     private Music music;
     private OrthographicCamera camera;
     private float deltaTime;
+    
+    private TopPipe topPipe;
+    private BottomPipe bottomPipe;
 
     public GameScreen(final JumpyBirb game) {
         this.game = game;
@@ -39,6 +44,10 @@ public class GameScreen implements Screen {
         // deltatime är tiden mellan frames, mätt i sekunder.
         //behövs för att flytta saker på skärmen, typ falla och hoppa.
         deltaTime = Gdx.graphics.getDeltaTime();
+        
+        //Create TopPipe
+        topPipe = new TopPipe()
+        
     }
 
     @Override
@@ -77,6 +86,11 @@ public class GameScreen implements Screen {
         }
 
         if (doge.getHitbox().overlaps(topPipe)) {
+            game.setScreen(new DeathScreen(game));
+            dispose();
+        }
+    
+        if (doge.getHitbox().overlaps(BottomPipe)) {
             game.setScreen(new DeathScreen(game));
             dispose();
         }
