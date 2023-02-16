@@ -47,7 +47,7 @@ public class Doge {
     }
 
     public void resetVelocity() {
-        velocity.add(0,-100,0);
+        velocity.add(0,-70,0);
     }
 
     public void dispose() {
