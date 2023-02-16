@@ -29,7 +29,7 @@ public class MainMenuScreen implements Screen {
         layout = new GlyphLayout();
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
+        camera.setToOrtho(false, game.CAMX, game.CAMY);
     }
 
 
@@ -47,8 +47,8 @@ public class MainMenuScreen implements Screen {
 
 
         game.batch.begin();
-        game.batch.draw(game.backGround, 0, 0, game.WIDTH, game.HEIGHT);
-        game.font.draw(game.batch, layout, game.WIDTH/2 - layout.width/2, game.HEIGHT/2 + layout.height/2);
+        game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
+        game.font.draw(game.batch, layout, game.CAMX - layout.width/2, game.CAMY + layout.height/2);
         game.batch.end();
 
 
