@@ -17,10 +17,8 @@ public class GameScreen implements Screen {
     private Doge doge;
 
     private Ground ground;
-
-    private Texture topPipeImg;
+    
     private Music music;
-    private  Rectangle topPipe;
     private OrthographicCamera camera;
     private float deltaTime;
 
@@ -30,9 +28,6 @@ public class GameScreen implements Screen {
         doge = new Doge(20,game.CAMY / 2);
         ground = new Ground(0, -50);
 
-        // load images
-        topPipeImg = new Texture("toptube.png");
-
         // background music
         music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         music.setLooping(true);
@@ -40,14 +35,6 @@ public class GameScreen implements Screen {
         // create camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.CAMX, game.CAMY);
-
-        // create the rectangles
-
-        topPipe = new Rectangle();
-        topPipe.x = 150;
-        topPipe.y = game.HEIGHT - 320;
-        topPipe.height = 320;
-        topPipe.width = 52;
 
         // deltatime är tiden mellan frames, mätt i sekunder.
         //behövs för att flytta saker på skärmen, typ falla och hoppa.
@@ -67,8 +54,7 @@ public class GameScreen implements Screen {
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getWidth(), doge.getTexture().getHeight());
 
         game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
-
-        game.batch.draw(topPipeImg, topPipe.x, topPipe.y, topPipe.width, topPipe.height );
+        
         game.batch.end();
 
         //gör att doge faller nedåt
@@ -129,7 +115,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        topPipeImg.dispose();
         music.dispose();
         doge.dispose();
 
