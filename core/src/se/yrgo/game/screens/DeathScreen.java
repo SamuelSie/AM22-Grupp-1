@@ -18,7 +18,7 @@ public class DeathScreen implements Screen {
         this.game = game;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
+        camera.setToOrtho(false, game.CAMX, game.CAMY);
         layout = new GlyphLayout();
         layout2 = new GlyphLayout();
 
@@ -37,8 +37,8 @@ public class DeathScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.font.draw(game.batch, layout, game.WIDTH/2 - layout.width/2, (game.HEIGHT/3) * 2 - layout.height/2);
-        game.font.draw(game.batch, layout2, game.WIDTH/2 - layout2.width/2, (game.HEIGHT/2) - layout2.height/2);
+        game.font.draw(game.batch, layout, game.CAMX/2 - layout.width/2, (game.CAMY/3) * 2 - layout.height/2);
+        game.font.draw(game.batch, layout2, game.CAMX/2 - layout2.width/2, (game.CAMY/2) - layout2.height/2);
         game.batch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {

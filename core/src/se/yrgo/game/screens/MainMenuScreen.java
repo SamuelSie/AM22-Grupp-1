@@ -22,6 +22,7 @@ public class MainMenuScreen implements Screen {
     private OrthographicCamera camera;
     private GlyphLayout layout;
 
+
     public MainMenuScreen(final JumpyBirb game) {
         this.game = game;
 
@@ -29,7 +30,8 @@ public class MainMenuScreen implements Screen {
         layout = new GlyphLayout();
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
+        camera.setToOrtho(false, game.CAMX, game.CAMY);
+
     }
 
 
@@ -40,15 +42,15 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0,0,0.2f,1);
+        //ScreenUtils.clear(0,0,0.2f,1);
 
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
 
         game.batch.begin();
-        game.batch.draw(game.backGround, 0, 0, game.WIDTH, game.HEIGHT);
-        game.font.draw(game.batch, layout, game.WIDTH/2 - layout.width/2, game.HEIGHT/2 + layout.height/2);
+        game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
+        game.font.draw(game.batch, layout, game.CAMX / 2 - layout.width/2, game.CAMY / 2 + layout.height/2);
         game.batch.end();
 
 

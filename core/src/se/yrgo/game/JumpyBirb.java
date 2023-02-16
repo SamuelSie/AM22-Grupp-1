@@ -11,8 +11,10 @@ public class JumpyBirb extends Game {
     public SpriteBatch batch;
     public BitmapFont font;
 
-    public final int WIDTH = 480;
-    public final int HEIGHT = 800;
+    public static final int WIDTH = 960;
+    public static final int HEIGHT = 720;
+    public static final int CAMX = WIDTH / 2;
+    public static final int CAMY = HEIGHT / 2;
     public Texture backGround;
 
     @Override
