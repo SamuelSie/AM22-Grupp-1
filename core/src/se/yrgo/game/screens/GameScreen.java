@@ -23,7 +23,11 @@ public class GameScreen implements Screen {
     private Music music;
     private OrthographicCamera camera;
     private float deltaTime;
-    
+
+    private BottomPipe bottomPipe;
+    private TopPipe topPipe;
+
+
 
     public GameScreen(final JumpyBirb game) {
         this.game = game;
@@ -80,7 +84,13 @@ public class GameScreen implements Screen {
             game.setScreen(new DeathScreen(game));
             dispose();
         }
-        
+
+        /*if (doge.getHitbox().overlaps(topPipe)) {
+            game.setScreen(new DeathScreen(game));
+            dispose();
+        }
+        */
+
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
             game.setScreen(new DeathScreen(game));
