@@ -47,8 +47,8 @@ public class GameScreen implements Screen {
         //behövs för att flytta saker på skärmen, typ falla och hoppa.
         deltaTime = Gdx.graphics.getDeltaTime();
         
-        topPipe = new TopPipe(game.CAMX/2,300);
-        bottomPipe = new BottomPipe(game.CAMX/2,-200);
+        topPipe = new TopPipe(20,300);
+        bottomPipe = new BottomPipe(20,-240);
     }
 
     @Override
@@ -88,12 +88,17 @@ public class GameScreen implements Screen {
             game.setScreen(new DeathScreen(game));
             dispose();
         }
-
-        /*if (doge.getHitbox().overlaps(topPipe)) {
+        //if doge hits topPipe, switch to deathscreen
+        if (doge.getHitbox().overlaps(topPipe.getHitBox())) {
             game.setScreen(new DeathScreen(game));
             dispose();
         }
-        */
+        // if doge hit bottomPipe, switch to deathscreen
+        if (doge.getHitbox().overlaps(bottomPipe.getHitBox())) {
+            game.setScreen(new DeathScreen(game));
+            dispose();
+        }
+        
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
