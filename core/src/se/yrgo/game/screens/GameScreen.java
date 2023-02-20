@@ -47,8 +47,8 @@ public class GameScreen implements Screen {
         //behövs för att flytta saker på skärmen, typ falla och hoppa.
         deltaTime = Gdx.graphics.getDeltaTime();
         
-        topPipe = new TopPipe(game.CAMX/2,200);
-        bottomPipe = new BottomPipe(game.CAMX/2,250);
+        topPipe = new TopPipe(game.CAMX/2,300);
+        bottomPipe = new BottomPipe(game.CAMX/2,-200);
     }
 
     @Override
@@ -67,6 +67,7 @@ public class GameScreen implements Screen {
         
         game.batch.draw(topPipe.getToptubeImg(), topPipe.getPosition().x, topPipe.getPosition().y,topPipe.getToptubeImg().getWidth(), topPipe.getToptubeImg().getHeight());
         game.batch.draw(bottomPipe.getBottomtubeImg(), bottomPipe.getPosition().x, bottomPipe.getPosition().y,bottomPipe.getBottomtubeImg().getWidth(), bottomPipe.getBottomtubeImg().getHeight());
+        
         game.batch.end();
 
         //gör att doge faller nedåt
