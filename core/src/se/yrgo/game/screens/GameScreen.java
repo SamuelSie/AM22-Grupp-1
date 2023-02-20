@@ -23,6 +23,8 @@ public class GameScreen implements Screen {
     private Music music;
     private OrthographicCamera camera;
     private float deltaTime;
+    //SKapa toppipe och bottompipe som private.
+    //Skapa sedan objekten i konstruktorn
     
 
     public GameScreen(final JumpyBirb game) {
