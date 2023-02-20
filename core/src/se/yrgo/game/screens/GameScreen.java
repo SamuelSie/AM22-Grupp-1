@@ -23,17 +23,11 @@ public class GameScreen implements Screen {
     private Music music;
     private OrthographicCamera camera;
     private float deltaTime;
-<<<<<<< HEAD
     //SKapa toppipe och bottompipe som private.
     //Skapa sedan objekten i konstruktorn
-    
-=======
-
     private BottomPipe bottomPipe;
     private TopPipe topPipe;
-
-
->>>>>>> c2d63897464ec9c8ad836f1e985eed13f0a5cb40
+    
 
     public GameScreen(final JumpyBirb game) {
         this.game = game;
@@ -53,7 +47,8 @@ public class GameScreen implements Screen {
         //behövs för att flytta saker på skärmen, typ falla och hoppa.
         deltaTime = Gdx.graphics.getDeltaTime();
         
-        
+        topPipe = new TopPipe(game.CAMX/2,200);
+        bottomPipe = new BottomPipe(game.CAMX/2,250);
     }
 
     @Override
@@ -70,6 +65,8 @@ public class GameScreen implements Screen {
 
         game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
         
+        game.batch.draw(topPipe.getToptubeImg(), topPipe.getPosition().x, topPipe.getPosition().y,topPipe.getToptubeImg().getWidth(), topPipe.getToptubeImg().getHeight());
+        game.batch.draw(bottomPipe.getBottomtubeImg(), bottomPipe.getPosition().x, bottomPipe.getPosition().y,bottomPipe.getBottomtubeImg().getWidth(), bottomPipe.getBottomtubeImg().getHeight());
         game.batch.end();
 
         //gör att doge faller nedåt
