@@ -1,5 +1,6 @@
 package se.yrgo.game.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -29,4 +30,10 @@ public class BottomPipe {
     public Vector3 getPosition() {
         return position;
     }
+    
+    public void move() {
+        getPosition().x -= 100 * Gdx.graphics.getDeltaTime();
+        hitBox.setPosition(getPosition().x, getPosition().y);
+    }
 }
+
