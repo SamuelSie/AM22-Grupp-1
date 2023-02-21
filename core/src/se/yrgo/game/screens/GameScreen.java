@@ -34,6 +34,7 @@ public class GameScreen implements Screen {
     private Array<BottomPipe> bottomPipeArray;
     private Array<TopPipe> topPipeArray;
     private long lastSpawnTime;
+    private boolean isDead;
     
     
     public GameScreen(final JumpyBirb game) {
@@ -61,6 +62,7 @@ public class GameScreen implements Screen {
         bottomPipeArray = new Array<BottomPipe>();
         
         spawnPipes();
+        isDead = false;
     }
     
     private void spawnPipes() {
@@ -100,12 +102,14 @@ public class GameScreen implements Screen {
             TopPipe topPipe = iter.next();
             topPipe.move();
             if(topPipe.getPosition().x + topPipe.getHitBox().getWidth() < 0) iter.remove();
+            if(doge.isCollided(topPipe.getHitBox())) isDead = true;
         }
     
         for(Iterator<BottomPipe> iter = bottomPipeArray.iterator(); iter.hasNext();){
             BottomPipe bottomPipe = iter.next();
             bottomPipe.move();
             if(bottomPipe.getPosition().x + bottomPipe.getHitBox().getWidth() < 0) iter.remove();
+            if(doge.isCollided(bottomPipe.getHitBox())) isDead = true;
         }
         
         //gör att doge faller nedåt
@@ -120,20 +124,13 @@ public class GameScreen implements Screen {
             doge.getPosition().y = (game.CAMY - 60);
             doge.resetVelocity();
         }
-        
-        // if doge hits bottom of screen, switch to DeathScreen
-        if (doge.getHitbox().overlaps(ground.getGroundBox())) {
+
+        if(doge.isCollided(ground.getGroundBox())) isDead = true;
+        // if doge is dead, switch to DeathScreen
+        if (isDead) {
             game.setScreen(new DeathScreen(game));
             dispose();
         }
-        
-        
-        if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
-            game.setScreen(new DeathScreen(game));
-            dispose();
-        }
-        
-        
         
     }
     
@@ -166,9 +163,6 @@ public class GameScreen implements Screen {
     public void dispose() {
         music.dispose();
         doge.dispose();
-        
-        
         ground.dispose();
-        
     }
 }
