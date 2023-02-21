@@ -13,18 +13,18 @@ public class Doge {
     private Vector3 velocity;
 
 
-    public Doge (int x, int y){
+    public Doge(int x, int y) {
         dogeImg = new Texture("dogeBodyImg.png");
 
         hitbox = new Rectangle(x, y, dogeImg.getWidth(), (dogeImg.getHeight()));
 
-        position = new Vector3(x,y,0);
-        velocity = new Vector3(0,0,0);
+        position = new Vector3(x, y, 0);
+        velocity = new Vector3(0, 0, 0);
         fallSpeed = -10;
 
     }
 
-    public void fall(float deltaTime){
+    public void fall(float deltaTime) {
         velocity.add(0, fallSpeed, 0);
 
         // gångrar allt i velocity med deltaTime
@@ -37,17 +37,18 @@ public class Doge {
         hitbox.y = position.y;
 
         //nollställer för nästa uppdatering
-        velocity.scl(1/deltaTime);
+        velocity.scl(1 / deltaTime);
 
     }
+
     //en kommentar för att visa merge
-    public void jump(float deltaTime){
+    public void jump(float deltaTime) {
         //sätter hastighet i y-axis till 300
         velocity.y = 350;
     }
 
     public void resetVelocity() {
-        velocity.add(0,-70,0);
+        velocity.add(0, -70, 0);
     }
 
     public void dispose() {
@@ -61,9 +62,13 @@ public class Doge {
     public Vector3 getPosition() {
         return position;
     }
+
     public Rectangle getHitbox() {
         return hitbox;
     }
 
-
+    public boolean isCollided(Rectangle rect) {
+        if (hitbox.overlaps(rect)) return true;
+        return false;
+    }
 }
