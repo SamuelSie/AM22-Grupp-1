@@ -139,7 +139,7 @@ public class GameScreen implements Screen {
             dispose();
         }
 
-        score.getLayout().setText(game.font, score.getString());
+        score.getLayout().setText(game.font, score.scoreToString());
         
     }
     

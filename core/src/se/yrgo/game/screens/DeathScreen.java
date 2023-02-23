@@ -15,8 +15,10 @@ public class DeathScreen implements Screen {
     private OrthographicCamera camera;
     private GlyphLayout layout;
     private GlyphLayout layout2;
+    private GlyphLayout finalScore;
     Score score;
-    public DeathScreen (final JumpyBirb game, Score score) {
+
+    public DeathScreen(final JumpyBirb game, Score score) {
         this.game = game;
         this.score = score;
 
@@ -25,18 +27,22 @@ public class DeathScreen implements Screen {
 
 //        layout = new GlyphLayout();
 //        layout2 = new GlyphLayout();
+        finalScore = new GlyphLayout();
 
     }
+
     @Override
     public void show() {
 //        layout.setText(game.font, "WELCOME TO YOUR DOOM");
 //        layout2.setText(game.font, "PRESS SPACE TO PLAY AGAIN");
+        finalScore.setText(game.font, "Round score: " + score.scoreToString() + "\nHighscore: " +
+                score.highScoreToString());
 
     }
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0.6f,0.2f,0.2f,1);
+        ScreenUtils.clear(0.6f, 0.2f, 0.2f, 1);
 
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
@@ -44,7 +50,7 @@ public class DeathScreen implements Screen {
         game.batch.begin();
 //        game.font.draw(game.batch, layout, game.CAMX/2 - layout.width/2, (game.CAMY/3) * 2 - layout.height/2);
 //        game.font.draw(game.batch, layout2, game.CAMX/2 - layout2.width/2, (game.CAMY/2) - layout2.height/2);
-
+        game.font.draw(game.batch, finalScore, game.CAMX / 2 - 200, (game.CAMY / 3));
         game.batch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {

@@ -43,8 +43,12 @@ public class Score {
         return score;
     }
 
-    public String getString(){
+    public String scoreToString(){
         return Integer.toString(score);
+    }
+
+    public String highScoreToString() {
+        return Integer.toString(highScore);
     }
 
     public int getHighScore() {
