@@ -44,7 +44,7 @@ public class Doge {
     //en kommentar för att visa merge
     public void jump(float deltaTime) {
         //sätter hastighet i y-axis till 300
-        velocity.y = 350;
+        velocity.y = 100;
     }
 
     public void resetVelocity() {

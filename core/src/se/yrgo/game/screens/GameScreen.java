@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -15,6 +16,7 @@ import se.yrgo.game.objects.BottomPipe;
 import se.yrgo.game.objects.Doge;
 import se.yrgo.game.objects.Ground;
 import se.yrgo.game.objects.TopPipe;
+import se.yrgo.game.utils.Score;
 
 import java.nio.channels.Pipe;
 import java.util.ArrayList;
@@ -31,11 +33,12 @@ public class GameScreen implements Screen {
     private float deltaTime;
     //SKapa toppipe och bottompipe som private.
     //Skapa sedan objekten i konstruktorn
+
     private Array<BottomPipe> bottomPipeArray;
     private Array<TopPipe> topPipeArray;
     private long lastSpawnTime;
     private boolean isDead;
-    
+    private Score score;
     
     public GameScreen(final JumpyBirb game) {
         this.game = game;
@@ -63,6 +66,8 @@ public class GameScreen implements Screen {
         
         spawnPipes();
         isDead = false;
+
+        score = new Score(game.CAMX -100, game.CAMY - 20);
     }
     
     private void spawnPipes() {
@@ -84,7 +89,7 @@ public class GameScreen implements Screen {
         game.batch.begin();
         game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getWidth(), doge.getTexture().getHeight());
-        
+
         game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
         
         for (TopPipe topPipe : topPipeArray) {
@@ -94,8 +99,9 @@ public class GameScreen implements Screen {
         for(BottomPipe bottomPipe : bottomPipeArray){
             game.batch.draw(bottomPipe.getBottomtubeImg(),bottomPipe.getPosition().x, bottomPipe.getPosition().y);
         }
+        game.font.draw(game.batch, score.getLayout(), score.getX(), score.getY());
         game.batch.end();
-        
+
         if(TimeUtils.nanoTime() - lastSpawnTime > 3000000000L) spawnPipes();
         
         for(Iterator<TopPipe> iter = topPipeArray.iterator(); iter.hasNext();){
@@ -110,6 +116,12 @@ public class GameScreen implements Screen {
             bottomPipe.move();
             if(bottomPipe.getPosition().x + bottomPipe.getHitBox().getWidth() < 0) iter.remove();
             if(doge.isCollided(bottomPipe.getHitBox())) isDead = true;
+
+            //scoring
+            if ((bottomPipe.getPosition().x + bottomPipe.getHitBox().x)< doge.getPosition().x && !bottomPipe.isScored()) {
+                score.score();
+                bottomPipe.setScored(true);
+            }
         }
         
         //gör att doge faller nedåt
@@ -119,6 +131,7 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             doge.jump(deltaTime);
         }
+
         
         if (doge.getPosition().y >= (game.CAMY - 60)) {
             doge.getPosition().y = (game.CAMY - 60);
@@ -131,12 +144,15 @@ public class GameScreen implements Screen {
             game.setScreen(new DeathScreen(game));
             dispose();
         }
+
+        score.getLayout().setText(game.font, score.getString());
         
     }
     
     @Override
     public void show() {
         music.play();
+
     }
     
     @Override
