@@ -14,7 +14,7 @@ public class Pipe {
     private Vector3 positionTop;
     private Vector3 positionBottom;
 
-    private static final int DISTANCE = 200;
+    private static final int DISTANCE = 100;
 
     public Pipe(int x, int y) {
 
@@ -59,6 +59,7 @@ public class Pipe {
 
     public void move() {
         getPositionBottom().x -= 100 * Gdx.graphics.getDeltaTime();
+        getPositionTop().x -= 100 * Gdx.graphics.getDeltaTime();
         hitBoxTop.setPosition(getPositionBottom().x, getPositionBottom().y + bottomPipeImg.getHeight() + DISTANCE);
         hitBoxBottom.setPosition(getPositionBottom().x, getPositionBottom().y);
     }

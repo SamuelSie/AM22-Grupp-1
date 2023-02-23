@@ -56,9 +56,6 @@ public class GameScreen implements Screen {
         //Array av topPipes
         pipeArray = new Array<Pipe>();
         
-        //Array av bottomPipes
-//        bottomPipeArray = new Array<BottomPipe>();
-        
         spawnPipes();
         isDead = false;
 
@@ -66,10 +63,6 @@ public class GameScreen implements Screen {
     }
     
     private void spawnPipes() {
-//        TopPipe topPipe = new TopPipe(game.CAMX, game.CAMY /5 * 4);
-//        BottomPipe bottomPipe = new BottomPipe(game.CAMX, game.CAMY / 3 - 320);// Ändra detta senare
-//        topPipeArray.add(topPipe);
-//        bottomPipeArray.add(bottomPipe);
         Pipe pipe = new Pipe(game.CAMX, game.CAMY / 2 - game.CAMY);
         pipeArray.add(pipe);
         lastSpawnTime = TimeUtils.nanoTime();
@@ -93,42 +86,29 @@ public class GameScreen implements Screen {
             game.batch.draw(pipe.getTopPipeImg(), pipe.getPositionTop().x, pipe.getPositionTop().y);
             game.batch.draw(pipe.getBottomPipeImg(), pipe.getPositionBottom().x, pipe.getPositionBottom().y);
         }
-//        for (TopPipe topPipe : topPipeArray) {
-//            game.batch.draw(topPipe.getToptubeImg(), topPipe.getPosition().x, topPipe.getPosition().y);
-//        }
-//
-//        for(BottomPipe bottomPipe : bottomPipeArray){
-//            game.batch.draw(bottomPipe.getBottomtubeImg(),bottomPipe.getPosition().x, bottomPipe.getPosition().y);
-//        }
         game.font.draw(game.batch, score.getLayout(), score.getX(), score.getY());
         game.batch.end();
 
+        //spawn pipes in the given time
         if(TimeUtils.nanoTime() - lastSpawnTime > 3000000000L) spawnPipes();
-        
-//        for(Iterator<TopPipe> iter = topPipeArray.iterator(); iter.hasNext();){
-//            TopPipe topPipe = iter.next();
-//            topPipe.move();
-//            if(topPipe.getPosition().x + topPipe.getHitBox().getWidth() < 0) iter.remove();
-//            if(doge.isCollided(topPipe.getHitBox())) isDead = true;
-//        }
-//
-//        for(Iterator<BottomPipe> iter = bottomPipeArray.iterator(); iter.hasNext();){
-//            BottomPipe bottomPipe = iter.next();
-//            bottomPipe.move();
-//            if(bottomPipe.getPosition().x + bottomPipe.getHitBox().getWidth() < 0) iter.remove();
-//            if(doge.isCollided(bottomPipe.getHitBox())) isDead = true;
 
+        //loop over pipe conditions
         for (Iterator<Pipe> iter = pipeArray.iterator(); iter.hasNext();) {
             Pipe pipe = iter.next();
             pipe.move();
+
+            //remove pipe if it gets to the edge
             if (pipe.getPositionTop().x + pipe.getHitBoxTop().getWidth() < 0
                 || pipe.getPositionBottom().x + pipe.getHitBoxBottom().getWidth() < 0) {
                 iter.remove();
             }
+
+            // set to Dead if doge collides with a pipe
             if(doge.isCollided(pipe.getHitBoxTop()) || doge.isCollided(pipe.getHitBoxBottom())) {
                 isDead = true;
             }
 
+            // get score if doge passes a pipe
             if ((pipe.getPositionBottom().x + pipe.getHitBoxBottom().x) < doge.getPosition().x && !pipe.isScored()) {
                 score.score();
                 pipe.setScored(true);
