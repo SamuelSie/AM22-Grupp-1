@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import se.yrgo.game.JumpyBirb;
@@ -27,6 +28,7 @@ public class GameScreen implements Screen {
     //Skapa sedan objekten i konstruktorn
     private BottomPipe bottomPipe;
     private TopPipe topPipe;
+    private GlyphLayout layout;
     
 
     public GameScreen(final JumpyBirb game) {
