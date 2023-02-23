@@ -18,7 +18,7 @@ public class Score {
     }
 
     public void score(){
-        score += 100;
+        score += 1000;
     }
 
     public void newHighScore(){

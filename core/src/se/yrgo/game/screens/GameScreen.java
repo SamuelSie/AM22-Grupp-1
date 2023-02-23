@@ -110,7 +110,7 @@ public class GameScreen implements Screen {
             if(topPipe.getPosition().x + topPipe.getHitBox().getWidth() < 0) iter.remove();
             if(doge.isCollided(topPipe.getHitBox())) isDead = true;
         }
-    
+
         for(Iterator<BottomPipe> iter = bottomPipeArray.iterator(); iter.hasNext();){
             BottomPipe bottomPipe = iter.next();
             bottomPipe.move();
@@ -118,7 +118,7 @@ public class GameScreen implements Screen {
             if(doge.isCollided(bottomPipe.getHitBox())) isDead = true;
 
             //scoring
-            if ((bottomPipe.getPosition().x + bottomPipe.getHitBox().x)< doge.getPosition().x && !bottomPipe.isScored()) {
+            if ((bottomPipe.getPosition().x + bottomPipe.getHitBox().x) < doge.getPosition().x && !bottomPipe.isScored()) {
                 score.score();
                 bottomPipe.setScored(true);
             }
