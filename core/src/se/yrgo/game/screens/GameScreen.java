@@ -17,6 +17,7 @@ import se.yrgo.game.utils.Score;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GameScreen implements Screen {
     private final JumpyBirb game;
@@ -63,7 +64,9 @@ public class GameScreen implements Screen {
     }
     
     private void spawnPipes() {
-        Pipe pipe = new Pipe(game.CAMX, game.CAMY / 2 - game.CAMY);
+        int isAdding = ThreadLocalRandom.current().nextInt(2);
+        int middleSpace = ThreadLocalRandom.current().nextInt(Pipe.getDISTANCE());
+        Pipe pipe = new Pipe(game.CAMX, game.CAMY / 2 - game.CAMY + (isAdding==1? middleSpace/2 : -middleSpace/2));
         pipeArray.add(pipe);
         lastSpawnTime = TimeUtils.nanoTime();
     }
