@@ -14,7 +14,7 @@ public class Pipe {
     private Vector3 positionTop;
     private Vector3 positionBottom;
 
-    private static final int DISTANCE = 100;
+    private static final int DISTANCE = 140;
 
     public Pipe(int x, int y) {
 
@@ -70,5 +70,9 @@ public class Pipe {
 
     public boolean isScored() {
         return isScored;
+    }
+
+    public static int getDISTANCE() {
+        return DISTANCE;
     }
 }
