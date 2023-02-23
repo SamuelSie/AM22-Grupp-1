@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class Pipe {
+    private boolean isScored;
     private Texture topPipeImg;
     private Texture bottomPipeImg;
     private Rectangle hitBoxTop;
@@ -14,6 +15,7 @@ public class Pipe {
     private Vector3 positionBottom;
 
     private static final int DISTANCE = 200;
+
     public Pipe(int x, int y) {
 
         topPipeImg = new Texture("toptube.png");
@@ -35,9 +37,10 @@ public class Pipe {
         return topPipeImg;
     }
 
-    public Texture getBottobPipeImg() {
+    public Texture getBottomPipeImg() {
         return bottomPipeImg;
     }
+
     public Rectangle getHitBoxTop() {
         return hitBoxTop;
     }
@@ -46,7 +49,10 @@ public class Pipe {
         return hitBoxBottom;
     }
 
-    //no need for a getPositionTop
+    public Vector3 getPositionTop() {
+        return positionTop;
+    }
+
     public Vector3 getPositionBottom() {
         return positionBottom;
     }
@@ -55,5 +61,13 @@ public class Pipe {
         getPositionBottom().x -= 100 * Gdx.graphics.getDeltaTime();
         hitBoxTop.setPosition(getPositionBottom().x, getPositionBottom().y + bottomPipeImg.getHeight() + DISTANCE);
         hitBoxBottom.setPosition(getPositionBottom().x, getPositionBottom().y);
+    }
+
+    public void setScored(boolean scored) {
+        isScored = scored;
+    }
+
+    public boolean isScored() {
+        return isScored;
     }
 }
