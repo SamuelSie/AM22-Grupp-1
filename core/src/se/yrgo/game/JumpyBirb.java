@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import se.yrgo.game.screens.MainMenuScreen;
+import se.yrgo.game.utils.Score;
 
 public class JumpyBirb extends Game {
     public SpriteBatch batch;
@@ -16,6 +17,7 @@ public class JumpyBirb extends Game {
     public static final int CAMX = WIDTH / 2;
     public static final int CAMY = HEIGHT / 2;
     public Texture backGround;
+    private Score score;
 
     @Override
     public void create() {
@@ -23,7 +25,9 @@ public class JumpyBirb extends Game {
         font = new BitmapFont(Gdx.files.internal("myFont.fnt"));
         backGround = new Texture("bg.png");
 
-        this.setScreen(new MainMenuScreen(this));
+        score = new Score(CAMX -100, CAMY - 20);
+
+        this.setScreen(new MainMenuScreen(this, score));
 
 
     }

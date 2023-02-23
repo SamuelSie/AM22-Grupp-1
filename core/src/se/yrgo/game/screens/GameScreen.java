@@ -35,7 +35,7 @@ public class GameScreen implements Screen {
     private boolean isDead;
     private Score score;
     
-    public GameScreen(final JumpyBirb game) {
+    public GameScreen(final JumpyBirb game, Score score) {
         this.game = game;
         //create doge & ground object with x & y position
         doge = new Doge(20, game.CAMY / 2);
@@ -59,7 +59,7 @@ public class GameScreen implements Screen {
         spawnPipes();
         isDead = false;
 
-        score = new Score(game.CAMX -100, game.CAMY - 20);
+        this.score = score;
     }
     
     private void spawnPipes() {
@@ -134,7 +134,7 @@ public class GameScreen implements Screen {
         if(doge.isCollided(ground.getGroundBox())) isDead = true;
         // if doge is dead, switch to DeathScreen
         if (isDead) {
-            game.setScreen(new DeathScreen(game));
+            game.setScreen(new DeathScreen(game, score));
             dispose();
         }
 

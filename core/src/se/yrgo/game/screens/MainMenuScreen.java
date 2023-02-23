@@ -15,17 +15,19 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import se.yrgo.game.JumpyBirb;
+import se.yrgo.game.utils.Score;
 
 public class MainMenuScreen implements Screen {
 
     public final JumpyBirb game;
     private OrthographicCamera camera;
     private GlyphLayout layout;
+    private Score score;
 
 
-    public MainMenuScreen(final JumpyBirb game) {
+    public MainMenuScreen(final JumpyBirb game, Score score) {
         this.game = game;
-
+        this.score = score;
 
         layout = new GlyphLayout();
 
@@ -55,7 +57,7 @@ public class MainMenuScreen implements Screen {
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new GameScreen(game, score));
             dispose();
         }
 
