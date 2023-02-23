@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.Timer;
 import se.yrgo.game.JumpyBirb;
 
 public class DeathScreen implements Screen {
@@ -14,6 +15,7 @@ public class DeathScreen implements Screen {
     private OrthographicCamera camera;
     private GlyphLayout layout;
     private GlyphLayout layout2;
+    private float delay =1;
     public DeathScreen (final JumpyBirb game) {
         this.game = game;
 
@@ -40,7 +42,9 @@ public class DeathScreen implements Screen {
         game.font.draw(game.batch, layout, game.CAMX/2 - layout.width/2, (game.CAMY/3) * 2 - layout.height/2);
         game.font.draw(game.batch, layout2, game.CAMX/2 - layout2.width/2, (game.CAMY/2) - layout2.height/2);
         game.batch.end();
-
+        
+        
+        // Add delay before screen transition
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             game.setScreen(new GameScreen(game));
             dispose();
