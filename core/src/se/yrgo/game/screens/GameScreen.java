@@ -67,7 +67,7 @@ public class GameScreen implements Screen {
         spawnPipes();
         isDead = false;
 
-        score = new Score(game.CAMX -20, game.CAMY - 20);
+        score = new Score(game.CAMX -100, game.CAMY - 20);
     }
     
     private void spawnPipes() {
@@ -118,8 +118,9 @@ public class GameScreen implements Screen {
             if(doge.isCollided(bottomPipe.getHitBox())) isDead = true;
 
             //scoring
-            if (bottomPipe.getPosition().x < doge.getPosition().x) {
+            if ((bottomPipe.getPosition().x + bottomPipe.getHitBox().x)< doge.getPosition().x && !bottomPipe.isScored()) {
                 score.score();
+                bottomPipe.setScored(true);
             }
         }
         

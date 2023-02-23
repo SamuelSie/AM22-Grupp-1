@@ -10,11 +10,13 @@ public class BottomPipe {
     private Texture bottomtubeImg;
     private Rectangle hitBox;
     private Vector3 position;
+    private boolean isScored;
     
     public BottomPipe(int x, int y) {
         position = new Vector3(x, y,0);
         bottomtubeImg = new Texture("bottomtube.png");
         hitBox = new Rectangle(x,y, bottomtubeImg.getWidth(), bottomtubeImg.getHeight());
+        isScored = false;
     }
     
     public void dispose(){bottomtubeImg.dispose();}
@@ -34,6 +36,14 @@ public class BottomPipe {
     public void move() {
         getPosition().x -= 100 * Gdx.graphics.getDeltaTime();
         hitBox.setPosition(getPosition().x, getPosition().y);
+    }
+
+    public void setScored(boolean scored) {
+        isScored = scored;
+    }
+
+    public boolean isScored() {
+        return isScored;
     }
 }
 
