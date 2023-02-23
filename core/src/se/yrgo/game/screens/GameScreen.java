@@ -134,6 +134,7 @@ public class GameScreen implements Screen {
         if(doge.isCollided(ground.getGroundBox())) isDead = true;
         // if doge is dead, switch to DeathScreen
         if (isDead) {
+            score.newHighScore();
             game.setScreen(new DeathScreen(game, score));
             dispose();
         }
@@ -145,6 +146,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         //music.play();
+        score.resetScore();
 
     }
     
