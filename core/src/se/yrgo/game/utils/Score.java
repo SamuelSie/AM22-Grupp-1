@@ -24,9 +24,9 @@ public class Score {
         scoreSound = Gdx.audio.newSound(Gdx.files.internal("scoreSound.wav"));
     }
 
-    public void score(){
-        score += 1000;
+    public void score() {
         scoreSound.play();
+        score += 1000;
     }
 
     public void newHighScore(){
