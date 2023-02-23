@@ -1,5 +1,7 @@
 package se.yrgo.game.utils;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 public class Score {
@@ -9,16 +11,22 @@ public class Score {
     private int x;
     private int y;
 
+    private Sound scoreSound;
+
     public Score(int x, int y) {
         this.score = 0;
         this.highScore = 0;
         layout = new GlyphLayout();
         this.x = x;
         this.y = y;
+
+        //placeholder sound for scoring
+        scoreSound = Gdx.audio.newSound(Gdx.files.internal("scoreSound.wav"));
     }
 
-    public void score(){
-        score += 100;
+    public void score() {
+        scoreSound.play();
+        score += 1000;
     }
 
     public void newHighScore(){
