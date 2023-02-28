@@ -17,6 +17,7 @@ import se.yrgo.game.utils.Score;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GameScreen implements Screen {
     private final JumpyBirb game;
@@ -35,7 +36,7 @@ public class GameScreen implements Screen {
     private boolean isDead;
     private Score score;
     
-    public GameScreen(final JumpyBirb game) {
+    public GameScreen(final JumpyBirb game, Score score) {
         this.game = game;
         //create doge & ground object with x & y position
         doge = new Doge(20, game.CAMY / 2);
@@ -59,11 +60,13 @@ public class GameScreen implements Screen {
         spawnPipes();
         isDead = false;
 
-        score = new Score(game.CAMX -100, game.CAMY - 20);
+        this.score = score;
     }
     
     private void spawnPipes() {
-        Pipe pipe = new Pipe(game.CAMX, game.CAMY / 2 - game.CAMY);
+        int isAdding = ThreadLocalRandom.current().nextInt(2);
+        int middleSpace = ThreadLocalRandom.current().nextInt(Pipe.getDISTANCE());
+        Pipe pipe = new Pipe(game.CAMX, game.CAMY / 2 - game.CAMY + (isAdding==1? middleSpace/2 : -middleSpace/2));
         pipeArray.add(pipe);
         lastSpawnTime = TimeUtils.nanoTime();
     }
@@ -134,17 +137,19 @@ public class GameScreen implements Screen {
         if(doge.isCollided(ground.getGroundBox())) isDead = true;
         // if doge is dead, switch to DeathScreen
         if (isDead) {
-            game.setScreen(new DeathScreen(game));
+            score.newHighScore();
+            game.setScreen(new DeathScreen(game, score));
             dispose();
         }
 
-        score.getLayout().setText(game.font, score.getString());
+        score.getLayout().setText(game.font, score.scoreToString());
         
     }
     
     @Override
     public void show() {
         //music.play();
+        score.resetScore();
 
     }
     

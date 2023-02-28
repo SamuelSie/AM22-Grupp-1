@@ -35,12 +35,20 @@ public class Score {
         }
     }
 
+    public void resetScore(){
+        score = 0;
+    }
+
     public int getScore() {
         return score;
     }
 
-    public String getString(){
+    public String scoreToString(){
         return Integer.toString(score);
+    }
+
+    public String highScoreToString() {
+        return Integer.toString(highScore);
     }
 
     public int getHighScore() {
