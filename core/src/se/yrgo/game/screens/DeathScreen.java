@@ -17,15 +17,14 @@ public class DeathScreen implements Screen {
     private OrthographicCamera camera;
     private GlyphLayout layout;
     private GlyphLayout layout2;
-<<<<<<< HEAD
     private float delay =1;
     public DeathScreen (final JumpyBirb game) {
-=======
+
     private GlyphLayout finalScore;
     Score score;
 
     public DeathScreen(final JumpyBirb game, Score score) {
->>>>>>> main
+
         this.game = game;
         this.score = score;
 
@@ -63,8 +62,11 @@ public class DeathScreen implements Screen {
         
         // Add delay before screen transition
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+<<<<<<< HEAD
         
         }
+=======
+>>>>>>> main
             game.setScreen(new GameScreen(game, score));
             dispose();
         }
