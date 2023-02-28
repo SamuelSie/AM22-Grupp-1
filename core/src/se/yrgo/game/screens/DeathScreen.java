@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.utils.Score;
@@ -62,6 +63,8 @@ public class DeathScreen implements Screen {
         
         // Add delay before screen transition
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        
+        }
             game.setScreen(new GameScreen(game, score));
             dispose();
         }
