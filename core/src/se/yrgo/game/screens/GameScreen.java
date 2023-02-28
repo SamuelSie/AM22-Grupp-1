@@ -124,7 +124,7 @@ public class GameScreen implements Screen {
         doge.fall(deltaTime);
         
         //ändrar hastigheten på doge y-axis från minus till plus
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
             doge.jump(deltaTime);
         }
 
