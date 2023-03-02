@@ -122,6 +122,8 @@ public class GameScreen implements Screen {
         music.dispose();
         doge.dispose();
         ground.dispose();
+
+
     }
 
     private void spawnPipes() {
@@ -157,6 +159,7 @@ public class GameScreen implements Screen {
     private static void removePipe(Iterator<Pipe> iter, Pipe pipe) {
         if (pipe.getPositionTop().x + pipe.getHitBoxTop().getWidth() < 0
                 || pipe.getPositionBottom().x + pipe.getHitBoxBottom().getWidth() < 0) {
+            pipe.dispose();
             iter.remove();
         }
     }
