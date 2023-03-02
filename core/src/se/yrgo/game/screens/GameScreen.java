@@ -10,22 +10,15 @@ import com.badlogic.gdx.utils.TimeUtils;
 import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.objects.*;
 import se.yrgo.game.utils.Score;
-
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GameScreen implements Screen {
     private final JumpyBirb game;
     private Doge doge;
-
     private Ground ground;
-
     private Music music;
     private OrthographicCamera camera;
-    private float deltaTime;
-    //SKapa toppipe och bottompipe som private.
-    //Skapa sedan objekten i konstruktorn
-
     private Array<Pipe> pipeArray;
     private long lastSpawnTime;
     private boolean isDead;
@@ -44,10 +37,6 @@ public class GameScreen implements Screen {
         // create camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.CAMX, game.CAMY);
-
-        // deltatime är tiden mellan frames, mätt i sekunder.
-        //behövs för att flytta saker på skärmen, typ falla och hoppa.
-        deltaTime = Gdx.graphics.getDeltaTime();
 
         //Array av topPipes
         pipeArray = new Array<Pipe>();
@@ -78,11 +67,11 @@ public class GameScreen implements Screen {
 
         loopOverPipes();
 
-        doge.fall(deltaTime);
+        doge.update(delta);
 
-        checkPlayerInput();
+        checkPlayerInput(delta);
 
-        hasDogeHitCieling();
+        checkIfHitCeiling();
 
         checkIfDead();
 
@@ -186,16 +175,16 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void hasDogeHitCieling() {
+    private void checkIfHitCeiling() {
         if (doge.getPosition().y >= (game.CAMY - 60)) {
             doge.getPosition().y = (game.CAMY - 60);
             doge.resetVelocity();
         }
     }
 
-    private void checkPlayerInput() {
+    private void checkPlayerInput(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
-            doge.jump(deltaTime);
+            doge.jump(delta);
         }
     }
 }

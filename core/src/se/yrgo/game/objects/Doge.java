@@ -24,7 +24,7 @@ public class Doge {
 
     }
 
-    public void fall(float deltaTime) {
+    public void update(float deltaTime) {
         velocity.add(0, fallSpeed, 0);
 
         // gångrar allt i velocity med deltaTime
