@@ -59,7 +59,6 @@ public class GameScreen implements Screen {
     }
 
 
-
     @Override
     public void render(float delta) {
 
@@ -70,50 +69,29 @@ public class GameScreen implements Screen {
 
         game.batch.begin();
         game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
+
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getWidth(), doge.getTexture().getHeight());
-
         game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
-
-        for (Pipe pipe : pipeArray) {
-            game.batch.draw(pipe.getTopPipeImg(), pipe.getPositionTop().x, pipe.getPositionTop().y);
-            game.batch.draw(pipe.getBottomPipeImg(), pipe.getPositionBottom().x, pipe.getPositionBottom().y);
-        }
         game.font.draw(game.batch, score.getLayout(), score.getX(), score.getY());
+        drawPipes();
         game.batch.end();
 
         //spawn pipes in the given time
         if (TimeUtils.nanoTime() - lastSpawnTime > 3000000000L) spawnPipes();
 
-        //loop over pipe conditions
         loopOverPipes();
-        //scoring
-//        }
 
-        //gör att doge faller nedåt
         doge.fall(deltaTime);
 
-        //ändrar hastigheten på doge y-axis från minus till plus
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
-            doge.jump(deltaTime);
-        }
+        checkPlayerInput();
 
+        hasDogeHitCieling();
 
-        if (doge.getPosition().y >= (game.CAMY - 60)) {
-            doge.getPosition().y = (game.CAMY - 60);
-            doge.resetVelocity();
-        }
-
-
-        // if doge is dead, switch to DeathScreen
-        if (isDead) {
-            score.newHighScore();
-            game.setScreen(new DeathScreen(game, score));
-            dispose();
-        }
+        checkIfDead();
 
         score.getLayout().setText(game.font, score.scoreToString());
-
     }
+
 
     @Override
     public void show() {
@@ -178,7 +156,7 @@ public class GameScreen implements Screen {
         }
     }
 
-    
+
     private static void removePipe(Iterator<Pipe> iter, Pipe pipe) {
         if (pipe.getPositionTop().x + pipe.getHitBoxTop().getWidth() < 0
                 || pipe.getPositionBottom().x + pipe.getHitBoxBottom().getWidth() < 0) {
@@ -190,6 +168,34 @@ public class GameScreen implements Screen {
         if ((pipe.getPositionBottom().x + pipe.getHitBoxBottom().x) < doge.getPosition().x && !pipe.isScored()) {
             score.score();
             pipe.setScored(true);
+        }
+    }
+
+    private void drawPipes() {
+        for (Pipe pipe : pipeArray) {
+            game.batch.draw(pipe.getTopPipeImg(), pipe.getPositionTop().x, pipe.getPositionTop().y);
+            game.batch.draw(pipe.getBottomPipeImg(), pipe.getPositionBottom().x, pipe.getPositionBottom().y);
+        }
+    }
+
+    private void checkIfDead() {
+        if (isDead) {
+            score.newHighScore();
+            game.setScreen(new DeathScreen(game, score));
+            dispose();
+        }
+    }
+
+    private void hasDogeHitCieling() {
+        if (doge.getPosition().y >= (game.CAMY - 60)) {
+            doge.getPosition().y = (game.CAMY - 60);
+            doge.resetVelocity();
+        }
+    }
+
+    private void checkPlayerInput() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
+            doge.jump(deltaTime);
         }
     }
 }
