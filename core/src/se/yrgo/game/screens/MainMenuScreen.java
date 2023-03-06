@@ -13,7 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.utils.Score;
 
@@ -21,6 +23,7 @@ public class MainMenuScreen implements Screen {
 
     public final JumpyBirb game;
     private OrthographicCamera camera;
+    private Viewport vp;
     private GlyphLayout layout;
     private Score score;
 
@@ -33,6 +36,7 @@ public class MainMenuScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.CAMX, game.CAMY);
+        vp = new FitViewport(game.CAMX, game.CAMY, camera);
 
     }
 
@@ -44,10 +48,11 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        //ScreenUtils.clear(0,0,0.2f,1);
+        ScreenUtils.clear(0,0,0.2f,1);
 
+        vp.apply();
         camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.setProjectionMatrix(vp.getCamera().combined);
 
 
         game.batch.begin();
@@ -65,6 +70,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+            vp.update(width, height);
 
     }
 
