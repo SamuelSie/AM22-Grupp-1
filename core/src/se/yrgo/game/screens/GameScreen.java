@@ -183,8 +183,8 @@ public class GameScreen implements Screen {
     }
 
     private void checkIfHitCeiling() {
-        if (doge.getPosition().y >= (game.CAMY - 60)) {
-            doge.getPosition().y = (game.CAMY - 60);
+        if (doge.getPosition().y >= (game.CAMY - doge.getTexture().getHeight())) {
+            doge.getPosition().y = (game.CAMY - doge.getTexture().getHeight());
             doge.resetVelocity();
         }
     }
