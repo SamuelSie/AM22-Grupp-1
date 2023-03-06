@@ -20,7 +20,7 @@ public class Doge {
 
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0, 0, 0);
-        fallSpeed = -10;
+        fallSpeed = -14;
 
     }
 
@@ -44,11 +44,11 @@ public class Doge {
     //en kommentar för att visa merge
     public void jump(float deltaTime) {
         //sätter hastighet i y-axis till 300
-        velocity.y = 200;
+        velocity.y = 300;
     }
 
     public void resetVelocity() {
-        velocity.add(0, -70, 0);
+        velocity.y = -10;
     }
 
     public void dispose() {
@@ -63,6 +63,7 @@ public class Doge {
         return position;
     }
 
+    //outdated?
     public Rectangle getHitbox() {
         return hitbox;
     }
