@@ -17,9 +17,11 @@ public class DeathScreen implements Screen {
     private OrthographicCamera camera;
     private GlyphLayout layout;
     private GlyphLayout layout2;
-    private float delay =1;
     private GlyphLayout finalScore;
     Score score;
+    
+    private boolean canRestart;
+    private Timer.Task restartTask;
 
     public DeathScreen(final JumpyBirb game, Score score) {
 
@@ -32,6 +34,15 @@ public class DeathScreen implements Screen {
 //        layout = new GlyphLayout();
 //        layout2 = new GlyphLayout();
         finalScore = new GlyphLayout();
+        canRestart = false;
+        
+        restartTask = new Timer.Task(){
+            public void run(){
+                canRestart = true;
+            }
+        };
+        Timer.schedule(restartTask,2f);
+        
 
     }
 
@@ -56,10 +67,11 @@ public class DeathScreen implements Screen {
 //        game.font.draw(game.batch, layout2, game.CAMX/2 - layout2.width/2, (game.CAMY/2) - layout2.height/2);
         game.font.draw(game.batch, finalScore, game.CAMX / 2 - 200, (game.CAMY / 3));
         game.batch.end();
-        
+
         
         // Add delay before screen transition
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
+        if (canRestart && (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched())) {
+            restartTask.cancel();
             game.setScreen(new GameScreen(game, score));
             dispose();
         }
