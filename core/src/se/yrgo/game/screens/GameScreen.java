@@ -6,7 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.objects.*;
 import se.yrgo.game.utils.Score;
@@ -19,6 +21,7 @@ public class GameScreen implements Screen {
     private Ground ground;
     private Music music;
     private OrthographicCamera camera;
+    private FitViewport vp;
     private Array<Pipe> pipeArray;
     private long lastSpawnTime;
     private boolean isDead;
@@ -37,6 +40,7 @@ public class GameScreen implements Screen {
         // create camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.CAMX, game.CAMY);
+        vp = new FitViewport(game.CAMX, game.CAMY, camera);
 
         //Array av topPipes
         pipeArray = new Array<Pipe>();
@@ -50,8 +54,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        ScreenUtils.clear(0, 0, 0, 1f);
+
+        vp.apply();
         camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.setProjectionMatrix(vp.getCamera().combined);
 
         game.batch.begin();
         game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
@@ -88,7 +95,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        vp.update(width, height);
     }
 
     @Override

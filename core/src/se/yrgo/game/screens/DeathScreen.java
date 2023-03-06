@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.utils.Score;
 
 public class DeathScreen implements Screen {
     private final JumpyBirb game;
     private OrthographicCamera camera;
+    private FitViewport vp;
     private GlyphLayout layout;
     private GlyphLayout layout2;
     private float delay =1;
@@ -32,6 +34,7 @@ public class DeathScreen implements Screen {
 //        layout = new GlyphLayout();
 //        layout2 = new GlyphLayout();
         finalScore = new GlyphLayout();
+        vp = new FitViewport(game.CAMX, game.CAMY, camera);
 
     }
 
@@ -48,8 +51,9 @@ public class DeathScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(0.6f, 0.2f, 0.2f, 1);
 
+        vp.apply();
         camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.setProjectionMatrix(vp.getCamera().combined);
 
         game.batch.begin();
 //        game.font.draw(game.batch, layout, game.CAMX/2 - layout.width/2, (game.CAMY/3) * 2 - layout.height/2);
@@ -67,7 +71,7 @@ public class DeathScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        vp.update(width, height);
     }
 
     @Override
