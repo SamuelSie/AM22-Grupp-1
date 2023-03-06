@@ -12,7 +12,7 @@ public class Ground {
 
     public Ground(int x, int y) {
         groundImg = new Texture("ground.png");
-        groundBox = new Rectangle(x, y, groundImg.getWidth(), (groundImg.getHeight()) - 15);
+        groundBox = new Rectangle(x, y, groundImg.getWidth(), (groundImg.getHeight()));
 
         position = new Vector3(x, y, 0);
 
