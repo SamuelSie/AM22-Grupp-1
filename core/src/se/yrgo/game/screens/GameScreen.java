@@ -232,7 +232,7 @@ public class GameScreen implements Screen {
     }
 
     private void checkPlayerInput(float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.justTouched()) {
             doge.jump(delta);
         }
     }
