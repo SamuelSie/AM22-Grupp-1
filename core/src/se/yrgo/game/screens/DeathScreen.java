@@ -44,7 +44,7 @@ public class DeathScreen implements Screen {
                 canRestart = true;
             }
         };
-        Timer.schedule(restartTask,2f);
+        Timer.schedule(restartTask,1f);
         
 
         vp = new FitViewport(game.CAMX, game.CAMY, camera);
