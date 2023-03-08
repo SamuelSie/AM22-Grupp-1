@@ -19,10 +19,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class GameScreen implements Screen {
     private final JumpyBirb game;
     private Doge doge;
-    private Array<Ground> groundArray;
     private Music music;
     private OrthographicCamera camera;
     private FitViewport vp;
+    private Array<Movable> moveableArray;
+    private Array<Ground> groundArray;
     private Array<Pipe> pipeArray;
     private long pipeSpawnTime;
     private long groundSpawnTime;
@@ -43,16 +44,18 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, game.CAMX, game.CAMY);
         vp = new FitViewport(game.CAMX, game.CAMY, camera);
 
-        // Array av ground
-        Ground firstGround = new Ground(0, -75);
-        groundArray = new Array<Ground>();
-        //Array av pipes
-        pipeArray = new Array<Pipe>();
+//        // Array av ground
+//        groundArray = new Array<Ground>();
+//        //Array av pipes
+//        pipeArray = new Array<Pipe>();
 
-        groundArray.add(firstGround);
+        moveableArray = new Array<Movable>();
+        moveableArray.add(new Ground(0, -75));
         spawnGround();
         spawnPipes();
+
         isDead = false;
+
 
         this.score = score;
     }
@@ -70,19 +73,15 @@ public class GameScreen implements Screen {
         game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
 
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getWidth(), doge.getTexture().getHeight());
-        drawPipes();
-        drawGround();
+        drawMovable();
         game.font.draw(game.batch, score.getLayout(), score.getX(), score.getY());
         game.batch.end();
 
         //spawn pipes in the given time
-        if (TimeUtils.nanoTime() - pipeSpawnTime > 3000000000L) {
-            spawnPipes();
-        }
+        if (TimeUtils.nanoTime() - pipeSpawnTime > 3000000000L) spawnPipes();
         if (TimeUtils.nanoTime() - groundSpawnTime > 3_350_000_000L) spawnGround();
 
-        loopOverGround();
-        loopOverPipes();
+        loopOverMovable();
 
         doge.update(delta);
 
@@ -133,39 +132,37 @@ public class GameScreen implements Screen {
         int isAdding = ThreadLocalRandom.current().nextInt(2);
         int middleSpace = ThreadLocalRandom.current().nextInt(Pipe.getDISTANCE());
         Pipe pipe = new Pipe(game.CAMX, game.CAMY / 2 - game.CAMY + (isAdding == 1 ? middleSpace / 2 : -middleSpace / 2));
-        pipeArray.add(pipe);
+        moveableArray.add(pipe);
         pipeSpawnTime = TimeUtils.nanoTime();
     }
 
     private void spawnGround() {
         Ground ground = new Ground(game.CAMX, -75);
-        groundArray.add(ground);
+        moveableArray.add(ground);
         groundSpawnTime = TimeUtils.nanoTime();
     }
 
-    private void loopOverPipes() {
-        for (Iterator<Pipe> iter = pipeArray.iterator(); iter.hasNext(); ) {
-            Pipe pipe = iter.next();
+    private void loopOverMovable() {
+        for (Iterator<Movable> iter = moveableArray.iterator(); iter.hasNext();) {
+            Movable obj = iter.next();
+            obj.move();
 
-            pipe.move();
+            if(obj.getClass() == Pipe.class) {
+                Pipe pipe = (Pipe) obj;
 
-            removePipe(iter, pipe);
+                removePipe(iter, pipe);
 
-            checkCollision(pipe);
+                checkCollision(pipe);
 
-            updateScore(pipe);
-        }
-    }
+                updateScore(pipe);
+            }
 
-    private void loopOverGround() {
-        for (Iterator<Ground> iter = groundArray.iterator(); iter.hasNext(); ) {
-            Ground ground = iter.next();
+            if(obj.getClass() == Ground.class) {
+                Ground ground = (Ground) obj;
+                removeGround(iter, ground);
 
-            ground.move();
-
-            removeGround(iter, ground);
-
-            checkCollisionGround(ground);
+                checkCollisionGround(ground);
+            }
         }
     }
 
@@ -180,7 +177,7 @@ public class GameScreen implements Screen {
     }
 
 
-    private static void removePipe(Iterator<Pipe> iter, Pipe pipe) {
+    private static void removePipe(Iterator<Movable> iter, Pipe pipe) {
         if (pipe.getPositionTop().x + pipe.getHitBoxTop().getWidth() < 0
                 || pipe.getPositionBottom().x + pipe.getHitBoxBottom().getWidth() < 0) {
             pipe.dispose();
@@ -188,7 +185,7 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void removeGround(Iterator<Ground> iter, Ground ground) {
+    private void removeGround(Iterator<Movable> iter, Ground ground) {
         if (ground.getPosition().x + ground.getHitBox().getWidth() * 2 < 0) {
             ground.dispose();
             iter.remove();
@@ -202,18 +199,29 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void drawPipes() {
-        for (Pipe pipe : pipeArray) {
+    private void drawMovable() {
+        Array<Ground> grounds = new Array<>();
+        Array<Pipe> pipes = new Array<>();
+        for (Movable obj : moveableArray) {
+            if (obj.getClass() == Ground.class) {
+                Ground ground = (Ground) obj;
+                grounds.add(ground);
+            }
+            else if (obj.getClass() == Pipe.class) {
+                Pipe pipe = (Pipe) obj;
+                pipes.add(pipe);
+            }
+            else {
+                throw new RuntimeException("Something went wrong when drawing movables.");
+            }
+        }
+        for (Pipe pipe : pipes) {
             game.batch.draw(pipe.getTopPipeImg(), pipe.getPositionTop().x, pipe.getPositionTop().y);
             game.batch.draw(pipe.getBottomPipeImg(), pipe.getPositionBottom().x, pipe.getPositionBottom().y);
         }
-    }
-
-    private void drawGround() {
-        for (Ground ground : groundArray) {
+        for (Ground ground : grounds) {
             game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
         }
-
     }
 
     private void checkIfDead() {
