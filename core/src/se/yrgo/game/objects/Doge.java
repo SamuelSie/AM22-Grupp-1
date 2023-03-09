@@ -25,16 +25,16 @@ public class Doge {
         hitbox = new Rectangle(x, y, dogeRegion.getWidth(), (dogeRegion.getHeight()));
     }
     
-    public void update(float deltaTime) {
+    public void update(float delta) {
         
-        animation.update(deltaTime);
+        animation.update(delta);
         
         
         velocity.add(0, fallSpeed, 0);
         
-        // gångrar allt i velocity med deltaTime
+        // gångrar allt i velocity med delta
         // hastigheten blir helt galen om vi inte gångrar med deltatime
-        velocity.scl(deltaTime);
+        velocity.scl(delta);
         
         //adderar hastigheten i form av antal pixlar till position.
         position.add(0, velocity.y, 0);
@@ -42,7 +42,7 @@ public class Doge {
         hitbox.y = position.y;
         
         //nollställer för nästa uppdatering
-        velocity.scl(1 / deltaTime);
+        velocity.scl(1 / delta);
         
     }
     
