@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import se.yrgo.game.JumpyBirb;
+import se.yrgo.game.objects.IdleDoge;
 import se.yrgo.game.utils.Score;
 
 public class MainMenuScreen implements Screen {
@@ -26,6 +27,10 @@ public class MainMenuScreen implements Screen {
     private Viewport vp;
     private GlyphLayout layout;
     private Score score;
+    private Texture backGround;
+    
+    private IdleDoge idleDoge;
+    
 
 
     public MainMenuScreen(final JumpyBirb game, Score score) {
@@ -37,6 +42,8 @@ public class MainMenuScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.CAMX, game.CAMY);
         vp = new FitViewport(game.CAMX, game.CAMY, camera);
+        backGround = new Texture("mainMenuBg.png");
+        idleDoge = new IdleDoge();
 
     }
 
@@ -56,11 +63,12 @@ public class MainMenuScreen implements Screen {
 
 
         game.batch.begin();
-        game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
+        game.batch.draw(backGround, 0, 0, game.CAMX, game.CAMY);
         game.font.draw(game.batch, layout, game.CAMX / 2 - layout.width/2, game.CAMY / 2 + layout.height/2);
+        game.batch.draw(idleDoge.getTexture(),180,70);
         game.batch.end();
 
-
+        idleDoge.update(delta);
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
             game.setScreen(new GameScreen(game, score));
             dispose();
