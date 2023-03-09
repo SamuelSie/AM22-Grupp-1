@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class Ground {
+public class Ground implements Movable {
 
     private Texture groundImg;
     private Rectangle hitBox;
@@ -35,6 +35,7 @@ public class Ground {
         return position;
     }
 
+    @Override
     public void move() {
         getPosition().x -= 100 * Gdx.graphics.getDeltaTime();
         hitBox.setPosition(getPosition().x, getPosition().y);

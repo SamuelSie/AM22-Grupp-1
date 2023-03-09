@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class Pipe {
+public class Pipe implements Movable {
     private boolean isScored;
     private Texture topPipeImg;
     private Texture bottomPipeImg;
@@ -28,6 +28,7 @@ public class Pipe {
         positionTop = new Vector3(x, y + bottomPipeImg.getHeight() + DISTANCE, 0);
     }
 
+    @Override
     public void move() {
         getPositionBottom().x -= 100 * Gdx.graphics.getDeltaTime();
         getPositionTop().x -= 100 * Gdx.graphics.getDeltaTime();
