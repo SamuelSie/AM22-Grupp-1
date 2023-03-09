@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class Doge {
-    // private Texture dogeImg;
     private Rectangle hitbox;
     private float fallSpeed;
     
@@ -17,7 +16,6 @@ public class Doge {
     
     
     public Doge(int x, int y) {
-        //dogeImg = new Texture("dogeBodyImg.png");
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0, 0, 0);
         fallSpeed = -14;
