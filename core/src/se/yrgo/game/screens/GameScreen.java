@@ -72,7 +72,7 @@ public class GameScreen implements Screen {
         game.batch.begin();
         game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
 
-        game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getWidth(), doge.getTexture().getHeight());
+        game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
         drawMovable();
         game.font.draw(game.batch, score.getLayout(), score.getX(), score.getY());
         game.batch.end();
@@ -233,8 +233,8 @@ public class GameScreen implements Screen {
     }
 
     private void checkIfHitCeiling() {
-        if (doge.getPosition().y >= (game.CAMY - doge.getTexture().getHeight())) {
-            doge.getPosition().y = (game.CAMY - doge.getTexture().getHeight());
+        if (doge.getPosition().y >= (game.CAMY - doge.getTexture().getRegionHeight())) {
+            doge.getPosition().y = (game.CAMY - doge.getTexture().getRegionHeight());
             doge.resetVelocity();
         }
     }
