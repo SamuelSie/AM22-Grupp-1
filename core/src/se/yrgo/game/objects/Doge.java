@@ -22,7 +22,7 @@ public class Doge {
         
         dogeRegion = new Texture("dogeAnimation.png");
         animation = new Animation(new TextureRegion(dogeRegion), 2, 1f);
-        hitbox = new Rectangle(x, y, dogeRegion.getWidth(), (dogeRegion.getHeight()));
+        hitbox = new Rectangle(x, y, dogeRegion.getWidth() / 2, (dogeRegion.getHeight()));
     }
     
     public void update(float delta) {
