@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -20,6 +21,7 @@ public class DeathScreen implements Screen {
     private GlyphLayout layout;
     private GlyphLayout layout2;
     private GlyphLayout finalScore;
+    private Texture backGround;
     Score score;
     
     private boolean canRestart;
