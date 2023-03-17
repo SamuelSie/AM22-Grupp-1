@@ -4,13 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
+import se.yrgo.game.objects.Animation;
 import se.yrgo.game.utils.Score;
 
 public class DeathScreen implements Screen {
@@ -20,6 +23,8 @@ public class DeathScreen implements Screen {
     private GlyphLayout layout;
     private GlyphLayout layout2;
     private GlyphLayout finalScore;
+    private Texture backGround;
+    private Animation animation;
     Score score;
     
     private boolean canRestart;
@@ -48,6 +53,9 @@ public class DeathScreen implements Screen {
         
 
         vp = new FitViewport(game.CAMX, game.CAMY, camera);
+        backGround = new Texture("deathScreenAnimation.png");
+
+        animation = new Animation(new TextureRegion(backGround), 2, 1f);
 
 
     }
@@ -63,18 +71,21 @@ public class DeathScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0.6f, 0.2f, 0.2f, 1);
+//        ScreenUtils.clear(0.6f, 0.2f, 0.2f, 1);
 
         vp.apply();
         camera.update();
         game.batch.setProjectionMatrix(vp.getCamera().combined);
 
         game.batch.begin();
+        game.batch.draw(animation.getFrame(), 0, 0, game.CAMX, game.CAMY);
 //        game.font.draw(game.batch, layout, game.CAMX/2 - layout.width/2, (game.CAMY/3) * 2 - layout.height/2);
 //        game.font.draw(game.batch, layout2, game.CAMX/2 - layout2.width/2, (game.CAMY/2) - layout2.height/2);
         game.font.draw(game.batch, finalScore, game.CAMX / 2 - 200, (game.CAMY / 3));
         game.batch.end();
 
+
+        animation.update(delta);
         
         // Add delay before screen transition
         if (canRestart && (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched())) {
