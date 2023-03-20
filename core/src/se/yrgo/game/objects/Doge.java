@@ -21,8 +21,8 @@ public class Doge {
         fallSpeed = -14;
         
         dogeImg = new Texture("dogeJump.png");
-        animation = new Animation(new TextureRegion(dogeImg), 3, 1f);
-        hitbox = new Rectangle(x, y, dogeImg.getWidth() / 2, (dogeImg.getHeight()));
+        animation = new Animation(new TextureRegion(dogeImg), 4, 0.6f);
+        hitbox = new Rectangle(x, y, dogeImg.getWidth() / 4, (dogeImg.getHeight()));
     }
     
     public void update(float delta) {
