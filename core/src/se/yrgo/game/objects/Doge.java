@@ -11,7 +11,7 @@ public class Doge {
     
     private Vector3 position;
     private Vector3 velocity;
-    private Texture dogeRegion;
+    private Texture dogeImg;
     private Animation animation;
     
     
@@ -20,9 +20,9 @@ public class Doge {
         velocity = new Vector3(0, 0, 0);
         fallSpeed = -14;
         
-        dogeRegion = new Texture("dogeAnimation.png");
-        animation = new Animation(new TextureRegion(dogeRegion), 2, 1f);
-        hitbox = new Rectangle(x, y, dogeRegion.getWidth() / 2, (dogeRegion.getHeight()));
+        dogeImg = new Texture("dogeJump.png");
+        animation = new Animation(new TextureRegion(dogeImg), 3, 1f);
+        hitbox = new Rectangle(x, y, dogeImg.getWidth() / 2, (dogeImg.getHeight()));
     }
     
     public void update(float delta) {
@@ -57,7 +57,7 @@ public class Doge {
     }
     
     public void dispose() {
-        dogeRegion.dispose();
+        dogeImg.dispose();
     }
     
     public TextureRegion getTexture() {
