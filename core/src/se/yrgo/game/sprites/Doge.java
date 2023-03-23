@@ -13,6 +13,9 @@ public class Doge {
     private Vector3 position;
     private Vector3 velocity;
     private Texture dogeImg;
+
+
+
     private Animation animation;
     
     
@@ -22,13 +25,13 @@ public class Doge {
         fallSpeed = -14;
         
         dogeImg = new Texture("dogeJump.png");
-        animation = new Animation(new TextureRegion(dogeImg), 4, 0.6f);
+        animation = new Animation(new TextureRegion(dogeImg), 4, 0.3f);
         hitbox = new Rectangle(x, y, dogeImg.getWidth() / 4, (dogeImg.getHeight()));
     }
     
     public void update(float delta) {
         
-        animation.update(delta);
+        animation.jumpAnimation(delta);
         
         
         velocity.add(0, fallSpeed, 0);
@@ -77,5 +80,8 @@ public class Doge {
     public boolean isCollided(Rectangle rect) {
         if (hitbox.overlaps(rect)) return true;
         return false;
+    }
+    public Animation getAnimation() {
+        return animation;
     }
 }
