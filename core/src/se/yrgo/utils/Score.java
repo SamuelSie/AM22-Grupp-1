@@ -21,7 +21,7 @@ public class Score {
 
 
 
-    public Score(int x, int y, BitmapFont font) {
+    public Score(int x, int y, BitmapFont font) throws SQLException{
         this.score = 0;
         this.highScore = 0;
         layout = new GlyphLayout();
@@ -57,6 +57,10 @@ public class Score {
 
         top5.setText(font, sb.toString());
         return top5;
+    }
+
+    public void putHighscore(int score) throws SQLException {
+        db.putHighScore(score);
     }
 
     public void resetScore(){

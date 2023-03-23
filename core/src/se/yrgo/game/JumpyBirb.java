@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import se.yrgo.game.screens.MainMenuScreen;
 import se.yrgo.utils.Score;
 
+import java.sql.SQLException;
+
 public class JumpyBirb extends Game {
     public SpriteBatch batch;
     public BitmapFont font;
@@ -25,7 +27,12 @@ public class JumpyBirb extends Game {
         font = new BitmapFont(Gdx.files.internal("myFont.fnt"));
         backGround = new Texture("bg.png");
 
-        score = new Score(CAMX -100, CAMY - 20, font);
+        /// ajajaj nu är det rörigt med SQLException!! STÄDA UPP!
+        try {
+            score = new Score(CAMX -100, CAMY - 20, font);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         this.setScreen(new MainMenuScreen(this, score));
 
@@ -40,5 +47,6 @@ public class JumpyBirb extends Game {
         batch.dispose();
         font.dispose();
         backGround.dispose();
+
     }
 }
