@@ -44,8 +44,8 @@ public class Animation {
             }
             if (frame >= frameCount) {
                 frame = 0;
-            }
             this.startJumpAnimation = false;
+            }
         }
     }
 
