@@ -25,7 +25,7 @@ public class JumpyBirb extends Game {
         font = new BitmapFont(Gdx.files.internal("myFont.fnt"));
         backGround = new Texture("bg.png");
 
-        score = new Score(CAMX -100, CAMY - 20);
+        score = new Score(CAMX -100, CAMY - 20, font);
 
         this.setScreen(new MainMenuScreen(this, score));
 

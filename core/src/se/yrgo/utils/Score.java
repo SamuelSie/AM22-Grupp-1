@@ -2,7 +2,11 @@ package se.yrgo.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class Score {
     private int score;
@@ -12,16 +16,22 @@ public class Score {
     private int y;
 
     private Sound scoreSound;
+    private DBHandler db;
+    private BitmapFont font;
 
-    public Score(int x, int y) {
+
+
+    public Score(int x, int y, BitmapFont font) {
         this.score = 0;
         this.highScore = 0;
         layout = new GlyphLayout();
         this.x = x;
         this.y = y;
+        this.font = font;
 
         //placeholder sound for scoring
         scoreSound = Gdx.audio.newSound(Gdx.files.internal("scoreSound.wav"));
+        db = new DBHandler();
     }
 
     public void score() {
@@ -33,6 +43,20 @@ public class Score {
         if (score > highScore) {
             highScore = score;
         }
+    }
+
+    public GlyphLayout getHighscore() throws SQLException {
+        GlyphLayout top5 = new GlyphLayout();
+        StringBuilder sb = new StringBuilder();
+
+        for(String score : db.getTop5Highscore()){
+            sb.append(score);
+            sb.append("\n");
+        }
+        sb.deleteCharAt(sb.lastIndexOf("\n"));
+
+        top5.setText(font, sb.toString());
+        return top5;
     }
 
     public void resetScore(){
