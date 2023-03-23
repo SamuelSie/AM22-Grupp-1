@@ -1,9 +1,10 @@
-package se.yrgo.game.objects;
+package se.yrgo.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import se.yrgo.utils.Animation;
 
 public class Doge {
     private Rectangle hitbox;

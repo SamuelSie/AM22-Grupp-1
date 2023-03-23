@@ -1,7 +1,8 @@
-package se.yrgo.game.objects;
+package se.yrgo.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import se.yrgo.utils.Animation;
 
 public class IdleDoge {
     private Animation animation;

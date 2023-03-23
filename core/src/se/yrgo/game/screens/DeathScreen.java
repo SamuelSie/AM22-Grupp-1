@@ -10,8 +10,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
-import se.yrgo.game.objects.Animation;
-import se.yrgo.game.utils.Score;
+import se.yrgo.utils.Animation;
+import se.yrgo.utils.Score;
+
+import java.sql.SQLException;
 
 public class DeathScreen implements Screen {
     private final JumpyBirb game;
@@ -29,7 +31,7 @@ public class DeathScreen implements Screen {
     private boolean canRestart;
     private Timer.Task restartTask;
 
-    public DeathScreen(final JumpyBirb game, Score score) {
+    public DeathScreen(final JumpyBirb game, Score score) throws SQLException {
 
         this.game = game;
         this.score = score;
@@ -39,7 +41,7 @@ public class DeathScreen implements Screen {
 
 //        layout = new GlyphLayout();
 //        layout2 = new GlyphLayout();
-        finalScore = new GlyphLayout();
+        finalScore = score.getHighscore();
 
         canRestart = false;
         
@@ -64,8 +66,8 @@ public class DeathScreen implements Screen {
     public void show() {
 //        layout.setText(game.font, "WELCOME TO YOUR DOOM");
 //        layout2.setText(game.font, "PRESS SPACE TO PLAY AGAIN");
-        finalScore.setText(game.font, "Round score: " + score.scoreToString() + "\nHighscore: " +
-                score.highScoreToString());
+//        finalScore.setText(game.font, "Round score: " + score.scoreToString() + "\nHighscore: " +
+//                score.highScoreToString());
 
     }
 

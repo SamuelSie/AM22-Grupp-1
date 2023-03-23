@@ -10,9 +10,10 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
-import se.yrgo.game.objects.*;
-import se.yrgo.game.utils.Score;
+import se.yrgo.game.sprites.*;
+import se.yrgo.utils.Score;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -89,7 +90,12 @@ public class GameScreen implements Screen {
 
         checkIfHitCeiling();
 
-        checkIfDead();
+        //kolla igenom kedjan av throws och bestäm var catcha
+        try {
+            checkIfDead();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         score.getLayout().setText(game.font, score.scoreToString());
     }
@@ -224,9 +230,9 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void checkIfDead() {
+    private void checkIfDead() throws SQLException {
         if (isDead) {
-            score.newHighScore();
+            score.putHighscore(score.getScore());
             game.setScreen(new DeathScreen(game, score));
             dispose();
         }
