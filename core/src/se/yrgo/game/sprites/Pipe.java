@@ -15,6 +15,9 @@ public class Pipe implements Movable {
     private Vector3 positionTop;
     private Vector3 positionBottom;
     private Texture saladFingersImg;
+
+
+
     private Animation saladAnimation;
 
     private static final int DISTANCE = 140;
@@ -24,7 +27,7 @@ public class Pipe implements Movable {
         hitBoxTop = new Rectangle(x, y, topPipeImg.getWidth(), topPipeImg.getHeight());
 
         saladFingersImg = new Texture("saladFingersAnimation.png");
-        saladAnimation = new Animation(new TextureRegion(saladFingersImg), 3, 0.5f);
+        saladAnimation = new Animation(new TextureRegion(saladFingersImg), 3, 0.8f);
         hitBoxSalad = new Rectangle(x, y, saladFingersImg.getWidth() / 3, saladFingersImg.getHeight());
 
         positionBottom = new Vector3(x, y, 0);
@@ -37,6 +40,7 @@ public class Pipe implements Movable {
         getPositionTop().x -= 100 * Gdx.graphics.getDeltaTime();
         hitBoxTop.setPosition(getPositionBottom().x, getPositionBottom().y + saladFingersImg.getHeight() + DISTANCE);
         hitBoxSalad.setPosition(getPositionBottom().x, getPositionBottom().y);
+
     }
 
     public void dispose() {
@@ -48,8 +52,8 @@ public class Pipe implements Movable {
         return topPipeImg;
     }
 
-    public Texture getSaladFingersImg() {
-        return saladFingersImg;
+    public TextureRegion getSaladFingersImg() {
+        return saladAnimation.getFrame();
     }
 
     public Rectangle getHitBoxTop() {
@@ -79,5 +83,9 @@ public class Pipe implements Movable {
 
     public static int getDISTANCE() {
         return DISTANCE;
+    }
+
+    public Animation getSaladAnimation() {
+        return saladAnimation;
     }
 }

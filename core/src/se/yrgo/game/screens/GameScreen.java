@@ -82,7 +82,8 @@ public class GameScreen implements Screen {
         if (TimeUtils.nanoTime() - pipeSpawnTime > 3000000000L) spawnPipes();
         if (TimeUtils.nanoTime() - groundSpawnTime > 3_350_000_000L) spawnGround();
 
-        loopOverMovable();
+        loopOverMovable(delta);
+
 
         doge.update(delta);
 
@@ -148,13 +149,15 @@ public class GameScreen implements Screen {
         groundSpawnTime = TimeUtils.nanoTime();
     }
 
-    private void loopOverMovable() {
+    private void loopOverMovable(float delta) {
         for (Iterator<Movable> iter = moveableArray.iterator(); iter.hasNext();) {
             Movable obj = iter.next();
             obj.move();
 
+
             if(obj.getClass() == Pipe.class) {
                 Pipe pipe = (Pipe) obj;
+                pipe.getSaladAnimation().update(delta);
 
                 removePipe(iter, pipe);
 
