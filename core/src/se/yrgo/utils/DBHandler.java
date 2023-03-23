@@ -26,24 +26,14 @@ public class DBHandler {
 
             return top5;
         }
+    }
 
-//
-//    public void putHighscore(int score) {
-//
-//    }
-//    public static void main(String[] args) {
-//        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:core/src/se/yrgo/game/utils/highscore.db")) {
-//            Statement stm = conn.createStatement();
-//            ResultSet rs = stm.executeQuery("select * from hoho");
-//
-//            while (rs.next()) {
-//                System.out.println(rs.getString("popo"));
-//            }
-//    }
-//        catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
+    public void putHighScore(int score) throws SQLException {
+        try (Connection conn = DriverManager.getConnection(connectionString)) {
+            PreparedStatement pstm = conn.prepareStatement("INSERT INTO highscore VALUES (score = ?)");
+            pstm.setInt(1, score);
+            pstm.execute();
+        }
     }
 }
+
