@@ -12,7 +12,7 @@ public class DBHandler {
 
     public DBHandler() throws SQLException {
         //varför börjar den leta i assets istället för AM23?
-        connectionString = "jdbc:sqlite:../core/src/se/yrgo/database/highscore.db";
+        connectionString = "jdbc:sqlite:../core/src/se/yrgo/highscore.db";
         conn = DriverManager.getConnection(connectionString);
     }
 
