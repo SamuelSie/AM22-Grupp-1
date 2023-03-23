@@ -13,7 +13,7 @@ public class Ground implements Movable {
 
     public Ground(int x, int y) {
         groundImg = new Texture("ground.png");
-        hitBox = new Rectangle(x, y, groundImg.getWidth(), (groundImg.getHeight()));
+        hitBox = new Rectangle(x, y, groundImg.getWidth() * 2, (groundImg.getHeight()));
 
         position = new Vector3(x, y, 0);
 
