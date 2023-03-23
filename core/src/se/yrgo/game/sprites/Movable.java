@@ -1,4 +1,4 @@
-package se.yrgo.game.objects;
+package se.yrgo.game.sprites;
 
 public interface Movable {
     public void move();

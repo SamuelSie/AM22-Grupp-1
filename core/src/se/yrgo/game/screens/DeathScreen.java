@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
-import se.yrgo.game.objects.Animation;
-import se.yrgo.game.utils.Score;
+import se.yrgo.utils.Animation;
+import se.yrgo.utils.Score;
 
 public class DeathScreen implements Screen {
     private final JumpyBirb game;

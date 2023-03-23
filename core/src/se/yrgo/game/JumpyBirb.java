@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import se.yrgo.game.screens.MainMenuScreen;
-import se.yrgo.game.utils.Score;
+import se.yrgo.utils.Score;
 
 public class JumpyBirb extends Game {
     public SpriteBatch batch;

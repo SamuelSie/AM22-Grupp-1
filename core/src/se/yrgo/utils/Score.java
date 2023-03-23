@@ -1,4 +1,4 @@
-package se.yrgo.game.utils;
+package se.yrgo.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;

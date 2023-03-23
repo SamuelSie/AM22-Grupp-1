@@ -1,4 +1,4 @@
-package se.yrgo.game.objects;
+package se.yrgo.utils;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;

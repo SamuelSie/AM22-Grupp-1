@@ -10,8 +10,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
-import se.yrgo.game.objects.*;
-import se.yrgo.game.utils.Score;
+import se.yrgo.game.sprites.*;
+import se.yrgo.utils.Score;
 
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
