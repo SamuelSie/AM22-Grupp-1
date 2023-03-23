@@ -36,11 +36,10 @@ public class DBHandler {
 
     public void putHighScore(int score) throws SQLException {
         try {
-//            PreparedStatement pstm = conn.prepareStatement("INSERT INTO highscore VALUES (score = ?)");
-//            pstm.setInt(1, score);
-//            pstm.execute();
-            Statement stm = conn.createStatement();
-            stm.execute("INSERT INTO highscore VALUES (" + score + ")");
+            String updateString = "INSERT INTO highscore VALUES (?)";
+            PreparedStatement pstm = conn.prepareStatement(updateString);
+            pstm.setInt(1, score);
+            pstm.execute();
         }
         catch (SQLException e ) {
             throw new SQLException("Something wrong with putting into highscore..." + e.getMessage());
