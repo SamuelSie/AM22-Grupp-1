@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBHandler {
-    private String connectionString;
+    private final String connectionString;
     private Connection conn;
+    private boolean dbExist;
 
 
     public DBHandler() throws SQLException {
@@ -36,6 +37,11 @@ public class DBHandler {
 
     public void putHighScore(int score) throws SQLException {
         try {
+            if (!dbExist) {
+                Statement stm = conn.createStatement();
+                stm.execute("CREATE TABLE IF NOT EXISTS highscore (score INT)");
+                dbExist = true;
+            }
             String updateString = "INSERT INTO highscore VALUES (?)";
             PreparedStatement pstm = conn.prepareStatement(updateString);
             pstm.setInt(1, score);
