@@ -28,6 +28,7 @@ public class GameScreen implements Screen {
     private Array<Pipe> pipeArray;
     private long pipeSpawnTime;
     private long groundSpawnTime;
+    private long skySpawnTime;
     private boolean isDead;
     private Score score;
 
@@ -64,14 +65,14 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0, 0, 0, 1f);
+//        ScreenUtils.clear(0, 0, 0, 1f);
 
         vp.apply();
         camera.update();
         game.batch.setProjectionMatrix(vp.getCamera().combined);
 
         game.batch.begin();
-        game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
+//        game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
 
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
         drawMovable();
@@ -149,6 +150,13 @@ public class GameScreen implements Screen {
         groundSpawnTime = TimeUtils.nanoTime();
     }
 
+    private void spawnBackground() {
+        GameBackground sky = new GameBackground(game.CAMX, 0);
+        moveableArray.add(sky);
+        skySpawnTime = TimeUtils.nanoTime();
+
+    }
+
     private void loopOverMovable(float delta) {
         for (Iterator<Movable> iter = moveableArray.iterator(); iter.hasNext();) {
             Movable obj = iter.next();
@@ -171,6 +179,12 @@ public class GameScreen implements Screen {
                 removeGround(iter, ground);
 
                 checkCollisionGround(ground);
+            }
+
+            if(obj.getClass() == GameBackground.class) {
+                GameBackground sky = (GameBackground) obj;
+                removeBackground(iter, sky);
+
             }
         }
     }
@@ -201,6 +215,13 @@ public class GameScreen implements Screen {
         }
     }
 
+    private void removeBackground(Iterator<Movable> iter, GameBackground sky) {
+        if (sky.getSkyPosition().x + sky.getSkyImg().getWidth() < 0) {
+            sky.dispose();
+            iter.remove();
+        }
+    }
+
     private void updateScore(Pipe pipe) {
         if ((pipe.getPositionBottom().x + pipe.getHitBoxSalad().x) < doge.getPosition().x && !pipe.isScored()) {
             score.score();
@@ -211,6 +232,9 @@ public class GameScreen implements Screen {
     private void drawMovable() {
         Array<Ground> grounds = new Array<>();
         Array<Pipe> pipes = new Array<>();
+        Array<GameBackground> skies = new Array<>();
+
+
         for (Movable obj : moveableArray) {
             if (obj.getClass() == Ground.class) {
                 Ground ground = (Ground) obj;
@@ -220,16 +244,24 @@ public class GameScreen implements Screen {
                 Pipe pipe = (Pipe) obj;
                 pipes.add(pipe);
             }
-            else {
+            else if (obj.getClass() == GameBackground.class) {
+                GameBackground sky = (GameBackground) obj;
+                skies.add(sky);
+            } else {
                 throw new RuntimeException("Something went wrong when drawing movables.");
             }
         }
+        // lekte lite med storlekarna här, behöver bestämma vad som är bra.
+        // om vi ändrar height måste vi tänka på att den renderar från nere/vänster. så vi måste ändra hitbox också.
         for (Pipe pipe : pipes) {
-            game.batch.draw(pipe.getKettleImg(), pipe.getPositionTop().x, pipe.getPositionTop().y);
-            game.batch.draw(pipe.getSaladFingersImg(), pipe.getPositionBottom().x, pipe.getPositionBottom().y);
+            game.batch.draw(pipe.getKettleImg(), pipe.getPositionTop().x, pipe.getPositionTop().y, 40, 250);
+            game.batch.draw(pipe.getSaladFingersImg(), pipe.getPositionBottom().x, pipe.getPositionBottom().y, 40, 320);
         }
         for (Ground ground : grounds) {
             game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
+        }
+        for (GameBackground sky : skies) {
+            game.batch.draw(sky.getSkyImg(), sky.getSkyPosition().x, sky.getSkyPosition().y, sky.getSkyImg().getWidth(), sky.getSkyImg().getHeight());
         }
     }
 
