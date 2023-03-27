@@ -31,13 +31,14 @@ public class GameScreen implements Screen {
     private boolean isDead;
     private Score score;
 
+
     public GameScreen(final JumpyBirb game, Score score) {
         this.game = game;
         //create doge & ground object with x & y position
         doge = new Doge(20, game.CAMY / 2);
 
         // background music
-        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("tmp.mp3"));
         music.setLooping(true);
 
         // create camera
@@ -104,7 +105,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        //music.play();
+        music.play();
         score.resetScore();
 
     }

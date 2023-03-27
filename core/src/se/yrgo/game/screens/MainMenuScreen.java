@@ -3,6 +3,7 @@ package se.yrgo.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -23,6 +24,7 @@ public class MainMenuScreen implements Screen {
     private Texture backGround;
     
     private IdleDoge idleDoge;
+    private Music music;
     
 
 
@@ -38,12 +40,20 @@ public class MainMenuScreen implements Screen {
         backGround = new Texture("mainMenuBg.png");
         idleDoge = new IdleDoge();
 
+        music = Gdx.audio.newMusic(Gdx.files.internal("tmp2.mp3"));
     }
+
+
+
+    // start the playback of the background music immediately
 
 
     @Override
     public void show() {
+
         layout.setText(game.font, "Press SPACE to start");
+        music.setLooping(true);
+        music.play();
     }
 
     @Override
@@ -92,6 +102,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        music.dispose();
     }
 }
