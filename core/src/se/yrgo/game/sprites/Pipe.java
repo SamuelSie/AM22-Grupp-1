@@ -9,8 +9,8 @@ import se.yrgo.utils.Animation;
 
 public class Pipe implements Movable {
     private boolean isScored;
-    private Texture topPipeImg;
-    private Rectangle hitBoxTop;
+    private Texture kettleImg;
+    private Rectangle hitBoxKettle;
     private Rectangle hitBoxSalad;
     private Vector3 positionTop;
     private Vector3 positionBottom;
@@ -23,8 +23,8 @@ public class Pipe implements Movable {
     private static final int DISTANCE = 140;
 
     public Pipe(int x, int y) {
-        topPipeImg = new Texture("toptube.png");
-        hitBoxTop = new Rectangle(x, y, topPipeImg.getWidth(), topPipeImg.getHeight());
+        kettleImg = new Texture("rustyKettle.png");
+        hitBoxKettle = new Rectangle(x, y, kettleImg.getWidth(), kettleImg.getHeight());
 
         saladFingersImg = new Texture("saladFingersAnimation.png");
         saladAnimation = new Animation(new TextureRegion(saladFingersImg), 3, 0.8f);
@@ -38,26 +38,26 @@ public class Pipe implements Movable {
     public void move() {
         getPositionBottom().x -= 100 * Gdx.graphics.getDeltaTime();
         getPositionTop().x -= 100 * Gdx.graphics.getDeltaTime();
-        hitBoxTop.setPosition(getPositionBottom().x, getPositionBottom().y + saladFingersImg.getHeight() + DISTANCE);
+        hitBoxKettle.setPosition(getPositionBottom().x, getPositionBottom().y + saladFingersImg.getHeight() + DISTANCE);
         hitBoxSalad.setPosition(getPositionBottom().x, getPositionBottom().y);
 
     }
 
     public void dispose() {
-        topPipeImg.dispose();
+        kettleImg.dispose();
         saladFingersImg.dispose();
     }
 
-    public Texture getTopPipeImg() {
-        return topPipeImg;
+    public Texture getKettleImg() {
+        return kettleImg;
     }
 
     public TextureRegion getSaladFingersImg() {
         return saladAnimation.getFrame();
     }
 
-    public Rectangle getHitBoxTop() {
-        return hitBoxTop;
+    public Rectangle getHitBoxKettle() {
+        return hitBoxKettle;
     }
 
     public Rectangle getHitBoxSalad() {

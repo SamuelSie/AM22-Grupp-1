@@ -176,7 +176,7 @@ public class GameScreen implements Screen {
     }
 
     private void checkCollision(Pipe pipe) {
-        if (doge.isCollided(pipe.getHitBoxTop()) || doge.isCollided(pipe.getHitBoxSalad())) {
+        if (doge.isCollided(pipe.getHitBoxKettle()) || doge.isCollided(pipe.getHitBoxSalad())) {
             isDead = true;
         }
     }
@@ -187,7 +187,7 @@ public class GameScreen implements Screen {
 
 
     private static void removePipe(Iterator<Movable> iter, Pipe pipe) {
-        if (pipe.getPositionTop().x + pipe.getHitBoxTop().getWidth() < 0
+        if (pipe.getPositionTop().x + pipe.getHitBoxKettle().getWidth() < 0
                 || pipe.getPositionBottom().x + pipe.getHitBoxSalad().getWidth() < 0) {
             pipe.dispose();
             iter.remove();
@@ -225,7 +225,7 @@ public class GameScreen implements Screen {
             }
         }
         for (Pipe pipe : pipes) {
-            game.batch.draw(pipe.getTopPipeImg(), pipe.getPositionTop().x, pipe.getPositionTop().y);
+            game.batch.draw(pipe.getKettleImg(), pipe.getPositionTop().x, pipe.getPositionTop().y);
             game.batch.draw(pipe.getSaladFingersImg(), pipe.getPositionBottom().x, pipe.getPositionBottom().y);
         }
         for (Ground ground : grounds) {
