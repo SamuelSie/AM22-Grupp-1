@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import se.yrgo.game.JumpyBirb;
+
+import java.util.Iterator;
 
 public class Ground implements Movable {
 
@@ -36,8 +39,21 @@ public class Ground implements Movable {
     }
 
     @Override
+    public void draw(JumpyBirb game) {
+        game.batch.draw(getTexture(), getPosition().x, getPosition().y, getTexture().getWidth() * 2, getTexture().getHeight());
+    }
+
+    @Override
     public void move() {
         getPosition().x -= 100 * Gdx.graphics.getDeltaTime();
         hitBox.setPosition(getPosition().x, getPosition().y);
+    }
+
+    @Override
+    public void remove(Iterator<Movable> iter) {
+        if (getPosition().x + getHitBox().getWidth() * 2 < 0) {
+            dispose();
+            iter.remove();
+        }
     }
 }

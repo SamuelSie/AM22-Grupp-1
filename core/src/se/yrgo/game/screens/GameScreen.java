@@ -1,6 +1,5 @@
 package se.yrgo.game.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -52,9 +51,9 @@ public class GameScreen implements Screen {
 //        pipeArray = new Array<Pipe>();
 
         moveableArray = new Array<Movable>();
-        moveableArray.add(new Ground(0, -75));
         moveableArray.add(new GameBackgroundSky(0, -75));
-        moveableArray.add(new GameBackground(0,0));
+        moveableArray.add(new GameBackground(0, 0));
+        moveableArray.add(new Ground(0, -75));
         spawnGround();
         spawnPipes();
 
@@ -170,8 +169,6 @@ public class GameScreen implements Screen {
                 Pipe pipe = (Pipe) obj;
                 pipe.getSaladAnimation().update(delta);
 
-                removePipe(iter, pipe);
-
                 checkCollision(pipe);
 
                 updateScore(pipe);
@@ -179,19 +176,11 @@ public class GameScreen implements Screen {
 
             if (obj.getClass() == Ground.class) {
                 Ground ground = (Ground) obj;
-                removeGround(iter, ground);
 
                 checkCollisionGround(ground);
             }
 
-            if (obj.getClass() == GameBackgroundSky.class) {
-                GameBackgroundSky sky = (GameBackgroundSky) obj;
-                removeBackgroundSky(iter, sky);
-            }
-            if (obj.getClass() == GameBackground.class) {
-                GameBackground bg = (GameBackground) obj;
-                removeBackground(iter, bg);
-            }
+            obj.remove(iter);
         }
     }
 
@@ -206,37 +195,6 @@ public class GameScreen implements Screen {
         if (doge.isCollided(ground.getHitBox())) isDead = true;
     }
 
-
-    private static void removePipe(Iterator<Movable> iter, Pipe pipe) {
-        if (pipe.getPositionTop().x + pipe.getHitBoxKettle().getWidth() < 0
-                || pipe.getPositionBottom().x + pipe.getHitBoxSalad().getWidth() < 0) {
-            pipe.dispose();
-            iter.remove();
-        }
-    }
-
-    private void removeGround(Iterator<Movable> iter, Ground ground) {
-        if (ground.getPosition().x + ground.getHitBox().getWidth() * 2 < 0) {
-            ground.dispose();
-            iter.remove();
-        }
-    }
-
-    private void removeBackgroundSky(Iterator<Movable> iter, GameBackgroundSky sky) {
-        if (sky.getPosition().x + sky.getBackground().getWidth() < 0) {
-            sky.dispose();
-            iter.remove();
-        }
-    }
-
-    private void removeBackground(Iterator<Movable> iter, GameBackground bg) {
-        if (bg.getPosition().x + bg.getBackground().getWidth() < 0) {
-            bg.dispose();
-            iter.remove();
-        }
-    }
-
-
     private void updateScore(Pipe pipe) {
         if ((pipe.getPositionBottom().x + pipe.getHitBoxSalad().x) < doge.getPosition().x && !pipe.isScored()) {
             score.score();
@@ -245,44 +203,47 @@ public class GameScreen implements Screen {
     }
 
     private void drawMovable() {
-        Array<Ground> grounds = new Array<>();
-        Array<Pipe> pipes = new Array<>();
-        Array<GameBackgroundSky> skies = new Array<>();
-        Array<GameBackground> backgrounds = new Array<>();
+//        Array<Ground> grounds = new Array<>();
+//        Array<Pipe> pipes = new Array<>();
+//        Array<GameBackgroundSky> skies = new Array<>();
+//        Array<GameBackground> backgrounds = new Array<>();
 
 
         for (Movable obj : moveableArray) {
-            if (obj.getClass() == Ground.class) {
-                Ground ground = (Ground) obj;
-                grounds.add(ground);
-            } else if (obj.getClass() == Pipe.class) {
-                Pipe pipe = (Pipe) obj;
-                pipes.add(pipe);
-            } else if (obj.getClass() == GameBackgroundSky.class) {
-                GameBackgroundSky sky = (GameBackgroundSky) obj;
-                skies.add(sky);
-            } else if (obj.getClass() == GameBackground.class) {
-                GameBackground bg = (GameBackground) obj;
-                backgrounds.add(bg);
-            } else {
-                throw new RuntimeException("Something went wrong when drawing movables.");
-            }
+            //minskar koden här rejält, men kräver att vi ritar saker i rätt ordning.
+            obj.draw(game);
+
+//            if (obj.getClass() == Ground.class) {
+//                Ground ground = (Ground) obj;
+//                grounds.add(ground);
+//            } else if (obj.getClass() == Pipe.class) {
+//                Pipe pipe = (Pipe) obj;
+//                pipes.add(pipe);
+//            } else if (obj.getClass() == GameBackgroundSky.class) {
+//                GameBackgroundSky sky = (GameBackgroundSky) obj;
+//                skies.add(sky);
+//            } else if (obj.getClass() == GameBackground.class) {
+//                GameBackground bg = (GameBackground) obj;
+//                backgrounds.add(bg);
+//            } else {
+//                throw new RuntimeException("Something went wrong when drawing movables.");
+//            }
         }
         // lekte lite med storlekarna här, behöver bestämma vad som är bra.
         // om vi ändrar height måste vi tänka på att den renderar från nere/vänster. så vi måste ändra hitbox också.
-        for (GameBackgroundSky sky : skies) {
-            game.batch.draw(sky.getBackground(), sky.getPosition().x, sky.getPosition().y, sky.getBackground().getWidth(), sky.getBackground().getHeight());
-        }
-        for (GameBackground bg : backgrounds) {
-            game.batch.draw(bg.getBackground(), bg.getPosition().x, bg.getPosition().y, bg.getBackground().getWidth(), bg.getBackground().getHeight());
-        }
-        for (Pipe pipe : pipes) {
-            game.batch.draw(pipe.getKettleImg(), pipe.getPositionTop().x, pipe.getPositionTop().y, 40, 250);
-            game.batch.draw(pipe.getSaladFingersImg(), pipe.getPositionBottom().x, pipe.getPositionBottom().y, 40, 320);
-        }
-        for (Ground ground : grounds) {
-            game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
-        }
+//        for (GameBackgroundSky sky : skies) {
+//            game.batch.draw(sky.getBackground(), sky.getPosition().x, sky.getPosition().y, sky.getBackground().getWidth(), sky.getBackground().getHeight());
+//        }
+//        for (GameBackground bg : backgrounds) {
+//            game.batch.draw(bg.getBackground(), bg.getPosition().x, bg.getPosition().y, bg.getBackground().getWidth(), bg.getBackground().getHeight());
+//        }
+//        for (Pipe pipe : pipes) {
+//            game.batch.draw(pipe.getKettleImg(), pipe.getPositionTop().x, pipe.getPositionTop().y, 40, 250);
+//            game.batch.draw(pipe.getSaladFingersImg(), pipe.getPositionBottom().x, pipe.getPositionBottom().y, 40, 320);
+//        }
+//        for (Ground ground : grounds) {
+//            game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
+//        }
 
     }
 

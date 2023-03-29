@@ -5,7 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import se.yrgo.game.JumpyBirb;
 import se.yrgo.utils.Animation;
+
+import java.util.Iterator;
 
 public class Pipe implements Movable {
     private boolean isScored;
@@ -35,12 +38,27 @@ public class Pipe implements Movable {
     }
 
     @Override
+    public void draw(JumpyBirb game) {
+        game.batch.draw(getKettleImg(), getPositionTop().x, getPositionTop().y, 40, 250);
+        game.batch.draw(getSaladFingersImg(), getPositionBottom().x, getPositionBottom().y, 40, 320);
+    }
+
+    @Override
     public void move() {
         getPositionBottom().x -= 100 * Gdx.graphics.getDeltaTime();
         getPositionTop().x -= 100 * Gdx.graphics.getDeltaTime();
         hitBoxKettle.setPosition(getPositionBottom().x, getPositionBottom().y + saladFingersImg.getHeight() + DISTANCE);
         hitBoxSalad.setPosition(getPositionBottom().x, getPositionBottom().y);
 
+    }
+
+    @Override
+    public void remove(Iterator<Movable> iter) {
+        if (getPositionTop().x + getHitBoxKettle().getWidth() < 0
+                || getPositionBottom().x + getHitBoxSalad().getWidth() < 0) {
+            dispose();
+            iter.remove();
+        }
     }
 
     public void dispose() {

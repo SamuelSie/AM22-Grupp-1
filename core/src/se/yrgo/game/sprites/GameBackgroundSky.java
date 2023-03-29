@@ -2,8 +2,10 @@ package se.yrgo.game.sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import se.yrgo.game.JumpyBirb;
+
+import java.util.Iterator;
 
 public class GameBackgroundSky implements Movable {
     private Texture background;
@@ -15,8 +17,21 @@ public class GameBackgroundSky implements Movable {
     }
 
     @Override
+    public void draw(JumpyBirb game) {
+        game.batch.draw(getBackground(), getPosition().x, getPosition().y, getBackground().getWidth(), getBackground().getHeight());
+    }
+
+    @Override
     public void move() {
         getPosition().x -= 10 * Gdx.graphics.getDeltaTime();
+    }
+
+    @Override
+    public void remove(Iterator<Movable> iter) {
+        if (getPosition().x + getBackground().getWidth() < 0) {
+            dispose();
+            iter.remove();
+        }
     }
 
     public Texture getBackground() {
