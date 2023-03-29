@@ -1,12 +1,12 @@
 package se.yrgo.game.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
@@ -53,8 +53,11 @@ public class GameScreen implements Screen {
 
         moveableArray = new Array<Movable>();
         moveableArray.add(new Ground(0, -75));
+        moveableArray.add(new GameBackgroundSky(0, -75));
+        moveableArray.add(new GameBackground(0,0));
         spawnGround();
         spawnPipes();
+
 
         isDead = false;
 
@@ -74,8 +77,8 @@ public class GameScreen implements Screen {
         game.batch.begin();
 //        game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
 
-        game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
         drawMovable();
+        game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
         game.font.draw(game.batch, score.getLayout(), score.getX(), score.getY());
         game.batch.end();
 
@@ -150,20 +153,20 @@ public class GameScreen implements Screen {
         groundSpawnTime = TimeUtils.nanoTime();
     }
 
-    private void spawnBackground() {
-        GameBackground sky = new GameBackground(game.CAMX, 0);
-        moveableArray.add(sky);
-        skySpawnTime = TimeUtils.nanoTime();
-
-    }
+//    private void spawnBackground() {
+//        GameBackground sky = new GameBackground(game.CAMX, 0);
+//        moveableArray.add(sky);
+//        skySpawnTime = TimeUtils.nanoTime();
+//
+//    }
 
     private void loopOverMovable(float delta) {
-        for (Iterator<Movable> iter = moveableArray.iterator(); iter.hasNext();) {
+        for (Iterator<Movable> iter = moveableArray.iterator(); iter.hasNext(); ) {
             Movable obj = iter.next();
             obj.move();
 
 
-            if(obj.getClass() == Pipe.class) {
+            if (obj.getClass() == Pipe.class) {
                 Pipe pipe = (Pipe) obj;
                 pipe.getSaladAnimation().update(delta);
 
@@ -174,20 +177,24 @@ public class GameScreen implements Screen {
                 updateScore(pipe);
             }
 
-            if(obj.getClass() == Ground.class) {
+            if (obj.getClass() == Ground.class) {
                 Ground ground = (Ground) obj;
                 removeGround(iter, ground);
 
                 checkCollisionGround(ground);
             }
 
-            if(obj.getClass() == GameBackground.class) {
-                GameBackground sky = (GameBackground) obj;
-                removeBackground(iter, sky);
-
+            if (obj.getClass() == GameBackgroundSky.class) {
+                GameBackgroundSky sky = (GameBackgroundSky) obj;
+                removeBackgroundSky(iter, sky);
+            }
+            if (obj.getClass() == GameBackground.class) {
+                GameBackground bg = (GameBackground) obj;
+                removeBackground(iter, bg);
             }
         }
     }
+
 
     private void checkCollision(Pipe pipe) {
         if (doge.isCollided(pipe.getHitBoxKettle()) || doge.isCollided(pipe.getHitBoxSalad())) {
@@ -196,7 +203,7 @@ public class GameScreen implements Screen {
     }
 
     private void checkCollisionGround(Ground ground) {
-        if(doge.isCollided(ground.getHitBox())) isDead = true;
+        if (doge.isCollided(ground.getHitBox())) isDead = true;
     }
 
 
@@ -215,12 +222,20 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void removeBackground(Iterator<Movable> iter, GameBackground sky) {
-        if (sky.getSkyPosition().x + sky.getSkyImg().getWidth() < 0) {
+    private void removeBackgroundSky(Iterator<Movable> iter, GameBackgroundSky sky) {
+        if (sky.getPosition().x + sky.getBackground().getWidth() < 0) {
             sky.dispose();
             iter.remove();
         }
     }
+
+    private void removeBackground(Iterator<Movable> iter, GameBackground bg) {
+        if (bg.getPosition().x + bg.getBackground().getWidth() < 0) {
+            bg.dispose();
+            iter.remove();
+        }
+    }
+
 
     private void updateScore(Pipe pipe) {
         if ((pipe.getPositionBottom().x + pipe.getHitBoxSalad().x) < doge.getPosition().x && !pipe.isScored()) {
@@ -232,27 +247,35 @@ public class GameScreen implements Screen {
     private void drawMovable() {
         Array<Ground> grounds = new Array<>();
         Array<Pipe> pipes = new Array<>();
-        Array<GameBackground> skies = new Array<>();
+        Array<GameBackgroundSky> skies = new Array<>();
+        Array<GameBackground> backgrounds = new Array<>();
 
 
         for (Movable obj : moveableArray) {
             if (obj.getClass() == Ground.class) {
                 Ground ground = (Ground) obj;
                 grounds.add(ground);
-            }
-            else if (obj.getClass() == Pipe.class) {
+            } else if (obj.getClass() == Pipe.class) {
                 Pipe pipe = (Pipe) obj;
                 pipes.add(pipe);
-            }
-            else if (obj.getClass() == GameBackground.class) {
-                GameBackground sky = (GameBackground) obj;
+            } else if (obj.getClass() == GameBackgroundSky.class) {
+                GameBackgroundSky sky = (GameBackgroundSky) obj;
                 skies.add(sky);
+            } else if (obj.getClass() == GameBackground.class) {
+                GameBackground bg = (GameBackground) obj;
+                backgrounds.add(bg);
             } else {
                 throw new RuntimeException("Something went wrong when drawing movables.");
             }
         }
         // lekte lite med storlekarna här, behöver bestämma vad som är bra.
         // om vi ändrar height måste vi tänka på att den renderar från nere/vänster. så vi måste ändra hitbox också.
+        for (GameBackgroundSky sky : skies) {
+            game.batch.draw(sky.getBackground(), sky.getPosition().x, sky.getPosition().y, sky.getBackground().getWidth(), sky.getBackground().getHeight());
+        }
+        for (GameBackground bg : backgrounds) {
+            game.batch.draw(bg.getBackground(), bg.getPosition().x, bg.getPosition().y, bg.getBackground().getWidth(), bg.getBackground().getHeight());
+        }
         for (Pipe pipe : pipes) {
             game.batch.draw(pipe.getKettleImg(), pipe.getPositionTop().x, pipe.getPositionTop().y, 40, 250);
             game.batch.draw(pipe.getSaladFingersImg(), pipe.getPositionBottom().x, pipe.getPositionBottom().y, 40, 320);
@@ -260,9 +283,7 @@ public class GameScreen implements Screen {
         for (Ground ground : grounds) {
             game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
         }
-        for (GameBackground sky : skies) {
-            game.batch.draw(sky.getSkyImg(), sky.getSkyPosition().x, sky.getSkyPosition().y, sky.getSkyImg().getWidth(), sky.getSkyImg().getHeight());
-        }
+
     }
 
     private void checkIfDead() throws SQLException {
