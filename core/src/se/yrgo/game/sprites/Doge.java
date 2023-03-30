@@ -7,7 +7,11 @@ import com.badlogic.gdx.math.Vector3;
 import se.yrgo.utils.Animation;
 
 public class Doge {
-    private Rectangle hitbox;
+    private Rectangle hitboxA;
+    private Rectangle hitboxB;
+    private int dogeWidth;
+    private int dogeHeight;
+
     private float fallSpeed;
     
     private Vector3 position;
@@ -26,7 +30,10 @@ public class Doge {
         
         dogeImg = new Texture("dogeJump.png");
         animation = new Animation(new TextureRegion(dogeImg), 4, 0.3f);
-        hitbox = new Rectangle(x, y, dogeImg.getWidth() / 4, (dogeImg.getHeight()));
+        dogeWidth = 45;
+        dogeHeight = 38;
+        hitboxA = new Rectangle(x + (dogeWidth / 2), y, dogeWidth / 2, dogeHeight);
+        hitboxB = new Rectangle(x, y, dogeWidth, dogeHeight / 2);
     }
     
     public void update(float delta) {
@@ -42,8 +49,10 @@ public class Doge {
         
         //adderar hastigheten i form av antal pixlar till position.
         position.add(0, velocity.y, 0);
-        hitbox.x = position.x;
-        hitbox.y = position.y;
+        hitboxA.x = position.x + (dogeWidth / 2);
+        hitboxA.y = position.y;
+        hitboxB.x = position.x;
+        hitboxB.y = position.y;
         
         //nollställer för nästa uppdatering
         velocity.scl(1 / delta);
@@ -74,11 +83,11 @@ public class Doge {
     
     //outdated?
     public Rectangle getHitbox() {
-        return hitbox;
+        return hitboxA;
     }
     
     public boolean isCollided(Rectangle rect) {
-        if (hitbox.overlaps(rect)) return true;
+        if (hitboxA.overlaps(rect) || hitboxB.overlaps(rect)) return true;
         return false;
     }
     public Animation getAnimation() {

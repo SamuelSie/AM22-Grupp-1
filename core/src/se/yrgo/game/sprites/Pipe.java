@@ -14,10 +14,15 @@ public class Pipe implements Movable {
     private boolean isScored;
     private Texture kettleImg;
     private Rectangle hitBoxKettle;
+    private Rectangle hitBoxChain;
+    private int kettleWidth;
+    private int kettleHeight;
+
     private Rectangle hitBoxSalad;
-    private Vector3 positionTop;
+    private Vector3 positionKettle;
     private Vector3 positionBottom;
     private Texture saladFingersImg;
+    private int offset;
 
 
 
@@ -26,35 +31,43 @@ public class Pipe implements Movable {
     private static final int DISTANCE = 140;
 
     public Pipe(int x, int y) {
-        kettleImg = new Texture("rustyKettle.png");
-        hitBoxKettle = new Rectangle(x, y, kettleImg.getWidth(), kettleImg.getHeight());
+        offset = 7;
 
         saladFingersImg = new Texture("saladFingersAnimation.png");
         saladAnimation = new Animation(new TextureRegion(saladFingersImg), 3, 0.8f);
         hitBoxSalad = new Rectangle(x, y, saladFingersImg.getWidth() / 3, saladFingersImg.getHeight());
 
         positionBottom = new Vector3(x, y, 0);
-        positionTop = new Vector3(x, y + saladFingersImg.getHeight() + DISTANCE, 0);
+        positionKettle = new Vector3(x, y + saladFingersImg.getHeight() + DISTANCE, 0);
+
+        kettleWidth = 40;
+        kettleHeight = 250;
+        kettleImg = new Texture("rustyKettle.png");
+        hitBoxKettle = new Rectangle(x, y, kettleHeight, kettleWidth);
+        hitBoxChain = new Rectangle(x + (kettleWidth / 2), y, kettleWidth / 7, kettleHeight);
+
+
     }
 
     @Override
     public void draw(JumpyBirb game) {
-        game.batch.draw(getKettleImg(), getPositionTop().x, getPositionTop().y, 40, 250);
-        game.batch.draw(getSaladFingersImg(), getPositionBottom().x, getPositionBottom().y, 40, 320);
+        game.batch.draw(getKettleImg(), getPositionKettle().x, getPositionKettle().y, kettleWidth, kettleHeight);
+        game.batch.draw(getSaladFingersImg(), getPositionBottom().x, getPositionBottom().y, saladFingersImg.getWidth() / 3, saladFingersImg.getHeight());
     }
 
     @Override
     public void move() {
         getPositionBottom().x -= 100 * Gdx.graphics.getDeltaTime();
-        getPositionTop().x -= 100 * Gdx.graphics.getDeltaTime();
-        hitBoxKettle.setPosition(getPositionBottom().x, getPositionBottom().y + saladFingersImg.getHeight() + DISTANCE);
+        getPositionKettle().x -= 100 * Gdx.graphics.getDeltaTime();
+        hitBoxChain.setPosition(getPositionKettle().x + (kettleWidth / 2), getPositionKettle().y);
+        hitBoxKettle.setPosition(getPositionKettle().x + offset, getPositionKettle().y + offset);
         hitBoxSalad.setPosition(getPositionBottom().x, getPositionBottom().y);
 
     }
 
     @Override
     public void remove(Iterator<Movable> iter) {
-        if (getPositionTop().x + getHitBoxKettle().getWidth() < 0
+        if (getPositionKettle().x + getHitBoxKettle().getWidth() < 0
                 || getPositionBottom().x + getHitBoxSalad().getWidth() < 0) {
             dispose();
             iter.remove();
@@ -78,12 +91,16 @@ public class Pipe implements Movable {
         return hitBoxKettle;
     }
 
+    public Rectangle getHitBoxChain() {
+        return hitBoxChain;
+    }
+
     public Rectangle getHitBoxSalad() {
         return hitBoxSalad;
     }
 
-    public Vector3 getPositionTop() {
-        return positionTop;
+    public Vector3 getPositionKettle() {
+        return positionKettle;
     }
 
     public Vector3 getPositionBottom() {

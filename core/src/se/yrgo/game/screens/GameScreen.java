@@ -192,7 +192,7 @@ public class GameScreen implements Screen {
 
 
     private void checkCollision(Pipe pipe) {
-        if (doge.isCollided(pipe.getHitBoxKettle()) || doge.isCollided(pipe.getHitBoxSalad())) {
+        if (doge.isCollided(pipe.getHitBoxKettle()) || doge.isCollided(pipe.getHitBoxChain()) || doge.isCollided(pipe.getHitBoxSalad())) {
             isDead = true;
         }
     }
