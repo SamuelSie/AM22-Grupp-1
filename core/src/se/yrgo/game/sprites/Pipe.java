@@ -73,8 +73,7 @@ public class Pipe implements Movable {
 
     @Override
     public void remove(Iterator<Movable> iter) {
-        if (getPositionKettle().x + getHitBoxKettle().getWidth() < 0
-                || getPositionSalad().x + getHitBoxSaladBody().getWidth() < 0) {
+        if (getPositionSalad().x + saladWidth < 0) {
             dispose();
             iter.remove();
         }
