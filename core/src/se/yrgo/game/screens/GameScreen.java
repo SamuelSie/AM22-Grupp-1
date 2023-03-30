@@ -31,6 +31,7 @@ public class GameScreen implements Screen {
     private boolean isDead;
     private Score score;
     private GameBackground background;
+    private GameBackgroundSky sky;
 
 
     public GameScreen(final JumpyBirb game, Score score) {
@@ -53,11 +54,12 @@ public class GameScreen implements Screen {
 //        pipeArray = new Array<Pipe>();
 
         moveableArray = new Array<Movable>();
-        moveableArray.add(new GameBackgroundSky(0, -75));
+//        moveableArray.add(new GameBackgroundSky(0, -75));
 //        moveableArray.add(new GameBackground(0, 0));
-        moveableArray.add(new Ground(0, -75));
+//        moveableArray.add(new Ground(0, -75));
 //        spawnGround();
         spawnPipes();
+        sky = new GameBackgroundSky(0,0);
         background = new GameBackground(0, 0);
 
 
@@ -78,7 +80,7 @@ public class GameScreen implements Screen {
 
         game.batch.begin();
 //        game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
-
+        sky.draw(game);
         background.draw(game);
         drawMovable();
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
@@ -266,8 +268,7 @@ public class GameScreen implements Screen {
             doge.resetVelocity();
         }
         if (doge.getPosition().y <= 0) {
-            doge.getPosition().y = (0);
-            doge.resetVelocity();
+            doge.getPosition().y = 0;
         }
 
     }
