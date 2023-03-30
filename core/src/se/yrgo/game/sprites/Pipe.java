@@ -5,12 +5,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import se.yrgo.game.JumpyBirb;
 import se.yrgo.utils.Animation;
+
+import java.util.Iterator;
 
 public class Pipe implements Movable {
     private boolean isScored;
-    private Texture topPipeImg;
-    private Rectangle hitBoxTop;
+    private Texture kettleImg;
+    private Rectangle hitBoxKettle;
     private Rectangle hitBoxSalad;
     private Vector3 positionTop;
     private Vector3 positionBottom;
@@ -23,8 +26,8 @@ public class Pipe implements Movable {
     private static final int DISTANCE = 140;
 
     public Pipe(int x, int y) {
-        topPipeImg = new Texture("toptube.png");
-        hitBoxTop = new Rectangle(x, y, topPipeImg.getWidth(), topPipeImg.getHeight());
+        kettleImg = new Texture("rustyKettle.png");
+        hitBoxKettle = new Rectangle(x, y, kettleImg.getWidth(), kettleImg.getHeight());
 
         saladFingersImg = new Texture("saladFingersAnimation.png");
         saladAnimation = new Animation(new TextureRegion(saladFingersImg), 3, 0.8f);
@@ -35,29 +38,44 @@ public class Pipe implements Movable {
     }
 
     @Override
+    public void draw(JumpyBirb game) {
+        game.batch.draw(getKettleImg(), getPositionTop().x, getPositionTop().y, 40, 250);
+        game.batch.draw(getSaladFingersImg(), getPositionBottom().x, getPositionBottom().y, 40, 320);
+    }
+
+    @Override
     public void move() {
         getPositionBottom().x -= 100 * Gdx.graphics.getDeltaTime();
         getPositionTop().x -= 100 * Gdx.graphics.getDeltaTime();
-        hitBoxTop.setPosition(getPositionBottom().x, getPositionBottom().y + saladFingersImg.getHeight() + DISTANCE);
+        hitBoxKettle.setPosition(getPositionBottom().x, getPositionBottom().y + saladFingersImg.getHeight() + DISTANCE);
         hitBoxSalad.setPosition(getPositionBottom().x, getPositionBottom().y);
 
     }
 
+    @Override
+    public void remove(Iterator<Movable> iter) {
+        if (getPositionTop().x + getHitBoxKettle().getWidth() < 0
+                || getPositionBottom().x + getHitBoxSalad().getWidth() < 0) {
+            dispose();
+            iter.remove();
+        }
+    }
+
     public void dispose() {
-        topPipeImg.dispose();
+        kettleImg.dispose();
         saladFingersImg.dispose();
     }
 
-    public Texture getTopPipeImg() {
-        return topPipeImg;
+    public Texture getKettleImg() {
+        return kettleImg;
     }
 
     public TextureRegion getSaladFingersImg() {
         return saladAnimation.getFrame();
     }
 
-    public Rectangle getHitBoxTop() {
-        return hitBoxTop;
+    public Rectangle getHitBoxKettle() {
+        return hitBoxKettle;
     }
 
     public Rectangle getHitBoxSalad() {
