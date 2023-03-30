@@ -7,7 +7,7 @@ import se.yrgo.game.JumpyBirb;
 
 import java.util.Iterator;
 
-public class GameBackgroundSky implements Movable {
+public class GameBackgroundSky {
     private Texture background;
     private Vector3 position;
 
@@ -16,17 +16,17 @@ public class GameBackgroundSky implements Movable {
         position = new Vector3(x, y, 0);
     }
 
-    @Override
+
     public void draw(JumpyBirb game) {
         game.batch.draw(getBackground(), getPosition().x, getPosition().y, getBackground().getWidth(), getBackground().getHeight());
     }
 
-    @Override
+
     public void move() {
         getPosition().x -= 10 * Gdx.graphics.getDeltaTime();
     }
 
-    @Override
+    
     public void remove(Iterator<Movable> iter) {
         if (getPosition().x + getBackground().getWidth() < 0) {
             dispose();

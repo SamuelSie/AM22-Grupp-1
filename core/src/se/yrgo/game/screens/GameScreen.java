@@ -30,6 +30,7 @@ public class GameScreen implements Screen {
     private long skySpawnTime;
     private boolean isDead;
     private Score score;
+    private GameBackground background;
 
 
     public GameScreen(final JumpyBirb game, Score score) {
@@ -53,10 +54,11 @@ public class GameScreen implements Screen {
 
         moveableArray = new Array<Movable>();
         moveableArray.add(new GameBackgroundSky(0, -75));
-        moveableArray.add(new GameBackground(0, 0));
+//        moveableArray.add(new GameBackground(0, 0));
         moveableArray.add(new Ground(0, -75));
-        spawnGround();
+//        spawnGround();
         spawnPipes();
+        background = new GameBackground(0, 0);
 
 
         isDead = false;
@@ -77,6 +79,7 @@ public class GameScreen implements Screen {
         game.batch.begin();
 //        game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
 
+        background.draw(game);
         drawMovable();
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
         game.font.draw(game.batch, score.getLayout(), score.getX(), score.getY());
@@ -84,7 +87,7 @@ public class GameScreen implements Screen {
 
         //spawn pipes in the given time
         if (TimeUtils.nanoTime() - pipeSpawnTime > 3000000000L) spawnPipes();
-        if (TimeUtils.nanoTime() - groundSpawnTime > 3_350_000_000L) spawnGround();
+//        if (TimeUtils.nanoTime() - groundSpawnTime > 3_350_000_000L) spawnGround();
 
         loopOverMovable(delta);
 
@@ -210,6 +213,7 @@ public class GameScreen implements Screen {
 //        Array<GameBackground> backgrounds = new Array<>();
 
 
+
         for (Movable obj : moveableArray) {
             //minskar koden här rejält, men kräver att vi ritar saker i rätt ordning.
             obj.draw(game);
@@ -261,6 +265,11 @@ public class GameScreen implements Screen {
             doge.getPosition().y = (game.CAMY - doge.getTexture().getRegionHeight());
             doge.resetVelocity();
         }
+        if (doge.getPosition().y <= 0) {
+            doge.getPosition().y = (0);
+            doge.resetVelocity();
+        }
+
     }
 
     private void checkPlayerInput(float delta) {

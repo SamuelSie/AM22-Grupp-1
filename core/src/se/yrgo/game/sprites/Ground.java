@@ -40,7 +40,7 @@ public class Ground implements Movable {
 
     @Override
     public void draw(JumpyBirb game) {
-        game.batch.draw(getTexture(), getPosition().x, getPosition().y, getTexture().getWidth() * 2, getTexture().getHeight());
+//        game.batch.draw(getTexture(), getPosition().x, getPosition().y, getTexture().getWidth() * 2, getTexture().getHeight());
     }
 
     @Override
