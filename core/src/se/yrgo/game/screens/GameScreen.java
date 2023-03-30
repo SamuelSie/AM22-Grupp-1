@@ -30,6 +30,8 @@ public class GameScreen implements Screen {
     private long skySpawnTime;
     private boolean isDead;
     private Score score;
+    private GameBackground background;
+    private GameBackgroundSky sky;
 
 
     public GameScreen(final JumpyBirb game, Score score) {
@@ -52,11 +54,14 @@ public class GameScreen implements Screen {
 //        pipeArray = new Array<Pipe>();
 
         moveableArray = new Array<Movable>();
-        moveableArray.add(new GameBackgroundSky(0, -75));
-        moveableArray.add(new GameBackground(0, 0));
-        moveableArray.add(new Ground(0, -75));
-        spawnGround();
+//        moveableArray.add(new GameBackgroundSky(0, -75));
+//        moveableArray.add(new GameBackground(0, 0));
+//        moveableArray.add(new Ground(0, -75));
+//        spawnGround();
         spawnPipes();
+
+        sky = new GameBackgroundSky(0,0);
+        background = new GameBackground(0, 0);
 
 
         isDead = false;
@@ -76,7 +81,8 @@ public class GameScreen implements Screen {
 
         game.batch.begin();
 //        game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
-
+        sky.draw(game);
+        background.draw(game);
         drawMovable();
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
         game.font.draw(game.batch, score.getLayout(), score.getX(), score.getY());
@@ -84,7 +90,7 @@ public class GameScreen implements Screen {
 
         //spawn pipes in the given time
         if (TimeUtils.nanoTime() - pipeSpawnTime > 3000000000L) spawnPipes();
-        if (TimeUtils.nanoTime() - groundSpawnTime > 3_350_000_000L) spawnGround();
+//        if (TimeUtils.nanoTime() - groundSpawnTime > 3_350_000_000L) spawnGround();
 
         loopOverMovable(delta);
 
@@ -187,7 +193,7 @@ public class GameScreen implements Screen {
 
 
     private void checkCollision(Pipe pipe) {
-        if (doge.isCollided(pipe.getHitBoxKettle()) || doge.isCollided(pipe.getHitBoxSalad())) {
+        if (doge.isCollided(pipe.getHitBoxKettle()) || doge.isCollided(pipe.getHitBoxChain()) || doge.isCollided(pipe.getHitBoxSaladBody()) || doge.isCollided(pipe.getHitBoxSaladHand())) {
             isDead = true;
         }
     }
@@ -197,7 +203,7 @@ public class GameScreen implements Screen {
     }
 
     private void updateScore(Pipe pipe) {
-        if ((pipe.getPositionBottom().x + pipe.getHitBoxSalad().x) < doge.getPosition().x && !pipe.isScored()) {
+        if ((pipe.getPositionSalad().x + pipe.getHitBoxSaladBody().x) < doge.getPosition().x && !pipe.isScored()) {
             score.score();
             pipe.setScored(true);
         }
@@ -208,6 +214,7 @@ public class GameScreen implements Screen {
 //        Array<Pipe> pipes = new Array<>();
 //        Array<GameBackgroundSky> skies = new Array<>();
 //        Array<GameBackground> backgrounds = new Array<>();
+
 
 
         for (Movable obj : moveableArray) {
@@ -261,6 +268,10 @@ public class GameScreen implements Screen {
             doge.getPosition().y = (game.CAMY - doge.getTexture().getRegionHeight());
             doge.resetVelocity();
         }
+        if (doge.getPosition().y <= 0) {
+            doge.getPosition().y = 0;
+        }
+
     }
 
     private void checkPlayerInput(float delta) {
