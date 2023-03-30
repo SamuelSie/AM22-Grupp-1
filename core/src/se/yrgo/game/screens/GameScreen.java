@@ -59,6 +59,7 @@ public class GameScreen implements Screen {
 //        moveableArray.add(new Ground(0, -75));
 //        spawnGround();
         spawnPipes();
+
         sky = new GameBackgroundSky(0,0);
         background = new GameBackground(0, 0);
 

@@ -17,12 +17,13 @@ public class Pipe implements Movable {
     private Rectangle hitBoxChain;
     private int kettleWidth;
     private int kettleHeight;
+    private  int saladWidth;
+    private  int saladHeight;
 
     private Rectangle hitBoxSalad;
     private Vector3 positionKettle;
     private Vector3 positionBottom;
     private Texture saladFingersImg;
-    private int offset;
 
 
 
@@ -31,8 +32,6 @@ public class Pipe implements Movable {
     private static final int DISTANCE = 140;
 
     public Pipe(int x, int y) {
-        offset = 7;
-
         saladFingersImg = new Texture("saladFingersAnimation.png");
         saladAnimation = new Animation(new TextureRegion(saladFingersImg), 3, 0.8f);
         hitBoxSalad = new Rectangle(x, y, saladFingersImg.getWidth() / 3, saladFingersImg.getHeight());
@@ -43,7 +42,7 @@ public class Pipe implements Movable {
         kettleWidth = 40;
         kettleHeight = 250;
         kettleImg = new Texture("rustyKettle.png");
-        hitBoxKettle = new Rectangle(x, y, kettleHeight, kettleWidth);
+        hitBoxKettle = new Rectangle(x, y, kettleWidth, kettleHeight);
         hitBoxChain = new Rectangle(x + (kettleWidth / 2), y, kettleWidth / 7, kettleHeight);
 
 
@@ -59,8 +58,10 @@ public class Pipe implements Movable {
     public void move() {
         getPositionBottom().x -= 100 * Gdx.graphics.getDeltaTime();
         getPositionKettle().x -= 100 * Gdx.graphics.getDeltaTime();
+
+        hitBoxKettle.setPosition(getPositionKettle().x, getPositionKettle().y);
+
         hitBoxChain.setPosition(getPositionKettle().x + (kettleWidth / 2), getPositionKettle().y);
-        hitBoxKettle.setPosition(getPositionKettle().x + offset, getPositionKettle().y + offset);
         hitBoxSalad.setPosition(getPositionBottom().x, getPositionBottom().y);
 
     }
