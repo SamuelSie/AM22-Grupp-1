@@ -3,6 +3,7 @@ package se.yrgo.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -26,6 +27,7 @@ public class DeathScreen implements Screen {
     private Animation backGroundAnimation;
     private Texture trogdor;
     private Animation trogdorAnimation;
+    private Music music;
     Score score;
     
     private boolean canRestart;
@@ -42,6 +44,9 @@ public class DeathScreen implements Screen {
 //        layout = new GlyphLayout();
 //        layout2 = new GlyphLayout();
         finalScore = score.getHighscore();
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("DeathMusic.mp3"));
+        music.setLooping(true);
 
         canRestart = false;
         
@@ -68,6 +73,7 @@ public class DeathScreen implements Screen {
 //        layout2.setText(game.font, "PRESS SPACE TO PLAY AGAIN");
 //        finalScore.setText(game.font, "Round score: " + score.scoreToString() + "\nHighscore: " +
 //                score.highScoreToString());
+        music.play();
 
     }
 
@@ -121,6 +127,6 @@ public class DeathScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        music.dispose();
     }
 }
