@@ -29,7 +29,7 @@ public class Pipe implements Movable {
 
     private Animation saladAnimation;
 
-    private static final int DISTANCE = 200;
+    private static final int DISTANCE = 140;
 
     public Pipe(int x, int y) {
         saladWidth = 55;
