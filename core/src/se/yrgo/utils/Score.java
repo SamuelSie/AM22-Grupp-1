@@ -30,7 +30,7 @@ public class Score {
         this.font = font;
 
         //placeholder sound for scoring
-        scoreSound = Gdx.audio.newSound(Gdx.files.internal("points.mp3"));
+        scoreSound = Gdx.audio.newSound(Gdx.files.internal("music/points.mp3"));
         db = new DBHandler();
     }
 

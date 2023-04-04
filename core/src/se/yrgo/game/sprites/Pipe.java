@@ -45,7 +45,7 @@ public class Pipe implements Movable {
         kettleWidth = 40;
         kettleHeight = 250;
         kettleImg = new Texture("rustyKettle.png");
-        hitBoxKettle = new Rectangle(x, y, kettleWidth, kettleHeight);
+        hitBoxKettle = new Rectangle(x, y, kettleWidth, 40);
         hitBoxChain = new Rectangle(x + (kettleWidth / 2), y, kettleWidth / 7, kettleHeight);
 
 
