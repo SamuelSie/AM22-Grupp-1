@@ -8,8 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -18,15 +17,13 @@ import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.sprites.IdleDoge;
 import se.yrgo.utils.Score;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 
 public class MainMenuScreen implements Screen {
 
     public final JumpyBirb game;
     private OrthographicCamera camera;
-    private Viewport vp;
+//    private Viewport vp;
     private GlyphLayout layout;
     private Score score;
     private Texture backGround;
@@ -38,7 +35,13 @@ public class MainMenuScreen implements Screen {
     private Music music;
     private Stage stage;
     private Skin skin;
-    
+
+    //difficulties
+    private ButtonGroup buttonGroup;
+    private float buttonWidth;
+    private float buttonHeight;
+
+
 
 
     public MainMenuScreen(final JumpyBirb game, Score score) {
@@ -49,7 +52,7 @@ public class MainMenuScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.CAMX, game.CAMY);
-        vp = new FitViewport(game.CAMX, game.CAMY, camera);
+//        vp = new FitViewport(game.CAMX, game.CAMY, camera);
         backGround = new Texture("mainMenuBg.png");
         //lägger in texture i image
         backGroundImage = new Image(backGround);
@@ -61,6 +64,11 @@ public class MainMenuScreen implements Screen {
 
         //skins innehåller massa bös som font och bilder
         skin= new Skin(Gdx.files.internal("skin/skin/comic-ui.json"));
+
+        //difficulties
+        buttonGroup = new ButtonGroup();
+        buttonWidth = game.CAMX / 5;
+        buttonHeight = buttonWidth * 0.3f;
     }
 
 
@@ -85,6 +93,25 @@ public class MainMenuScreen implements Screen {
         TextButton startButton = new TextButton("Start", skin);
         TextButton exitButton = new TextButton("Exit", skin);
 
+        //difficulties
+        TextButton easyButton = new TextButton("Easy", skin);
+        TextButton mediumButton = new TextButton("Medium", skin);
+        TextButton hardButton = new TextButton("Hard", skin);
+        buttonGroup.add(easyButton);
+        buttonGroup.add(mediumButton);
+        buttonGroup.add(hardButton);
+
+        easyButton.getLabel().setFontScale(.5f);
+        mediumButton.getLabel().setFontScale(.5f);
+        hardButton.getLabel().setFontScale(.5f);
+        exitButton.getLabel().setFontScale(.5f);
+
+        //setting button sizes
+//        easyButton.setBounds(0, 0, buttonWidth, buttonHeight);
+//        mediumButton.setWidth(buttonWidth);
+//        mediumButton.setHeight(buttonHeight);
+//        hardButton.setBounds(0,0,buttonWidth,buttonHeight);
+
         //button functionality
         startButton.addListener(new ClickListener() {
             @Override
@@ -101,7 +128,15 @@ public class MainMenuScreen implements Screen {
         //adding the buttons to the table
         table.add(startButton).padBottom(20);
         table.row();
-        table.add(exitButton);
+
+        table.add(easyButton).size(buttonWidth, buttonHeight);
+        table.row();
+        table.add(mediumButton).size(buttonWidth, buttonHeight);;
+        table.row();
+        table.add(hardButton).size(buttonWidth, buttonHeight).padBottom(20);;
+        table.row();
+        table.add(exitButton).size(buttonWidth, buttonHeight);
+
 
         //adding the table to the stage
         stage.addActor(table);
