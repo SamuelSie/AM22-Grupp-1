@@ -37,7 +37,7 @@ public class MainMenuScreen implements Screen {
     private IdleDoge idleDoge;
     private Music music;
     private Stage stage;
-    Skin skin;
+    private Skin skin;
     
 
 
@@ -56,11 +56,11 @@ public class MainMenuScreen implements Screen {
 
         idleDoge = new IdleDoge();
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("tmp2.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("music/tmp2.mp3"));
 
 
         //skins innehåller massa bös som font och bilder
-        skin= new Skin(Gdx.files.internal("skin/uiskin.json"));
+        skin= new Skin(Gdx.files.internal("skin/skin/comic-ui.json"));
     }
 
 
@@ -162,6 +162,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
         music.dispose();
     }
 }

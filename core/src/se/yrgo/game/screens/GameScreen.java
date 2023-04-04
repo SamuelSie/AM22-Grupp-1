@@ -40,7 +40,7 @@ public class GameScreen implements Screen {
         doge = new Doge(20, game.CAMY / 2);
 
         // background music
-        music = Gdx.audio.newMusic(Gdx.files.internal("GameMusic.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("music/GameMusic.mp3"));
         music.setLooping(true);
 
         // create camera

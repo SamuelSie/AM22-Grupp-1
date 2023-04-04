@@ -18,14 +18,12 @@ public class JumpyBirb extends Game {
     public static final int HEIGHT = 720;
     public static final int CAMX = WIDTH / 2;
     public static final int CAMY = HEIGHT / 2;
-    public Texture backGround;
     private Score score;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont(Gdx.files.internal("myFont.fnt"));
-        backGround = new Texture("bg.png");
 
         /// ajajaj nu är det rörigt med SQLException!! STÄDA UPP!
         try {
@@ -46,7 +44,6 @@ public class JumpyBirb extends Game {
     public void dispose() {
         batch.dispose();
         font.dispose();
-        backGround.dispose();
 
     }
 }

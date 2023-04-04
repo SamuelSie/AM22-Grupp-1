@@ -45,7 +45,7 @@ public class DeathScreen implements Screen {
 //        layout2 = new GlyphLayout();
         finalScore = score.getHighscore();
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("DeathMusic.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("music/DeathMusic.mp3"));
         music.setLooping(true);
 
         canRestart = false;
