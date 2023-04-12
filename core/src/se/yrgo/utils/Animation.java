@@ -1,6 +1,7 @@
 package se.yrgo.utils;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
 public class Animation {
@@ -51,6 +52,10 @@ public class Animation {
 
     public TextureRegion getFrame() {
         return frames.get(frame);
+    }
+
+    public TextureRegionDrawable getDrawableFrame() {
+        return new TextureRegionDrawable(frames.get(frame));
     }
 
     public void setStartJumpAnimation(boolean startJumpAnimation) {
