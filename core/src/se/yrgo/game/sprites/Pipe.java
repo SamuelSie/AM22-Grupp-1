@@ -38,7 +38,7 @@ public class Pipe implements Movable {
         hitBoxSaladHand = new Rectangle(x, y, saladWidth, 27);
 
         positionSalad = new Vector3(x, y, 0);
-        positionKettle = new Vector3(x, y + saladHeight + Difficulty.pipeDistance, 0);
+        positionKettle = new Vector3(x, y + saladHeight + Difficulty.getPipeDistance(), 0);
 
         kettleWidth = 40;
         kettleHeight = 250;
@@ -56,8 +56,8 @@ public class Pipe implements Movable {
 
     @Override
     public void move() {
-        getPositionSalad().x -= Difficulty.speed * Gdx.graphics.getDeltaTime();
-        getPositionKettle().x -= Difficulty.speed * Gdx.graphics.getDeltaTime();
+        getPositionSalad().x -= Difficulty.getSpeed() * Gdx.graphics.getDeltaTime();
+        getPositionKettle().x -= Difficulty.getSpeed() * Gdx.graphics.getDeltaTime();
 
         hitBoxKettle.setPosition(getPositionKettle().x, getPositionKettle().y);
 

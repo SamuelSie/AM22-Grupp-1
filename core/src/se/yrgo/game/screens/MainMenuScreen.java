@@ -5,7 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -48,8 +50,8 @@ public class MainMenuScreen implements Screen {
 
         layout = new GlyphLayout();
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, game.CAMX, game.CAMY);
+//        camera = new OrthographicCamera();
+//        camera.setToOrtho(false, game.CAMX, game.CAMY);
 
         backGround = new Texture("mainMenuBg.png");
         //lägger in texture i image
@@ -86,7 +88,6 @@ public class MainMenuScreen implements Screen {
         stage = new Stage(new FitViewport(game.CAMX, game.CAMY));
         Table table = new Table();
         table.setFillParent(true);
-        table.setBackground(backGroundImage.getDrawable());
 
         TextButton startButton = new TextButton("Start", skin);
         TextButton exitButton = new TextButton("Exit", skin);
@@ -137,12 +138,11 @@ public class MainMenuScreen implements Screen {
 
 
         //adding the table to the stage
-        stage.addActor(idleDoge);
+        stage.addActor(backGroundImage);
         stage.addActor(table);
-        idleDoge.toFront();
+        stage.addActor(idleDoge);
 
-
-        //set the input processor to the stage.. dunno what this is yet.
+        //set the input processor to the stage
         Gdx.input.setInputProcessor(stage);
 
     }
@@ -151,6 +151,12 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
 //        ScreenUtils.clear(0,0,0.2f,1);
         stage.act(delta);
+
+        Batch stageBatch = stage.getBatch();
+        stageBatch.begin();
+        stageBatch.draw(backGround, 0, 0);
+        stageBatch.end();
+
         stage.draw();
 
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
@@ -187,5 +193,7 @@ public class MainMenuScreen implements Screen {
         stage.dispose();
         idleDoge.dispose();
         music.dispose();
+        backGround.dispose();
+
     }
 }

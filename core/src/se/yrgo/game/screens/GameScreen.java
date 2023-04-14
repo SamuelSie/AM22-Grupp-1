@@ -90,7 +90,7 @@ public class GameScreen implements Screen {
         game.batch.end();
 
         //spawn pipes in the given time
-        if (TimeUtils.nanoTime() - pipeSpawnTime > Difficulty.pipeSpawnRate) spawnPipes();
+        if (TimeUtils.nanoTime() - pipeSpawnTime > Difficulty.getPipeSpawnRate()) spawnPipes();
 //        if (TimeUtils.nanoTime() - groundSpawnTime > 3_350_000_000L) spawnGround();
 
         loopOverMovable(delta);
@@ -148,7 +148,7 @@ public class GameScreen implements Screen {
 
     private void spawnPipes() {
         int isAdding = ThreadLocalRandom.current().nextInt(2);
-        int middleSpace = ThreadLocalRandom.current().nextInt(Difficulty.pipeDistance);
+        int middleSpace = ThreadLocalRandom.current().nextInt(Difficulty.getPipeDistance());
         Pipe pipe = new Pipe(game.CAMX, game.CAMY / 2 - game.CAMY + (isAdding == 1 ? middleSpace / 2 : -middleSpace / 2));
 
         moveableArray.add(pipe);

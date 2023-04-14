@@ -41,7 +41,7 @@ public class Doge {
         animation.jumpAnimation(delta);
         
         
-        velocity.add(0, Difficulty.gravity, 0);
+        velocity.add(0, Difficulty.getGravity(), 0);
         
         // gångrar allt i velocity med delta
         // hastigheten blir helt galen om vi inte gångrar med deltatime
@@ -61,7 +61,7 @@ public class Doge {
     //en kommentar för att visa merge
     public void jump(float deltaTime) {
         //sätter hastighet i y-axis enligt Difficulty.dogeJumpVelocity
-        velocity.y = Difficulty.dogeJumpVelocity;
+        velocity.y = Difficulty.getDogeJumpVelocity();
     }
     
     public void resetVelocity() {

@@ -34,8 +34,6 @@ public class JumpyBirb extends Game {
         }
 
         this.setScreen(new MainMenuScreen(this, score));
-        new Difficulty();
-
     }
 
     public void render() {

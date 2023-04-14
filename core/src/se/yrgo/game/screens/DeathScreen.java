@@ -45,8 +45,8 @@ public class DeathScreen implements Screen {
         this.game = game;
         this.score = score;
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, game.CAMX, game.CAMY);
+//        camera = new OrthographicCamera();
+//        camera.setToOrtho(false, game.CAMX, game.CAMY);
 
 //        layout = new GlyphLayout();
 //        layout2 = new GlyphLayout();
