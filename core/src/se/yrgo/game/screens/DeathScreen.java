@@ -32,18 +32,15 @@ public class DeathScreen implements Screen {
     private Image bgAnimationImage;
     private Music music;
     private Score score;
-
     private Stage stage;
     private Skin skin;
     private float buttonWidth;
     private float buttonHeight;
-    private int speed;
     private Table table;
-
     private boolean canRestart;
     private Timer.Task restartTask;
 
-    public DeathScreen(final JumpyBirb game, Score score, int speed) throws SQLException {
+    public DeathScreen(final JumpyBirb game, Score score) throws SQLException {
 
         this.game = game;
         this.score = score;
@@ -81,7 +78,7 @@ public class DeathScreen implements Screen {
         buttonWidth = game.CAMX / 5;
         buttonHeight = buttonWidth * 0.3f;
 
-        this.speed = speed;
+
     }
 
     @Override
@@ -132,7 +129,7 @@ public class DeathScreen implements Screen {
         // Add delay before screen transition
         if (canRestart && (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched())) {
             restartTask.cancel();
-            game.setScreen(new GameScreen(game, score, speed));
+            game.setScreen(new GameScreen(game, score));
             dispose();
         }
     }

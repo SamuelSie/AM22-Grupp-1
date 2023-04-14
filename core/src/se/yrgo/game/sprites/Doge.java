@@ -5,15 +5,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import se.yrgo.utils.Animation;
+import se.yrgo.utils.Difficulty;
 
 public class Doge {
     private Rectangle hitBoxHead;
     private Rectangle hitBoxBody;
     private int dogeWidth;
     private int dogeHeight;
-
-    private float fallSpeed;
-    
     private Vector3 position;
     private Vector3 velocity;
     private Texture dogeImg;
@@ -28,7 +26,7 @@ public class Doge {
         offset = 5;
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0, 0, 0);
-        fallSpeed = -14;
+
         
         dogeImg = new Texture("dogeJump.png");
         animation = new Animation(new TextureRegion(dogeImg), 4, 0.3f);
@@ -43,7 +41,7 @@ public class Doge {
         animation.jumpAnimation(delta);
         
         
-        velocity.add(0, fallSpeed, 0);
+        velocity.add(0, Difficulty.gravity, 0);
         
         // gångrar allt i velocity med delta
         // hastigheten blir helt galen om vi inte gångrar med deltatime
@@ -62,8 +60,8 @@ public class Doge {
     
     //en kommentar för att visa merge
     public void jump(float deltaTime) {
-        //sätter hastighet i y-axis till 300
-        velocity.y = 300;
+        //sätter hastighet i y-axis enligt Difficulty.dogeJumpVelocity
+        velocity.y = Difficulty.dogeJumpVelocity;
     }
     
     public void resetVelocity() {

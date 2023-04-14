@@ -4,15 +4,15 @@ public class Difficulty {
     public static int speed;
     public static long pipeSpawnRate;
     public static int pipeDistance;
-    public static int dogeFallSpeed;
+    public static int gravity;
     public static int dogeJumpVelocity;
 
     public Difficulty() {
-        speed = 100;
+        speed = 200;
         pipeSpawnRate = 300000000000L / speed;
         pipeDistance = 140;
-        dogeFallSpeed = -14;
-        dogeJumpVelocity = 300;
+        gravity = -24;
+        dogeJumpVelocity = 500;
     }
 
     public static void setSpeed(int speed) {
@@ -27,8 +27,8 @@ public class Difficulty {
         Difficulty.pipeDistance = pipeDistance;
     }
 
-    public static void setDogeFallSpeed(int dogeFallSpeed) {
-        Difficulty.dogeFallSpeed = dogeFallSpeed;
+    public static void setGravity(int gravity) {
+        Difficulty.gravity = gravity;
     }
 
     public static void setDogeJumpVelocity(int dogeJumpVelocity) {

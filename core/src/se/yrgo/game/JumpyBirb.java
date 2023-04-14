@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import se.yrgo.game.screens.MainMenuScreen;
+import se.yrgo.utils.Difficulty;
 import se.yrgo.utils.Score;
 
 import java.sql.SQLException;
@@ -33,7 +34,7 @@ public class JumpyBirb extends Game {
         }
 
         this.setScreen(new MainMenuScreen(this, score));
-
+        new Difficulty();
 
     }
 

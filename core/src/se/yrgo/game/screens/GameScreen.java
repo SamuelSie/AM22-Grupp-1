@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.sprites.*;
+import se.yrgo.utils.Difficulty;
 import se.yrgo.utils.Score;
 
 import java.sql.SQLException;
@@ -32,10 +33,9 @@ public class GameScreen implements Screen {
     private Score score;
     private GameBackground background;
     private GameBackgroundSky sky;
-    private int speed;
 
 
-    public GameScreen(final JumpyBirb game, Score score, int speed) {
+    public GameScreen(final JumpyBirb game, Score score) {
         this.game = game;
         //create doge & ground object with x & y position
         doge = new Doge(20, game.CAMY / 2);
@@ -59,7 +59,7 @@ public class GameScreen implements Screen {
 //        moveableArray.add(new GameBackground(0, 0));
 //        moveableArray.add(new Ground(0, -75));
 //        spawnGround();
-        spawnPipes(speed);
+        spawnPipes();
 
         sky = new GameBackgroundSky(0, 0);
         background = new GameBackground(0, 0);
@@ -67,7 +67,7 @@ public class GameScreen implements Screen {
 
         isDead = false;
 
-        this.speed = speed;
+
         this.score = score;
     }
 
@@ -90,7 +90,7 @@ public class GameScreen implements Screen {
         game.batch.end();
 
         //spawn pipes in the given time
-        if (TimeUtils.nanoTime() - pipeSpawnTime > (300000000000L / speed)) spawnPipes(speed);
+        if (TimeUtils.nanoTime() - pipeSpawnTime > Difficulty.pipeSpawnRate) spawnPipes();
 //        if (TimeUtils.nanoTime() - groundSpawnTime > 3_350_000_000L) spawnGround();
 
         loopOverMovable(delta);
@@ -146,10 +146,10 @@ public class GameScreen implements Screen {
         doge.dispose();
     }
 
-    private void spawnPipes(int speed) {
+    private void spawnPipes() {
         int isAdding = ThreadLocalRandom.current().nextInt(2);
-        int middleSpace = ThreadLocalRandom.current().nextInt(Pipe.getDISTANCE());
-        Pipe pipe = new Pipe(game.CAMX, game.CAMY / 2 - game.CAMY + (isAdding == 1 ? middleSpace / 2 : -middleSpace / 2), speed);
+        int middleSpace = ThreadLocalRandom.current().nextInt(Difficulty.pipeDistance);
+        Pipe pipe = new Pipe(game.CAMX, game.CAMY / 2 - game.CAMY + (isAdding == 1 ? middleSpace / 2 : -middleSpace / 2));
 
         moveableArray.add(pipe);
         pipeSpawnTime = TimeUtils.nanoTime();
@@ -259,7 +259,7 @@ public class GameScreen implements Screen {
     private void checkIfDead() throws SQLException {
         if (isDead) {
             score.putHighscore(score.getScore());
-            game.setScreen(new DeathScreen(game, score, speed));
+            game.setScreen(new DeathScreen(game, score));
             dispose();
         }
     }
