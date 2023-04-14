@@ -77,8 +77,6 @@ public class DeathScreen implements Screen {
 
         trogdor = new Texture("trogdor.png");
         trogdorAnimation = new Animation(new TextureRegion(trogdor), 4, 1f);
-        trogdorAnimationImage = new Image(trogdorAnimation.getDrawableFrame());
-
 
         skin = new Skin(Gdx.files.internal("skin/skin/comic-ui.json"));
 
@@ -120,16 +118,12 @@ public class DeathScreen implements Screen {
     public void render(float delta) {
 //        ScreenUtils.clear(0.6f, 0.2f, 0.2f, 1);
 
+        // background update and render
         backGroundAnimation.update(delta);
         bgAnimationImage = new Image(backGroundAnimation.getDrawableFrame());
         table.setBackground(bgAnimationImage.getDrawable());
 
         trogdorAnimation.update(delta);
-
-
-
-
-
 
         stage.act(delta);
         stage.draw();
