@@ -24,7 +24,7 @@ public class IdleTrogdor extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        animation.getFrame();
+        batch.draw(animation.getFrame(), 180, 55, 120, 105);
     }
 
     public void dispose() {
