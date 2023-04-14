@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
+import se.yrgo.game.sprites.idle.IdleTrogdor;
 import se.yrgo.utils.Animation;
 import se.yrgo.utils.Score;
 
@@ -27,9 +28,7 @@ public class DeathScreen implements Screen {
     private GlyphLayout finalScore;
     private Texture backGround;
     private Animation backGroundAnimation;
-    private Texture trogdor;
-    private Animation trogdorAnimation;
-    private Image trogdorAnimationImage;
+    private IdleTrogdor idleTrogdor;
     private Image bgAnimationImage;
     private Music music;
     private Score score;
@@ -75,10 +74,7 @@ public class DeathScreen implements Screen {
         backGroundAnimation = new Animation(new TextureRegion(backGround), 2, 1f);
 
 
-        trogdor = new Texture("trogdor.png");
-        trogdorAnimation = new Animation(new TextureRegion(trogdor), 4, 1f);
-        trogdorAnimationImage = new Image(trogdorAnimation.getDrawableFrame());
-
+        idleTrogdor = new IdleTrogdor();
 
         skin = new Skin(Gdx.files.internal("skin/skin/comic-ui.json"));
 
@@ -111,7 +107,8 @@ public class DeathScreen implements Screen {
 
 
         stage.addActor(table);
-//        stage.addActor(trogdorAnimationImage);
+        stage.addActor(idleTrogdor);
+        idleTrogdor.toFront();
 
 
     }
@@ -120,34 +117,15 @@ public class DeathScreen implements Screen {
     public void render(float delta) {
 //        ScreenUtils.clear(0.6f, 0.2f, 0.2f, 1);
 
+        // background update and render
         backGroundAnimation.update(delta);
         bgAnimationImage = new Image(backGroundAnimation.getDrawableFrame());
         table.setBackground(bgAnimationImage.getDrawable());
 
-        trogdorAnimation.update(delta);
-
-
-
-
-
+//        trogdorAnimation.update(delta);
 
         stage.act(delta);
         stage.draw();
-//        vp.apply();
-//        camera.update();
-//        game.batch.setProjectionMatrix(vp.getCamera().combined);
-//
-        game.batch.begin();
-//        game.batch.draw(backGroundAnimation.getFrame(), 0, 0, game.CAMX, game.CAMY);
-        game.batch.draw(trogdorAnimation.getFrame(), 180, 55, 120, 105);
-////        game.font.draw(game.batch, layout, game.CAMX/2 - layout.width/2, (game.CAMY/3) * 2 - layout.height/2);
-////        game.font.draw(game.batch, layout2, game.CAMX/2 - layout2.width/2, (game.CAMY/2) - layout2.height/2);
-//        game.font.draw(game.batch, finalScore, game.CAMX / 2 - 200, (game.CAMY - 100));
-        game.batch.end();
-//
-//
-
-//        trogdorAnimation.update(delta);
         
         // Add delay before screen transition
         if (canRestart && (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched())) {
@@ -183,5 +161,6 @@ public class DeathScreen implements Screen {
     public void dispose() {
         stage.dispose();
         music.dispose();
+        idleTrogdor.dispose();
     }
 }

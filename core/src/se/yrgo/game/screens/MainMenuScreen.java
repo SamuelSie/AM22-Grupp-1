@@ -1,7 +1,6 @@
 package se.yrgo.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,11 +9,9 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import se.yrgo.game.JumpyBirb;
-import se.yrgo.game.sprites.IdleDoge;
+import se.yrgo.game.sprites.idle.IdleDoge;
 import se.yrgo.utils.Score;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -53,15 +50,12 @@ public class MainMenuScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.CAMX, game.CAMY);
-//        vp = new FitViewport(game.CAMX, game.CAMY, camera);
+
         backGround = new Texture("mainMenuBg.png");
         //lägger in texture i image
         backGroundImage = new Image(backGround);
 
         idleDoge = new IdleDoge();
-        idleImage = new Image(idleDoge.getTexture());
-        idleImage.setPosition(180, 70);
-
 
         music = Gdx.audio.newMusic(Gdx.files.internal("music/tmp2.mp3"));
 
@@ -159,18 +153,6 @@ public class MainMenuScreen implements Screen {
         stage.act(delta);
         stage.draw();
 
-//        vp.apply();
-//        camera.update();
-//        game.batch.setProjectionMatrix(vp.getCamera().combined);
-
-
-//        game.batch.begin();
-//        game.batch.draw(backGround, 0, 0, game.CAMX, game.CAMY);
-//        game.font.draw(game.batch, layout, game.CAMX / 2 - layout.width/2, game.CAMY / 2 + layout.height/2);
-//        game.batch.draw(idleDoge.getTexture(),180,70);
-//        game.batch.end();
-
-//        idleDoge.update(delta);
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
 //            game.setScreen(new GameScreen(game, score));
 //            dispose();
@@ -203,6 +185,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        idleDoge.dispose();
         music.dispose();
     }
 }
