@@ -32,6 +32,7 @@ public class MainMenuScreen implements Screen {
     private Image backGroundImage;
     
     private IdleDoge idleDoge;
+    private Image idleImage;
     private Music music;
     private Stage stage;
     private Skin skin;
@@ -58,6 +59,9 @@ public class MainMenuScreen implements Screen {
         backGroundImage = new Image(backGround);
 
         idleDoge = new IdleDoge();
+        idleImage = new Image(idleDoge.getTexture());
+        idleImage.setPosition(180, 70);
+
 
         music = Gdx.audio.newMusic(Gdx.files.internal("music/tmp2.mp3"));
 
@@ -139,7 +143,9 @@ public class MainMenuScreen implements Screen {
 
 
         //adding the table to the stage
+        stage.addActor(idleDoge);
         stage.addActor(table);
+        idleDoge.toFront();
 
 
         //set the input processor to the stage.. dunno what this is yet.
@@ -149,8 +155,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0,0,0.2f,1);
-
+//        ScreenUtils.clear(0,0,0.2f,1);
         stage.act(delta);
         stage.draw();
 
@@ -165,7 +170,7 @@ public class MainMenuScreen implements Screen {
 //        game.batch.draw(idleDoge.getTexture(),180,70);
 //        game.batch.end();
 
-        idleDoge.update(delta);
+//        idleDoge.update(delta);
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
 //            game.setScreen(new GameScreen(game, score));
 //            dispose();

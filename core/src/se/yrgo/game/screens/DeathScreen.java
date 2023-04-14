@@ -29,6 +29,8 @@ public class DeathScreen implements Screen {
     private Animation backGroundAnimation;
     private Texture trogdor;
     private Animation trogdorAnimation;
+    private Image trogdorAnimationImage;
+    private Image bgAnimationImage;
     private Music music;
     private Score score;
 
@@ -36,8 +38,8 @@ public class DeathScreen implements Screen {
     private Skin skin;
     private float buttonWidth;
     private float buttonHeight;
-    private Image backGroundImage;
 
+    private Table table;
 
     private boolean canRestart;
     private Timer.Task restartTask;
@@ -70,10 +72,13 @@ public class DeathScreen implements Screen {
 //        vp = new FitViewport(game.CAMX, game.CAMY, camera);
 
         backGround = new Texture("deathScreenAnimation.png");
-        backGroundImage = new Image(backGround);
         backGroundAnimation = new Animation(new TextureRegion(backGround), 2, 1f);
+
+
         trogdor = new Texture("trogdor.png");
         trogdorAnimation = new Animation(new TextureRegion(trogdor), 4, 1f);
+        trogdorAnimationImage = new Image(trogdorAnimation.getDrawableFrame());
+
 
         skin = new Skin(Gdx.files.internal("skin/skin/comic-ui.json"));
 
@@ -90,9 +95,9 @@ public class DeathScreen implements Screen {
         music.play();
 
         stage = new Stage(new FitViewport(game.CAMX, game.CAMY));
-        Table table = new Table();
+        table = new Table();
         table.setFillParent(true);
-        table.setBackground(backGroundImage.getDrawable());
+
 
         TextButton playAgain = new TextButton("Press to play again", skin);
         TextButton backToMenu = new TextButton("Press to get back to menu",skin);
@@ -104,7 +109,9 @@ public class DeathScreen implements Screen {
         table.row();
         table.add(backToMenu);
 
+
         stage.addActor(table);
+//        stage.addActor(trogdorAnimationImage);
 
 
     }
@@ -113,22 +120,33 @@ public class DeathScreen implements Screen {
     public void render(float delta) {
 //        ScreenUtils.clear(0.6f, 0.2f, 0.2f, 1);
 
+        backGroundAnimation.update(delta);
+        bgAnimationImage = new Image(backGroundAnimation.getDrawableFrame());
+        table.setBackground(bgAnimationImage.getDrawable());
+
+        trogdorAnimation.update(delta);
+
+
+
+
+
+
         stage.act(delta);
         stage.draw();
 //        vp.apply();
 //        camera.update();
 //        game.batch.setProjectionMatrix(vp.getCamera().combined);
 //
-//        game.batch.begin();
+        game.batch.begin();
 //        game.batch.draw(backGroundAnimation.getFrame(), 0, 0, game.CAMX, game.CAMY);
-//        game.batch.draw(trogdorAnimation.getFrame(), 180, 55, 120, 105);
+        game.batch.draw(trogdorAnimation.getFrame(), 180, 55, 120, 105);
 ////        game.font.draw(game.batch, layout, game.CAMX/2 - layout.width/2, (game.CAMY/3) * 2 - layout.height/2);
 ////        game.font.draw(game.batch, layout2, game.CAMX/2 - layout2.width/2, (game.CAMY/2) - layout2.height/2);
 //        game.font.draw(game.batch, finalScore, game.CAMX / 2 - 200, (game.CAMY - 100));
-//        game.batch.end();
+        game.batch.end();
 //
 //
-//        backGroundAnimation.update(delta);
+
 //        trogdorAnimation.update(delta);
         
         // Add delay before screen transition
