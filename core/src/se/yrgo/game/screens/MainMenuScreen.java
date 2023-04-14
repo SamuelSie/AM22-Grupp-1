@@ -178,18 +178,21 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+
         idleDoge.dispose();
         music.dispose();
         backGround.dispose();
 
+
     }
 
-    private void buttonListeners(TextButton startButton, TextButton exitButton, TextButton easyButton, TextButton mediumButton, TextButton hardButton) {
+    private void buttonListeners(final TextButton startButton, TextButton exitButton, TextButton easyButton, TextButton mediumButton, TextButton hardButton) {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new GameScreen(game, score));
                 dispose();
+
             }
         });
         easyButton.addListener(new ClickListener() {

@@ -39,7 +39,6 @@ public class DeathScreen implements Screen {
     private Skin skin;
     private float buttonWidth;
     private float buttonHeight;
-    private Table table;
     private boolean canRestart;
     private Timer.Task restartTask;
 
@@ -88,7 +87,7 @@ public class DeathScreen implements Screen {
         music.play();
 
         stage = new Stage(new FitViewport(game.CAMX, game.CAMY));
-        table = new Table();
+        Table table = new Table();
         table.setFillParent(true);
 
 
@@ -121,7 +120,9 @@ public class DeathScreen implements Screen {
         stage.addActor(table);
         stage.addActor(idleTrogdor);
 
+
 //        idleTrogdor.toFront();
+        Gdx.input.setInputProcessor(stage);
 
 
     }
@@ -131,7 +132,6 @@ public class DeathScreen implements Screen {
 //        ScreenUtils.clear(0.6f, 0.2f, 0.2f, 1);
 
         stage.act(delta);
-
         stage.draw();
         
          //Add delay before screen transition
