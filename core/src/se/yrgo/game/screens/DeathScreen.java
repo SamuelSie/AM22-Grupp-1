@@ -6,13 +6,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
+import se.yrgo.game.sprites.idle.DeathScreenBg;
 import se.yrgo.game.sprites.idle.IdleTrogdor;
 import se.yrgo.utils.Animation;
 import se.yrgo.utils.Score;
@@ -26,20 +31,14 @@ public class DeathScreen implements Screen {
     private GlyphLayout layout;
     private GlyphLayout layout2;
     private GlyphLayout finalScore;
-    private Texture backGround;
-    private Animation backGroundAnimation;
+    private DeathScreenBg backGround;
     private IdleTrogdor idleTrogdor;
-    private Image bgAnimationImage;
     private Music music;
     private Score score;
-
     private Stage stage;
     private Skin skin;
     private float buttonWidth;
     private float buttonHeight;
-
-    private Table table;
-
     private boolean canRestart;
     private Timer.Task restartTask;
 
@@ -48,8 +47,8 @@ public class DeathScreen implements Screen {
         this.game = game;
         this.score = score;
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, game.CAMX, game.CAMY);
+//        camera = new OrthographicCamera();
+//        camera.setToOrtho(false, game.CAMX, game.CAMY);
 
 //        layout = new GlyphLayout();
 //        layout2 = new GlyphLayout();
@@ -66,13 +65,8 @@ public class DeathScreen implements Screen {
             }
         };
         Timer.schedule(restartTask,1f);
-        
 
-//        vp = new FitViewport(game.CAMX, game.CAMY, camera);
-
-        backGround = new Texture("deathScreenAnimation.png");
-        backGroundAnimation = new Animation(new TextureRegion(backGround), 2, 1f);
-
+        backGround = new DeathScreenBg();
 
         idleTrogdor = new IdleTrogdor();
 
@@ -80,6 +74,8 @@ public class DeathScreen implements Screen {
 
         buttonWidth = game.CAMX / 5;
         buttonHeight = buttonWidth * 0.3f;
+
+
     }
 
     @Override
@@ -91,24 +87,42 @@ public class DeathScreen implements Screen {
         music.play();
 
         stage = new Stage(new FitViewport(game.CAMX, game.CAMY));
-        table = new Table();
+        Table table = new Table();
         table.setFillParent(true);
 
 
         TextButton playAgain = new TextButton("Press to play again", skin);
-        TextButton backToMenu = new TextButton("Press to get back to menu",skin);
+        TextButton backToMenu = new TextButton("Press to get back to menu", skin);
 
         playAgain.getLabel().setFontScale(.5f);
         backToMenu.getLabel().setFontScale(.5f);
+
+        playAgain.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new GameScreen(game, score));
+                dispose();
+            }
+        });
+        backToMenu.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new MainMenuScreen(game, score));
+                dispose();
+            }
+        });
 
         table.add(playAgain);
         table.row();
         table.add(backToMenu);
 
-
+        stage.addActor(backGround);
         stage.addActor(table);
         stage.addActor(idleTrogdor);
-        idleTrogdor.toFront();
+
+
+//        idleTrogdor.toFront();
+        Gdx.input.setInputProcessor(stage);
 
 
     }
@@ -117,18 +131,11 @@ public class DeathScreen implements Screen {
     public void render(float delta) {
 //        ScreenUtils.clear(0.6f, 0.2f, 0.2f, 1);
 
-        // background update and render
-        backGroundAnimation.update(delta);
-        bgAnimationImage = new Image(backGroundAnimation.getDrawableFrame());
-        table.setBackground(bgAnimationImage.getDrawable());
-
-//        trogdorAnimation.update(delta);
-
         stage.act(delta);
         stage.draw();
         
-        // Add delay before screen transition
-        if (canRestart && (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched())) {
+         //Add delay before screen transition
+        if (canRestart && (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))) {
             restartTask.cancel();
             game.setScreen(new GameScreen(game, score));
             dispose();
@@ -162,5 +169,6 @@ public class DeathScreen implements Screen {
         stage.dispose();
         music.dispose();
         idleTrogdor.dispose();
+        backGround.dispose();
     }
 }

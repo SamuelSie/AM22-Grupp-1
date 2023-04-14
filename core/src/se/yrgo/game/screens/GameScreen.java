@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.sprites.*;
+import se.yrgo.utils.Difficulty;
 import se.yrgo.utils.Score;
 
 import java.sql.SQLException;
@@ -60,7 +61,7 @@ public class GameScreen implements Screen {
 //        spawnGround();
         spawnPipes();
 
-        sky = new GameBackgroundSky(0,0);
+        sky = new GameBackgroundSky(0, 0);
         background = new GameBackground(0, 0);
 
 
@@ -89,7 +90,7 @@ public class GameScreen implements Screen {
         game.batch.end();
 
         //spawn pipes in the given time
-        if (TimeUtils.nanoTime() - pipeSpawnTime > 3000000000L) spawnPipes();
+        if (TimeUtils.nanoTime() - pipeSpawnTime > Difficulty.getPipeSpawnRate()) spawnPipes();
 //        if (TimeUtils.nanoTime() - groundSpawnTime > 3_350_000_000L) spawnGround();
 
         loopOverMovable(delta);
@@ -147,8 +148,9 @@ public class GameScreen implements Screen {
 
     private void spawnPipes() {
         int isAdding = ThreadLocalRandom.current().nextInt(2);
-        int middleSpace = ThreadLocalRandom.current().nextInt(Pipe.getDISTANCE());
+        int middleSpace = ThreadLocalRandom.current().nextInt(Difficulty.getPipeDistance());
         Pipe pipe = new Pipe(game.CAMX, game.CAMY / 2 - game.CAMY + (isAdding == 1 ? middleSpace / 2 : -middleSpace / 2));
+
         moveableArray.add(pipe);
         pipeSpawnTime = TimeUtils.nanoTime();
     }
@@ -214,7 +216,6 @@ public class GameScreen implements Screen {
 //        Array<Pipe> pipes = new Array<>();
 //        Array<GameBackgroundSky> skies = new Array<>();
 //        Array<GameBackground> backgrounds = new Array<>();
-
 
 
         for (Movable obj : moveableArray) {

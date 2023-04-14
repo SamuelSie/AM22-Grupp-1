@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import se.yrgo.game.JumpyBirb;
 import se.yrgo.utils.Animation;
+import se.yrgo.utils.Difficulty;
 
 import java.util.Iterator;
 
@@ -26,10 +27,7 @@ public class Pipe implements Movable {
     private Vector3 positionSalad;
     private Texture saladFingersImg;
 
-
     private Animation saladAnimation;
-
-    private static final int DISTANCE = 140;
 
     public Pipe(int x, int y) {
         saladWidth = 55;
@@ -40,14 +38,13 @@ public class Pipe implements Movable {
         hitBoxSaladHand = new Rectangle(x, y, saladWidth, 27);
 
         positionSalad = new Vector3(x, y, 0);
-        positionKettle = new Vector3(x, y + saladHeight + DISTANCE, 0);
+        positionKettle = new Vector3(x, y + saladHeight + Difficulty.getPipeDistance(), 0);
 
         kettleWidth = 40;
         kettleHeight = 250;
         kettleImg = new Texture("rustyKettle.png");
         hitBoxKettle = new Rectangle(x, y, kettleWidth, 40);
         hitBoxChain = new Rectangle(x + (kettleWidth / 2), y, kettleWidth / 7, kettleHeight);
-
 
     }
 
@@ -59,8 +56,8 @@ public class Pipe implements Movable {
 
     @Override
     public void move() {
-        getPositionSalad().x -= 100 * Gdx.graphics.getDeltaTime();
-        getPositionKettle().x -= 100 * Gdx.graphics.getDeltaTime();
+        getPositionSalad().x -= Difficulty.getSpeed() * Gdx.graphics.getDeltaTime();
+        getPositionKettle().x -= Difficulty.getSpeed() * Gdx.graphics.getDeltaTime();
 
         hitBoxKettle.setPosition(getPositionKettle().x, getPositionKettle().y);
 
@@ -112,17 +109,11 @@ public class Pipe implements Movable {
         return positionSalad;
     }
 
-
     public void setScored(boolean scored) {
         isScored = scored;
     }
-
     public boolean isScored() {
         return isScored;
-    }
-
-    public static int getDISTANCE() {
-        return DISTANCE;
     }
 
     public Animation getSaladAnimation() {
