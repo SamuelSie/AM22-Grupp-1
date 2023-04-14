@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.sprites.idle.IdleDoge;
+import se.yrgo.utils.Difficulty;
 import se.yrgo.utils.Score;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -49,9 +50,6 @@ public class MainMenuScreen implements Screen {
         this.score = score;
 
         layout = new GlyphLayout();
-
-//        camera = new OrthographicCamera();
-//        camera.setToOrtho(false, game.CAMX, game.CAMY);
 
         backGround = new Texture("mainMenuBg.png");
         //lägger in texture i image
@@ -105,21 +103,8 @@ public class MainMenuScreen implements Screen {
         hardButton.getLabel().setFontScale(.5f);
         exitButton.getLabel().setFontScale(.5f);
 
-        //setting button sizes
-//        easyButton.setBounds(0, 0, buttonWidth, buttonHeight);
-//        mediumButton.setWidth(buttonWidth);
-//        mediumButton.setHeight(buttonHeight);
-//        hardButton.setBounds(0,0,buttonWidth,buttonHeight);
-
         //button functionality
-        startButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game, score));
-                dispose();
-            }
-        });
-
+        buttonListeners(startButton, exitButton, easyButton, mediumButton, hardButton);
 //            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
 //
 //            }
@@ -146,6 +131,8 @@ public class MainMenuScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
     }
+
+
 
     @Override
     public void render(float delta) {
@@ -195,5 +182,42 @@ public class MainMenuScreen implements Screen {
         music.dispose();
         backGround.dispose();
 
+    }
+
+    private void buttonListeners(TextButton startButton, TextButton exitButton, TextButton easyButton, TextButton mediumButton, TextButton hardButton) {
+        startButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new GameScreen(game, score));
+                dispose();
+            }
+        });
+        easyButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Difficulty.easy();
+            }
+        });
+        mediumButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Difficulty.medium();
+            }
+        });
+
+        hardButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Difficulty.hard();
+            }
+        });
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                dispose();
+                Gdx.app.exit();
+                System.exit(-1);
+            }
+        });
     }
 }
