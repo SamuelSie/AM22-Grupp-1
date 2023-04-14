@@ -25,13 +25,13 @@ public class Pipe implements Movable {
     private Vector3 positionKettle;
     private Vector3 positionSalad;
     private Texture saladFingersImg;
-
+    private int speed;
 
     private Animation saladAnimation;
 
     private static final int DISTANCE = 140;
 
-    public Pipe(int x, int y) {
+    public Pipe(int x, int y, int speed) {
         saladWidth = 55;
         saladHeight = 320;
         saladFingersImg = new Texture("saladFingersAnimation.png");
@@ -48,7 +48,7 @@ public class Pipe implements Movable {
         hitBoxKettle = new Rectangle(x, y, kettleWidth, 40);
         hitBoxChain = new Rectangle(x + (kettleWidth / 2), y, kettleWidth / 7, kettleHeight);
 
-
+        this.speed = speed;
     }
 
     @Override
@@ -59,8 +59,8 @@ public class Pipe implements Movable {
 
     @Override
     public void move() {
-        getPositionSalad().x -= 100 * Gdx.graphics.getDeltaTime();
-        getPositionKettle().x -= 100 * Gdx.graphics.getDeltaTime();
+        getPositionSalad().x -= speed * Gdx.graphics.getDeltaTime();
+        getPositionKettle().x -= speed * Gdx.graphics.getDeltaTime();
 
         hitBoxKettle.setPosition(getPositionKettle().x, getPositionKettle().y);
 

@@ -32,9 +32,10 @@ public class GameScreen implements Screen {
     private Score score;
     private GameBackground background;
     private GameBackgroundSky sky;
+    private int speed;
 
 
-    public GameScreen(final JumpyBirb game, Score score) {
+    public GameScreen(final JumpyBirb game, Score score, int speed) {
         this.game = game;
         //create doge & ground object with x & y position
         doge = new Doge(20, game.CAMY / 2);
@@ -58,15 +59,15 @@ public class GameScreen implements Screen {
 //        moveableArray.add(new GameBackground(0, 0));
 //        moveableArray.add(new Ground(0, -75));
 //        spawnGround();
-        spawnPipes();
+        spawnPipes(speed);
 
-        sky = new GameBackgroundSky(0,0);
+        sky = new GameBackgroundSky(0, 0);
         background = new GameBackground(0, 0);
 
 
         isDead = false;
 
-
+        this.speed = speed;
         this.score = score;
     }
 
@@ -89,7 +90,7 @@ public class GameScreen implements Screen {
         game.batch.end();
 
         //spawn pipes in the given time
-        if (TimeUtils.nanoTime() - pipeSpawnTime > 3000000000L) spawnPipes();
+        if (TimeUtils.nanoTime() - pipeSpawnTime > (300000000000L / speed)) spawnPipes(speed);
 //        if (TimeUtils.nanoTime() - groundSpawnTime > 3_350_000_000L) spawnGround();
 
         loopOverMovable(delta);
@@ -145,10 +146,11 @@ public class GameScreen implements Screen {
         doge.dispose();
     }
 
-    private void spawnPipes() {
+    private void spawnPipes(int speed) {
         int isAdding = ThreadLocalRandom.current().nextInt(2);
         int middleSpace = ThreadLocalRandom.current().nextInt(Pipe.getDISTANCE());
-        Pipe pipe = new Pipe(game.CAMX, game.CAMY / 2 - game.CAMY + (isAdding == 1 ? middleSpace / 2 : -middleSpace / 2));
+        Pipe pipe = new Pipe(game.CAMX, game.CAMY / 2 - game.CAMY + (isAdding == 1 ? middleSpace / 2 : -middleSpace / 2), speed);
+
         moveableArray.add(pipe);
         pipeSpawnTime = TimeUtils.nanoTime();
     }
@@ -216,7 +218,6 @@ public class GameScreen implements Screen {
 //        Array<GameBackground> backgrounds = new Array<>();
 
 
-
         for (Movable obj : moveableArray) {
             //minskar koden här rejält, men kräver att vi ritar saker i rätt ordning.
             obj.draw(game);
@@ -258,7 +259,7 @@ public class GameScreen implements Screen {
     private void checkIfDead() throws SQLException {
         if (isDead) {
             score.putHighscore(score.getScore());
-            game.setScreen(new DeathScreen(game, score));
+            game.setScreen(new DeathScreen(game, score, speed));
             dispose();
         }
     }
