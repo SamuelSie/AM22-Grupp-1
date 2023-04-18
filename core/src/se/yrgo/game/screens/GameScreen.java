@@ -31,6 +31,7 @@ public class GameScreen implements Screen {
     private Score score;
     private GameBackground background;
     private GameBackgroundSky sky;
+    private Ground ground;
 
 
     public GameScreen(final JumpyBirb game, Score score) {
@@ -56,12 +57,15 @@ public class GameScreen implements Screen {
         moveableArray = new Array<Movable>();
 //        moveableArray.add(new GameBackgroundSky(0, -75));
 //        moveableArray.add(new GameBackground(0, 0));
-       moveableArray.add(new Ground(0, -75));
+
 //        spawnGround();
         spawnPipes();
 
+
         sky = new GameBackgroundSky(0, 0);
         background = new GameBackground(0, 0);
+        ground = new Ground(0,0);
+
 
 
         isDead = false;
@@ -80,9 +84,9 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(vp.getCamera().combined);
 
         game.batch.begin();
-//        game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
         sky.draw(game);
         background.draw(game);
+        ground.draw(game);
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
         drawMovable();
         game.font.draw(game.batch, score.getLayout(), score.getX(), score.getY());
@@ -155,17 +159,12 @@ public class GameScreen implements Screen {
     }
 
     private void spawnGround() {
-        Ground ground = new Ground(game.CAMX, game.CAMY);
+        Ground ground = new Ground(game.CAMX, 0);
         moveableArray.add(ground);
-        groundSpawnTime = TimeUtils.nanoTime();
+//        groundSpawnTime = TimeUtils.nanoTime();
     }
 
-//    private void spawnBackground() {
-//        GameBackground sky = new GameBackground(game.CAMX, 0);
-//        moveableArray.add(sky);
-//        skySpawnTime = TimeUtils.nanoTime();
-//
-//    }
+
 
     private void loopOverMovable(float delta) {
         for (Iterator<Movable> iter = moveableArray.iterator(); iter.hasNext(); ) {
@@ -186,6 +185,10 @@ public class GameScreen implements Screen {
                 Ground ground = (Ground) obj;
 
                 checkCollisionGround(ground);
+
+//                if (ground.getPosition().x + ground.getTexture().getWidth() <= game.CAMX) {
+//                    spawnGround();
+//                }
             }
 
             obj.remove(iter);
@@ -211,48 +214,13 @@ public class GameScreen implements Screen {
     }
 
     private void drawMovable() {
-//        Array<Ground> grounds = new Array<>();
-//        Array<Pipe> pipes = new Array<>();
-//        Array<GameBackgroundSky> skies = new Array<>();
-//        Array<GameBackground> backgrounds = new Array<>();
-
 
         for (Movable obj : moveableArray) {
             //minskar koden här rejält, men kräver att vi ritar saker i rätt ordning.
             obj.draw(game);
 
-//            if (obj.getClass() == Ground.class) {
-//                Ground ground = (Ground) obj;
-//                ground.add(ground);
-//            } else if (obj.getClass() == Pipe.class) {
-//                Pipe pipe = (Pipe) obj;
-//                pipes.add(pipe);
-//            } else if (obj.getClass() == GameBackgroundSky.class) {
-//                GameBackgroundSky sky = (GameBackgroundSky) obj;
-//                skies.add(sky);
-//            } else if (obj.getClass() == GameBackground.class) {
-//                GameBackground bg = (GameBackground) obj;
-//                backgrounds.add(bg);
-//            } else {
-//                throw new RuntimeException("Something went wrong when drawing movables.");
-//            }
-        }}
-        // lekte lite med storlekarna här, behöver bestämma vad som är bra.
-        // om vi ändrar height måste vi tänka på att den renderar från nere/vänster. så vi måste ändra hitbox också.
-//        for (GameBackgroundSky sky : skies) {
-//            game.batch.draw(sky.getBackground(), sky.getPosition().x, sky.getPosition().y, sky.getBackground().getWidth(), sky.getBackground().getHeight());
-//        }
-//        for (GameBackground bg : backgrounds) {
-//            game.batch.draw(bg.getBackground(), bg.getPosition().x, bg.getPosition().y, bg.getBackground().getWidth(), bg.getBackground().getHeight());
-//        }
-//        for (Pipe pipe : pipes) {
-//            game.batch.draw(pipe.getKettleImg(), pipe.getPositionTop().x, pipe.getPositionTop().y, 40, 250);
-//            game.batch.draw(pipe.getSaladFingersImg(), pipe.getPositionBottom().x, pipe.getPositionBottom().y, 40, 320);
-//        }
-//        for (Ground ground : grounds) {
-//            game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
-//        }
 
+        }}
     
 
     private void checkIfDead() throws SQLException {

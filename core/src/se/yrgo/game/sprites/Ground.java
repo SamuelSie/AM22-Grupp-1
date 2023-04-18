@@ -10,24 +10,26 @@ import java.util.Iterator;
 
 public class Ground implements Movable {
 
-    private Texture groundImg;
+    private Texture texture;
     private Rectangle hitBox;
     private Vector3 position;
+    private int srcX;
 
     public Ground(int x, int y) {
-        groundImg = new Texture("ground.png");
-        hitBox = new Rectangle(x, y, groundImg.getWidth(), (groundImg.getHeight() - 44));
-
+        texture = new Texture("ground.png");
+        hitBox = new Rectangle(x, y, texture.getWidth(), (texture.getHeight() - 44));
         position = new Vector3(x, y, 0);
+        texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        srcX = 0;
 
     }
 
     public void dispose() {
-        groundImg.dispose();
+        texture.dispose();
     }
 
     public Texture getTexture() {
-        return groundImg;
+        return texture;
     }
 
     public Rectangle getHitBox() {
@@ -40,8 +42,10 @@ public class Ground implements Movable {
 
     @Override
     public void draw(JumpyBirb game) {
-        game.batch.draw(getTexture(), getPosition().x, getPosition().y, getTexture().getWidth(), getTexture().getHeight());
+        game.batch.draw(texture,0,0, srcX, 0, texture.getWidth(), texture.getHeight());
+        srcX += 2;
     }
+
 
     @Override
     public void move() {
