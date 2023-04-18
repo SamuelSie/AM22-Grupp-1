@@ -86,9 +86,9 @@ public class GameScreen implements Screen {
         game.batch.begin();
         sky.draw(game);
         background.draw(game);
-        ground.draw(game);
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
         drawMovable();
+        ground.draw(game);
         game.font.draw(game.batch, score.getLayout(), score.getX(), score.getY());
         game.batch.end();
 

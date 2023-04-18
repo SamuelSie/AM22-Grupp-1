@@ -6,6 +6,7 @@ public class Difficulty {
     private static int pipeDistance = 140;
     private static int gravity = -14;
     private static int dogeJumpVelocity = 300;
+    private static String table = "easy";
 
     public static void easy() {
         speed = 100;
@@ -13,6 +14,7 @@ public class Difficulty {
         pipeDistance = 140;
         gravity = -14;
         dogeJumpVelocity = 300;
+        table = "easy";
     }
 
     public static void medium() {
@@ -21,6 +23,7 @@ public class Difficulty {
         pipeDistance = 120;
         gravity = -24;
         dogeJumpVelocity = 400;
+        table = "medium";
     }
 
     public static void hard() {
@@ -29,6 +32,7 @@ public class Difficulty {
         pipeDistance = 100;
         gravity = -34;
         dogeJumpVelocity = 500;
+        table = "hard";
     }
 
     public static int getSpeed() {
@@ -50,4 +54,6 @@ public class Difficulty {
     public static int getDogeJumpVelocity() {
         return dogeJumpVelocity;
     }
+
+    public static String getTable() { return table; }
 }

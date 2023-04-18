@@ -45,18 +45,18 @@ public class Score {
         }
     }
 
-    public GlyphLayout getHighscore() throws SQLException {
-        GlyphLayout top5 = new GlyphLayout();
+    public String getHighscore() throws SQLException {
+//        GlyphLayout top5 = new GlyphLayout();
         StringBuilder sb = new StringBuilder();
+            sb.append("Highscore: " + Difficulty.getTable());
 
         for(String score : db.getTop5Highscore()){
-            sb.append(score);
             sb.append("\n");
+            sb.append(score);
         }
-        sb.deleteCharAt(sb.lastIndexOf("\n"));
 
-        top5.setText(font, sb.toString());
-        return top5;
+//        top5.setText(font, sb.toString());
+        return sb.toString();
     }
 
     public void putHighscore(int score) throws SQLException {

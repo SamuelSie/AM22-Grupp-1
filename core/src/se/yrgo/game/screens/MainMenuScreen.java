@@ -26,7 +26,6 @@ public class MainMenuScreen implements Screen {
 
     //behöver göra en image av bgTexture för att använda.. tror jag
     private Image backGroundImage;
-
     private IdleDoge idleDoge;
     private Music music;
     private Stage stage;
