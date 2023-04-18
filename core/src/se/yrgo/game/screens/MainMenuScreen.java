@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -22,8 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 public class MainMenuScreen implements Screen {
 
     public final JumpyBirb game;
-    private OrthographicCamera camera;
-//    private Viewport vp;
     private GlyphLayout layout;
     private Score score;
     private Texture backGround;

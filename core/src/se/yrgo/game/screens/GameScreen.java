@@ -25,10 +25,8 @@ public class GameScreen implements Screen {
     private FitViewport vp;
     private Array<Movable> moveableArray;
     private Array<Ground> groundArray;
-    private Array<Pipe> pipeArray;
     private long pipeSpawnTime;
     private long groundSpawnTime;
-    private long skySpawnTime;
     private boolean isDead;
     private Score score;
     private GameBackground background;
@@ -50,14 +48,15 @@ public class GameScreen implements Screen {
         vp = new FitViewport(game.CAMX, game.CAMY, camera);
 
 //        // Array av ground
-//        groundArray = new Array<Ground>();
+        groundArray = new Array<Ground>();
+        
 //        //Array av pipes
 //        pipeArray = new Array<Pipe>();
 
         moveableArray = new Array<Movable>();
 //        moveableArray.add(new GameBackgroundSky(0, -75));
 //        moveableArray.add(new GameBackground(0, 0));
-//        moveableArray.add(new Ground(0, -75));
+       moveableArray.add(new Ground(0, -75));
 //        spawnGround();
         spawnPipes();
 
@@ -222,9 +221,9 @@ public class GameScreen implements Screen {
             //minskar koden här rejält, men kräver att vi ritar saker i rätt ordning.
             obj.draw(game);
 
-//            if (obj.getClass() == Ground.class) {
-//                Ground ground = (Ground) obj;
-//                grounds.add(ground);
+            if (obj.getClass() == Ground.class) {
+                Ground ground = (Ground) obj;
+                groundArray.add(ground);
 //            } else if (obj.getClass() == Pipe.class) {
 //                Pipe pipe = (Pipe) obj;
 //                pipes.add(pipe);
@@ -237,7 +236,7 @@ public class GameScreen implements Screen {
 //            } else {
 //                throw new RuntimeException("Something went wrong when drawing movables.");
 //            }
-        }
+        }}
         // lekte lite med storlekarna här, behöver bestämma vad som är bra.
         // om vi ändrar height måste vi tänka på att den renderar från nere/vänster. så vi måste ändra hitbox också.
 //        for (GameBackgroundSky sky : skies) {
