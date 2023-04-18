@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -22,17 +21,14 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 public class MainMenuScreen implements Screen {
 
     public final JumpyBirb game;
-    private OrthographicCamera camera;
-//    private Viewport vp;
     private GlyphLayout layout;
     private Score score;
     private Texture backGround;
 
     //behöver göra en image av bgTexture för att använda.. tror jag
     private Image backGroundImage;
-    
+
     private IdleDoge idleDoge;
-    private Image idleImage;
     private Music music;
     private Stage stage;
     private Skin skin;
@@ -41,9 +37,6 @@ public class MainMenuScreen implements Screen {
     private ButtonGroup buttonGroup;
     private float buttonWidth;
     private float buttonHeight;
-
-
-
 
     public MainMenuScreen(final JumpyBirb game, Score score) {
         this.game = game;
@@ -61,14 +54,13 @@ public class MainMenuScreen implements Screen {
 
 
         //skins innehåller massa bös som font och bilder
-        skin= new Skin(Gdx.files.internal("skin/skin/comic-ui.json"));
+        skin = new Skin(Gdx.files.internal("skin/skin/comic-ui.json"));
 
         //difficulties
         buttonGroup = new ButtonGroup();
         buttonWidth = game.CAMX / 5;
         buttonHeight = buttonWidth * 0.3f;
     }
-
 
 
     // start the playback of the background music immediately
@@ -115,9 +107,9 @@ public class MainMenuScreen implements Screen {
 
         table.add(easyButton).size(buttonWidth, buttonHeight);
         table.row();
-        table.add(mediumButton).size(buttonWidth, buttonHeight);;
+        table.add(mediumButton).size(buttonWidth, buttonHeight);
         table.row();
-        table.add(hardButton).size(buttonWidth, buttonHeight).padBottom(20);;
+        table.add(hardButton).size(buttonWidth, buttonHeight).padBottom(20);
         table.row();
         table.add(exitButton).size(buttonWidth, buttonHeight);
 
@@ -130,9 +122,19 @@ public class MainMenuScreen implements Screen {
         //set the input processor to the stage
         Gdx.input.setInputProcessor(stage);
 
+        switch (game.getLastDifficulty()) {
+            case "medium":
+                simulateClick(mediumButton);
+                break;
+            case "hard":
+                simulateClick(hardButton);
+                break;
+            default:
+                simulateClick(easyButton);
+                break;
+        }
+
     }
-
-
 
     @Override
     public void render(float delta) {
@@ -186,7 +188,7 @@ public class MainMenuScreen implements Screen {
 
     }
 
-    private void buttonListeners(final TextButton startButton, TextButton exitButton, TextButton easyButton, TextButton mediumButton, TextButton hardButton) {
+    private void buttonListeners(final TextButton startButton, TextButton exitButton, final TextButton easyButton, final TextButton mediumButton, final TextButton hardButton) {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -198,12 +200,15 @@ public class MainMenuScreen implements Screen {
         easyButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                easyButton.getStyle().checked = easyButton.getStyle().down;
                 Difficulty.easy();
             }
         });
         mediumButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                mediumButton.getStyle().checked = mediumButton.getStyle().down;
+                game.setLastDifficulty("medium");
                 Difficulty.medium();
             }
         });
@@ -211,6 +216,8 @@ public class MainMenuScreen implements Screen {
         hardButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                hardButton.getStyle().checked = hardButton.getStyle().down;
+                game.setLastDifficulty("hard");
                 Difficulty.hard();
             }
         });
@@ -222,5 +229,15 @@ public class MainMenuScreen implements Screen {
                 System.exit(-1);
             }
         });
+    }
+
+    private static void simulateClick(TextButton button) {
+        InputEvent event1 = new InputEvent();
+        event1.setType(InputEvent.Type.touchDown);
+        button.fire(event1);
+
+        InputEvent event2 = new InputEvent();
+        event2.setType(InputEvent.Type.touchUp);
+        button.fire(event2);
     }
 }
