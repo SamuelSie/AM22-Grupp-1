@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import se.yrgo.game.screens.MainMenuScreen;
 import se.yrgo.utils.Difficulty;
 import se.yrgo.utils.Score;
@@ -19,12 +20,17 @@ public class JumpyBirb extends Game {
     public static final int HEIGHT = 720;
     public static final int CAMX = WIDTH / 2;
     public static final int CAMY = HEIGHT / 2;
+
+
+
+    private String lastDifficulty;
     private Score score;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont(Gdx.files.internal("myFont.fnt"));
+        lastDifficulty = "easy";
 
         /// ajajaj nu är det rörigt med SQLException!! STÄDA UPP!
         try {
@@ -40,9 +46,17 @@ public class JumpyBirb extends Game {
         super.render();
     }
 
+
+    public String getLastDifficulty() {
+        return lastDifficulty;
+    }
+    public void setLastDifficulty(String lastDifficulty) {
+        this.lastDifficulty = lastDifficulty;
+    }
+
     public void dispose() {
         batch.dispose();
         font.dispose();
-
     }
+
 }
