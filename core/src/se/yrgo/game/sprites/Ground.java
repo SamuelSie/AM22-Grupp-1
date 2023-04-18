@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import se.yrgo.game.JumpyBirb;
+import se.yrgo.utils.Difficulty;
 
 import java.util.Iterator;
 
@@ -17,7 +18,6 @@ public class Ground implements Movable {
     public Ground(int x, int y) {
         groundImg = new Texture("ground.png");
         hitBox = new Rectangle(x, y, groundImg.getWidth(), (groundImg.getHeight() - 44));
-
         position = new Vector3(x, y, 0);
 
     }

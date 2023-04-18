@@ -56,12 +56,14 @@ public class GameScreen implements Screen {
         moveableArray = new Array<Movable>();
 //        moveableArray.add(new GameBackgroundSky(0, -75));
 //        moveableArray.add(new GameBackground(0, 0));
-       moveableArray.add(new Ground(0, -75));
+       moveableArray.add(new Ground(0, 0));
 //        spawnGround();
         spawnPipes();
 
+
         sky = new GameBackgroundSky(0, 0);
         background = new GameBackground(0, 0);
+
 
 
         isDead = false;
@@ -90,7 +92,7 @@ public class GameScreen implements Screen {
 
         //spawn pipes in the given time
         if (TimeUtils.nanoTime() - pipeSpawnTime > Difficulty.getPipeSpawnRate()) spawnPipes();
-//        if (TimeUtils.nanoTime() - groundSpawnTime > 3_350_000_000L) spawnGround();
+        if (TimeUtils.nanoTime() - groundSpawnTime > 3_350_000_000L) spawnGround();
 
         loopOverMovable(delta);
 
@@ -155,7 +157,7 @@ public class GameScreen implements Screen {
     }
 
     private void spawnGround() {
-        Ground ground = new Ground(game.CAMX, game.CAMY);
+        Ground ground = new Ground(game.CAMX, 0);
         moveableArray.add(ground);
         groundSpawnTime = TimeUtils.nanoTime();
     }
@@ -186,6 +188,9 @@ public class GameScreen implements Screen {
                 Ground ground = (Ground) obj;
 
                 checkCollisionGround(ground);
+                if (ground.getPosition().x + ground.getTexture().getWidth() <= game.CAMX) {
+                    
+                }
             }
 
             obj.remove(iter);
@@ -221,10 +226,8 @@ public class GameScreen implements Screen {
             //minskar koden här rejält, men kräver att vi ritar saker i rätt ordning.
             obj.draw(game);
 
-//            if (obj.getClass() == Ground.class) {
-//                Ground ground = (Ground) obj;
-//                ground.add(ground);
-//            } else if (obj.getClass() == Pipe.class) {
+
+//            else if (obj.getClass() == Pipe.class) {
 //                Pipe pipe = (Pipe) obj;
 //                pipes.add(pipe);
 //            } else if (obj.getClass() == GameBackgroundSky.class) {
