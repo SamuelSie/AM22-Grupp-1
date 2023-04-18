@@ -3,7 +3,6 @@ package se.yrgo.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -34,7 +33,7 @@ public class MainMenuScreen implements Screen {
     private Skin skin;
 
     //difficulties
-    private ButtonGroup buttonGroup;
+    private ButtonGroup<TextButton> buttonGroup;
     private float buttonWidth;
     private float buttonHeight;
 

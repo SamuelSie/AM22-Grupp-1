@@ -83,8 +83,8 @@ public class GameScreen implements Screen {
 //        game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
         sky.draw(game);
         background.draw(game);
-        drawMovable();
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
+        drawMovable();
         game.font.draw(game.batch, score.getLayout(), score.getX(), score.getY());
         game.batch.end();
 
@@ -155,7 +155,7 @@ public class GameScreen implements Screen {
     }
 
     private void spawnGround() {
-        Ground ground = new Ground(game.CAMX, -75);
+        Ground ground = new Ground(game.CAMX, game.CAMY);
         moveableArray.add(ground);
         groundSpawnTime = TimeUtils.nanoTime();
     }
@@ -221,9 +221,9 @@ public class GameScreen implements Screen {
             //minskar koden här rejält, men kräver att vi ritar saker i rätt ordning.
             obj.draw(game);
 
-            if (obj.getClass() == Ground.class) {
-                Ground ground = (Ground) obj;
-                groundArray.add(ground);
+//            if (obj.getClass() == Ground.class) {
+//                Ground ground = (Ground) obj;
+//                ground.add(ground);
 //            } else if (obj.getClass() == Pipe.class) {
 //                Pipe pipe = (Pipe) obj;
 //                pipes.add(pipe);
@@ -253,7 +253,7 @@ public class GameScreen implements Screen {
 //            game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
 //        }
 
-    }
+    
 
     private void checkIfDead() throws SQLException {
         if (isDead) {
