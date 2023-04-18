@@ -20,6 +20,7 @@ import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.sprites.idle.DeathScreenBg;
 import se.yrgo.game.sprites.idle.IdleTrogdor;
 import se.yrgo.utils.Animation;
+import se.yrgo.utils.Difficulty;
 import se.yrgo.utils.Score;
 
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ import java.sql.SQLException;
 public class DeathScreen implements Screen {
     private final JumpyBirb game;
     private OrthographicCamera camera;
-//    private FitViewport vp;
+    //    private FitViewport vp;
     private GlyphLayout layout;
     private GlyphLayout layout2;
     private GlyphLayout finalScore;
@@ -52,19 +53,19 @@ public class DeathScreen implements Screen {
 
 //        layout = new GlyphLayout();
 //        layout2 = new GlyphLayout();
-        finalScore = score.getHighscore();
+//        finalScore = score.getHighscore();
 
         music = Gdx.audio.newMusic(Gdx.files.internal("music/DeathMusic.mp3"));
         music.setLooping(true);
 
         canRestart = false;
-        
-        restartTask = new Timer.Task(){
-            public void run(){
+
+        restartTask = new Timer.Task() {
+            public void run() {
                 canRestart = true;
             }
         };
-        Timer.schedule(restartTask,1f);
+        Timer.schedule(restartTask, 1f);
 
         backGround = new DeathScreenBg();
 
@@ -84,9 +85,37 @@ public class DeathScreen implements Screen {
 //        layout2.setText(game.font, "PRESS SPACE TO PLAY AGAIN");
 //        finalScore.setText(game.font, "Round score: " + score.scoreToString() + "\nHighscore: " +
 //                score.highScoreToString());
+
         music.play();
 
         stage = new Stage(new FitViewport(game.CAMX, game.CAMY));
+        Table highscoreTable = new Table();
+        highscoreTable.setBounds(game.CAMX / 2, game.CAMY / 2, game.CAMX / 2, game.CAMY / 2);
+
+
+        TextField.TextFieldStyle textFieldStyle = skin.get(TextField.TextFieldStyle.class);
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = textFieldStyle.font;
+        labelStyle.background = textFieldStyle.background;
+        labelStyle.fontColor = textFieldStyle.fontColor;
+
+        try {
+            Label textField = new Label("Highscore " + Difficulty.getTable(), labelStyle);
+
+            textField.setText(score.getHighscore());
+
+            textField.setSize(10f, 10f);
+
+            highscoreTable.add(textField);
+            highscoreTable.padBottom(70);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Something wrong with reading from highscore: " + e.getMessage());
+        }
+        highscoreTable.toFront();
+
+
         Table table = new Table();
         table.setFillParent(true);
 
@@ -118,6 +147,7 @@ public class DeathScreen implements Screen {
 
         stage.addActor(backGround);
         stage.addActor(table);
+        stage.addActor(highscoreTable);
         stage.addActor(idleTrogdor);
 
 
@@ -132,9 +162,10 @@ public class DeathScreen implements Screen {
 //        ScreenUtils.clear(0.6f, 0.2f, 0.2f, 1);
 
         stage.act(delta);
+
         stage.draw();
-        
-         //Add delay before screen transition
+
+        //Add delay before screen transition
         if (canRestart && (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))) {
             restartTask.cancel();
             game.setScreen(new GameScreen(game, score));
@@ -146,7 +177,7 @@ public class DeathScreen implements Screen {
     public void resize(int width, int height) {
 
 //        vp.update(width, height);
-    stage.getViewport().update(width, height, true);
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

@@ -22,33 +22,31 @@ public class DBHandler {
 
         try {
             Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT score FROM highscore ORDER BY score DESC LIMIT 5");
+            ResultSet rs = stm.executeQuery("SELECT score FROM " + Difficulty.getTable() + " ORDER BY score DESC LIMIT 5");
 
             while (rs.next()) {
                 top5.add(rs.getString("score"));
             }
 
             return top5;
-        }
-        catch (SQLException e) {
-            throw new SQLException("Something wrong with getting highscore");
+        } catch (SQLException e) {
+            throw new SQLException("Something wrong with getting " + Difficulty.getTable());
         }
     }
 
     public void putHighScore(int score) throws SQLException {
         try {
-            if (!dbExist) {
-                Statement stm = conn.createStatement();
-                stm.execute("CREATE TABLE IF NOT EXISTS highscore (score INT)");
-                dbExist = true;
-            }
-            String updateString = "INSERT INTO highscore VALUES (?)";
+
+            Statement stm = conn.createStatement();
+            stm.execute("CREATE TABLE IF NOT EXISTS " + Difficulty.getTable() + " (score INT)");
+
+
+            String updateString = "INSERT INTO " + Difficulty.getTable() + " VALUES (?)";
             PreparedStatement pstm = conn.prepareStatement(updateString);
             pstm.setInt(1, score);
             pstm.execute();
-        }
-        catch (SQLException e ) {
-            throw new SQLException("Something wrong with putting into highscore..." + e.getMessage());
+        } catch (SQLException e) {
+            throw new SQLException("Something wrong with putting into " + Difficulty.getTable() + "... " + e.getMessage());
 
         }
     }
