@@ -16,7 +16,7 @@ public class Ground implements Movable {
 
     public Ground(int x, int y) {
         groundImg = new Texture("ground.png");
-        hitBox = new Rectangle(x, y, groundImg.getWidth() * 2, (groundImg.getHeight()));
+        hitBox = new Rectangle(x, y, groundImg.getWidth(), (groundImg.getHeight() - 44));
 
         position = new Vector3(x, y, 0);
 
@@ -40,7 +40,7 @@ public class Ground implements Movable {
 
     @Override
     public void draw(JumpyBirb game) {
-//        game.batch.draw(getTexture(), getPosition().x, getPosition().y, getTexture().getWidth() * 2, getTexture().getHeight());
+        game.batch.draw(getTexture(), getPosition().x, getPosition().y, getTexture().getWidth(), getTexture().getHeight());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Ground implements Movable {
 
     @Override
     public void remove(Iterator<Movable> iter) {
-        if (getPosition().x + getHitBox().getWidth() * 2 < 0) {
+        if (getPosition().x + getHitBox().getWidth() < 0) {
             dispose();
             iter.remove();
         }

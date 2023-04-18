@@ -25,10 +25,8 @@ public class GameScreen implements Screen {
     private FitViewport vp;
     private Array<Movable> moveableArray;
     private Array<Ground> groundArray;
-    private Array<Pipe> pipeArray;
     private long pipeSpawnTime;
     private long groundSpawnTime;
-    private long skySpawnTime;
     private boolean isDead;
     private Score score;
     private GameBackground background;
@@ -50,14 +48,15 @@ public class GameScreen implements Screen {
         vp = new FitViewport(game.CAMX, game.CAMY, camera);
 
 //        // Array av ground
-//        groundArray = new Array<Ground>();
+        groundArray = new Array<Ground>();
+        
 //        //Array av pipes
 //        pipeArray = new Array<Pipe>();
 
         moveableArray = new Array<Movable>();
 //        moveableArray.add(new GameBackgroundSky(0, -75));
 //        moveableArray.add(new GameBackground(0, 0));
-//        moveableArray.add(new Ground(0, -75));
+       moveableArray.add(new Ground(0, -75));
 //        spawnGround();
         spawnPipes();
 
@@ -84,8 +83,8 @@ public class GameScreen implements Screen {
 //        game.batch.draw(game.backGround, 0, 0, game.CAMX, game.CAMY);
         sky.draw(game);
         background.draw(game);
-        drawMovable();
         game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
+        drawMovable();
         game.font.draw(game.batch, score.getLayout(), score.getX(), score.getY());
         game.batch.end();
 
@@ -156,7 +155,7 @@ public class GameScreen implements Screen {
     }
 
     private void spawnGround() {
-        Ground ground = new Ground(game.CAMX, -75);
+        Ground ground = new Ground(game.CAMX, game.CAMY);
         moveableArray.add(ground);
         groundSpawnTime = TimeUtils.nanoTime();
     }
@@ -224,7 +223,7 @@ public class GameScreen implements Screen {
 
 //            if (obj.getClass() == Ground.class) {
 //                Ground ground = (Ground) obj;
-//                grounds.add(ground);
+//                ground.add(ground);
 //            } else if (obj.getClass() == Pipe.class) {
 //                Pipe pipe = (Pipe) obj;
 //                pipes.add(pipe);
@@ -237,7 +236,7 @@ public class GameScreen implements Screen {
 //            } else {
 //                throw new RuntimeException("Something went wrong when drawing movables.");
 //            }
-        }
+        }}
         // lekte lite med storlekarna här, behöver bestämma vad som är bra.
         // om vi ändrar height måste vi tänka på att den renderar från nere/vänster. så vi måste ändra hitbox också.
 //        for (GameBackgroundSky sky : skies) {
@@ -254,7 +253,7 @@ public class GameScreen implements Screen {
 //            game.batch.draw(ground.getTexture(), ground.getPosition().x, ground.getPosition().y, ground.getTexture().getWidth() * 2, ground.getTexture().getHeight());
 //        }
 
-    }
+    
 
     private void checkIfDead() throws SQLException {
         if (isDead) {
