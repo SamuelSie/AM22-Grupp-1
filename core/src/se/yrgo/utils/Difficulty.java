@@ -7,6 +7,7 @@ public class Difficulty {
     private static int gravity = -14;
     private static int dogeJumpVelocity = 300;
     private static String table = "easy";
+    private static int groundSpeed = 2;
 
     public static void easy() {
         speed = 100;
@@ -15,6 +16,7 @@ public class Difficulty {
         gravity = -14;
         dogeJumpVelocity = 300;
         table = "easy";
+        groundSpeed = 2;
     }
 
     public static void medium() {
@@ -24,6 +26,7 @@ public class Difficulty {
         gravity = -24;
         dogeJumpVelocity = 400;
         table = "medium";
+        groundSpeed = 4;
     }
 
     public static void hard() {
@@ -33,6 +36,7 @@ public class Difficulty {
         gravity = -34;
         dogeJumpVelocity = 500;
         table = "hard";
+        groundSpeed = 6;
     }
 
     public static int getSpeed() {
@@ -55,5 +59,11 @@ public class Difficulty {
         return dogeJumpVelocity;
     }
 
-    public static String getTable() { return table; }
+    public static String getTable() {
+        return table;
+    }
+
+    public static int getGroundSpeed() {
+        return groundSpeed;
+    }
 }

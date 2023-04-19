@@ -49,12 +49,12 @@ public class GameScreen implements Screen {
         vp = new FitViewport(game.CAMX, game.CAMY, camera);
 
 //        // Array av ground
-        groundArray = new Array<Ground>();
+        groundArray = new Array<>();
         
 //        //Array av pipes
 //        pipeArray = new Array<Pipe>();
 
-        moveableArray = new Array<Movable>();
+        moveableArray = new Array<>();
 //        moveableArray.add(new GameBackgroundSky(0, -75));
 //        moveableArray.add(new GameBackground(0, 0));
 
@@ -64,7 +64,7 @@ public class GameScreen implements Screen {
 
         sky = new GameBackgroundSky(0, 0);
         background = new GameBackground(0, 0);
-        ground = new Ground(0,0);
+        ground = new Ground(0,0, game);
 
 
 
@@ -102,7 +102,7 @@ public class GameScreen implements Screen {
         doge.update(delta);
 
         checkPlayerInput(delta);
-
+        checkCollisionGround(ground);
         checkIfHitCeiling();
 
         //kolla igenom kedjan av throws och bestäm var catcha
@@ -159,7 +159,7 @@ public class GameScreen implements Screen {
     }
 
     private void spawnGround() {
-        Ground ground = new Ground(game.CAMX, 0);
+        Ground ground = new Ground(game.CAMX, 0, game);
         moveableArray.add(ground);
 //        groundSpawnTime = TimeUtils.nanoTime();
     }
@@ -184,7 +184,7 @@ public class GameScreen implements Screen {
             if (obj.getClass() == Ground.class) {
                 Ground ground = (Ground) obj;
 
-                checkCollisionGround(ground);
+
 
 //                if (ground.getPosition().x + ground.getTexture().getWidth() <= game.CAMX) {
 //                    spawnGround();
