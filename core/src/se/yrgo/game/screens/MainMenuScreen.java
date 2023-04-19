@@ -36,6 +36,7 @@ public class MainMenuScreen implements Screen {
     private float buttonWidth;
     private float buttonHeight;
 
+
     public MainMenuScreen(final JumpyBirb game, Score score) {
         this.game = game;
         this.score = score;

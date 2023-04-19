@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import se.yrgo.game.JumpyBirb;
+import se.yrgo.utils.Difficulty;
 
 import java.util.Iterator;
 
@@ -43,7 +44,7 @@ public class Ground implements Movable {
     @Override
     public void draw(JumpyBirb game) {
         game.batch.draw(texture,0,0, srcX, 0, texture.getWidth(), texture.getHeight());
-        srcX += 2;
+        srcX += Difficulty.getGroundSpeed();
     }
 
 
