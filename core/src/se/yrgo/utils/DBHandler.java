@@ -1,5 +1,7 @@
 package se.yrgo.utils;
 
+import se.yrgo.game.screens.MainMenuScreen;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,7 @@ public class DBHandler {
     private final String connectionString;
     private Connection conn;
     private boolean dbExist;
+    private String playerName;
 
 
     public DBHandler() throws SQLException {
@@ -20,12 +23,16 @@ public class DBHandler {
     public List<String> getTop5Highscore() throws SQLException {
         List<String> top5 = new ArrayList<>();
 
+
         try {
             Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT score FROM " + Difficulty.getTable() + " ORDER BY score DESC LIMIT 5");
+            ResultSet rs = stm.executeQuery("SELECT name, score FROM " + Difficulty.getTable() + " ORDER BY score DESC LIMIT 5");
 
             while (rs.next()) {
-                top5.add(rs.getString("score"));
+                StringBuilder sb = new StringBuilder();
+                sb.append(rs.getString("name") + ": ");
+                sb.append(rs.getString("score"));
+                top5.add(sb.toString());
             }
 
             return top5;
@@ -36,14 +43,16 @@ public class DBHandler {
 
     public void putHighScore(int score) throws SQLException {
         try {
+            playerName = MainMenuScreen.getPlayerName();
 
             Statement stm = conn.createStatement();
-            stm.execute("CREATE TABLE IF NOT EXISTS " + Difficulty.getTable() + " (score INT)");
+            stm.execute("CREATE TABLE IF NOT EXISTS " + Difficulty.getTable() + " (name STRING, score INT)");
 
 
-            String updateString = "INSERT INTO " + Difficulty.getTable() + " VALUES (?)";
+            String updateString = "INSERT INTO " + Difficulty.getTable() + " VALUES (?, ?)";
             PreparedStatement pstm = conn.prepareStatement(updateString);
-            pstm.setInt(1, score);
+            pstm.setString(1, playerName);
+            pstm.setInt(2, score);
             pstm.execute();
         } catch (SQLException e) {
             throw new SQLException("Something wrong with putting into " + Difficulty.getTable() + "... " + e.getMessage());

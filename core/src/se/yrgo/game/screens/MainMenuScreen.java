@@ -35,6 +35,8 @@ public class MainMenuScreen implements Screen {
     private ButtonGroup<TextButton> buttonGroup;
     private float buttonWidth;
     private float buttonHeight;
+    private TextField textField;
+    private static String playerName;
 
 
     public MainMenuScreen(final JumpyBirb game, Score score) {
@@ -59,6 +61,11 @@ public class MainMenuScreen implements Screen {
         buttonGroup = new ButtonGroup();
         buttonWidth = game.CAMX / 5;
         buttonHeight = buttonWidth * 0.3f;
+
+        // for players to input their names
+        textField = new TextField("", skin);
+        textField.setMessageText("Enter your doge \n, 3 characters");
+        textField.setMaxLength(3);
     }
 
 
@@ -117,6 +124,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(backGroundImage);
         stage.addActor(table);
         stage.addActor(idleDoge);
+        stage.addActor(textField);
 
         //set the input processor to the stage
         Gdx.input.setInputProcessor(stage);
@@ -146,6 +154,7 @@ public class MainMenuScreen implements Screen {
         stageBatch.end();
 
         stage.draw();
+
 
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
 //            game.setScreen(new GameScreen(game, score));
@@ -192,6 +201,8 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new GameScreen(game, score));
+                //fetching the playerName when start is pressed
+                playerName = textField.getText();
                 dispose();
 
             }
@@ -238,5 +249,9 @@ public class MainMenuScreen implements Screen {
         InputEvent event2 = new InputEvent();
         event2.setType(InputEvent.Type.touchUp);
         button.fire(event2);
+    }
+
+    public static String getPlayerName() {
+        return playerName;
     }
 }
