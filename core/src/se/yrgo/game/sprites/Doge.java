@@ -15,7 +15,7 @@ public class Doge {
     private Vector3 position;
     private Vector3 velocity;
     private Texture dogeImg;
-    private  int offset;
+    private int offset;
 
 
 
@@ -32,8 +32,8 @@ public class Doge {
         animation = new Animation(new TextureRegion(dogeImg), 4, 0.3f);
         dogeWidth = 45;
         dogeHeight = 38;
-        hitBoxHead = new Rectangle(x + (dogeWidth / 2), y, dogeWidth / 2 - (offset * 2), dogeHeight - (offset * 2));
-        hitBoxBody = new Rectangle(x, y, dogeWidth - (offset * 2), dogeHeight / 2 - (offset * 2));
+        hitBoxHead = new Rectangle(x + (dogeWidth / 2f), y, dogeWidth / 2f - (offset * 2f), dogeHeight - (offset * 2f));
+        hitBoxBody = new Rectangle(x, y, dogeWidth - (offset * 2f), dogeHeight / 2f - (offset * 2f));
     }
     
     public void update(float delta) {
@@ -49,7 +49,7 @@ public class Doge {
         
         //adderar hastigheten i form av antal pixlar till position.
         position.add(0, velocity.y, 0);
-        hitBoxHead.setPosition(getPosition().x + (dogeWidth / 2) + offset, getPosition().y + offset);
+        hitBoxHead.setPosition(getPosition().x + (dogeWidth / 2f) + offset, getPosition().y + offset);
         hitBoxBody.setPosition(position.x + offset, position.y + offset);
 
         

@@ -22,7 +22,7 @@ public class GameBackgroundSky {
 
     public void draw(JumpyBirb game) {
       //  game.batch.draw(getBackground(), getPosition().x, getPosition().y, getBackground().getWidth(), getBackground().getHeight());
-        game.batch.draw(background,0,0, srcX, 0, background.getWidth(), background.getHeight());
+        game.getBatch().draw(background,0,0, srcX, 0, background.getWidth(), background.getHeight());
         srcX += 0;
     }
 

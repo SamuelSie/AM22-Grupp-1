@@ -59,7 +59,7 @@ public class MainMenuScreen implements Screen {
 
         //difficulties
         buttonGroup = new ButtonGroup();
-        buttonWidth = game.CAMX / 5;
+        buttonWidth = game.CAMX / 5f;
         buttonHeight = buttonWidth * 0.3f;
 
         // for players to input their names
@@ -75,7 +75,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
 
-        layout.setText(game.font, "Press SPACE to start");
+        layout.setText(game.getFont(), "Press SPACE to start");
         music.setLooping(true);
         music.play();
 

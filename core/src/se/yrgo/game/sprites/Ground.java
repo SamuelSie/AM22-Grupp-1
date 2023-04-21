@@ -18,7 +18,7 @@ public class Ground implements Movable {
 
     public Ground(int x, int y, JumpyBirb game) {
         texture = new Texture("ground.png");
-        hitBox = new Rectangle(x, y, game.CAMX, texture.getHeight() - 42);
+        hitBox = new Rectangle(x, y, game.CAMX, texture.getHeight() - 42f);
         position = new Vector3(x, y, 0);
         texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         srcX = 0;
@@ -43,7 +43,7 @@ public class Ground implements Movable {
 
     @Override
     public void draw(JumpyBirb game) {
-        game.batch.draw(texture,0,0, srcX, 0, texture.getWidth(), texture.getHeight());
+        game.getBatch().draw(texture,0,0, srcX, 0, texture.getWidth(), texture.getHeight());
         srcX += Difficulty.getGroundSpeed();
     }
 

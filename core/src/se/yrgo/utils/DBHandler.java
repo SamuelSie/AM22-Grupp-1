@@ -23,9 +23,8 @@ public class DBHandler {
     public List<String> getTop5Highscore() throws SQLException {
         List<String> top5 = new ArrayList<>();
 
+        try (Statement stm = conn.createStatement()) {
 
-        try {
-            Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("SELECT name, score FROM " + Difficulty.getTable() + " ORDER BY score DESC LIMIT 5");
 
             while (rs.next()) {
@@ -42,22 +41,21 @@ public class DBHandler {
     }
 
     public void putHighScore(int score) throws SQLException {
-        try {
             playerName = MainMenuScreen.getPlayerName();
+            String updateString = "INSERT INTO " + Difficulty.getTable() + " VALUES (?, ?)";
 
-            Statement stm = conn.createStatement();
+        try (Statement stm = conn.createStatement();
+             PreparedStatement pstm = conn.prepareStatement(updateString)) {
             stm.execute("CREATE TABLE IF NOT EXISTS " + Difficulty.getTable() + " (name STRING, score INT)");
 
-
-            String updateString = "INSERT INTO " + Difficulty.getTable() + " VALUES (?, ?)";
-            PreparedStatement pstm = conn.prepareStatement(updateString);
             pstm.setString(1, playerName);
             pstm.setInt(2, score);
             pstm.execute();
+
         } catch (SQLException e) {
             throw new SQLException("Something wrong with putting into " + Difficulty.getTable() + "... " + e.getMessage());
-
         }
+
     }
 
 

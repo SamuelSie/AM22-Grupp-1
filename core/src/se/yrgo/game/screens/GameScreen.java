@@ -81,16 +81,16 @@ public class GameScreen implements Screen {
 
         vp.apply();
         camera.update();
-        game.batch.setProjectionMatrix(vp.getCamera().combined);
+        game.getBatch().setProjectionMatrix(vp.getCamera().combined);
 
-        game.batch.begin();
+        game.getBatch().begin();
         sky.draw(game);
         background.draw(game);
-        game.batch.draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
+        game.getBatch().draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
         drawMovable();
         ground.draw(game);
-        game.font.draw(game.batch, score.getLayout(), score.getX(), score.getY());
-        game.batch.end();
+        game.getFont().draw(game.getBatch(), score.getLayout(), score.getX(), score.getY());
+        game.getBatch().end();
 
         //spawn pipes in the given time
         if (TimeUtils.nanoTime() - pipeSpawnTime > Difficulty.getPipeSpawnRate()) spawnPipes();
@@ -112,7 +112,7 @@ public class GameScreen implements Screen {
             throw new RuntimeException(e);
         }
 
-        score.getLayout().setText(game.font, score.scoreToString());
+        score.getLayout().setText(game.getFont(), score.scoreToString());
     }
 
 

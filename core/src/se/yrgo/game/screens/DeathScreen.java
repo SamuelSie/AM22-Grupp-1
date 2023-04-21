@@ -73,7 +73,7 @@ public class DeathScreen implements Screen {
 
         skin = new Skin(Gdx.files.internal("skin/skin/comic-ui.json"));
 
-        buttonWidth = game.CAMX / 5;
+        buttonWidth = game.CAMX / 5f;
         buttonHeight = buttonWidth * 0.3f;
 
 
@@ -90,7 +90,7 @@ public class DeathScreen implements Screen {
 
         stage = new Stage(new FitViewport(game.CAMX, game.CAMY));
         Table highscoreTable = new Table();
-        highscoreTable.setBounds(game.CAMX / 2, game.CAMY / 2, game.CAMX / 2, game.CAMY / 2);
+        highscoreTable.setBounds(game.CAMX / 2f, game.CAMY / 2f, game.CAMX / 2f, game.CAMY / 2f);
 
 
         TextField.TextFieldStyle textFieldStyle = skin.get(TextField.TextFieldStyle.class);
