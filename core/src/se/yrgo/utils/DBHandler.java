@@ -9,9 +9,6 @@ import java.util.List;
 public class DBHandler {
     private final String connectionString;
     private Connection conn;
-    private boolean dbExist;
-    private String playerName;
-
 
     public DBHandler() throws SQLException {
         //varför börjar den leta i assets istället för AM23?
@@ -41,7 +38,7 @@ public class DBHandler {
     }
 
     public void putHighScore(int score) throws SQLException {
-            playerName = MainMenuScreen.getPlayerName();
+            String playerName = MainMenuScreen.getPlayerName();
             String updateString = "INSERT INTO " + Difficulty.getTable() + " VALUES (?, ?)";
 
         try (Statement stm = conn.createStatement();

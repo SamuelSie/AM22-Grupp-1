@@ -11,7 +11,7 @@ import se.yrgo.utils.Difficulty;
 
 import java.util.Iterator;
 
-public class Pipe implements Movable {
+public class Pipe {
     private boolean isScored;
     private Texture kettleImg;
     private Rectangle hitBoxKettle;
@@ -48,13 +48,13 @@ public class Pipe implements Movable {
 
     }
 
-    @Override
+
     public void draw(JumpyBirb game) {
         game.getBatch().draw(getKettleImg(), getPositionKettle().x, getPositionKettle().y, kettleWidth, kettleHeight);
         game.getBatch().draw(getSaladFingersImg(), getPositionSalad().x, getPositionSalad().y, saladFingersImg.getWidth() / 3f, saladFingersImg.getHeight());
     }
 
-    @Override
+
     public void move() {
         getPositionSalad().x -= Difficulty.getSpeed() * Gdx.graphics.getDeltaTime();
         getPositionKettle().x -= Difficulty.getSpeed() * Gdx.graphics.getDeltaTime();
@@ -68,8 +68,8 @@ public class Pipe implements Movable {
 
     }
 
-    @Override
-    public void remove(Iterator<Movable> iter) {
+
+    public void remove(Iterator<Pipe> iter) {
         if (getPositionSalad().x + saladWidth < 0) {
             dispose();
             iter.remove();

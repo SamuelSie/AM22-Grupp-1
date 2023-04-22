@@ -16,9 +16,6 @@ public class Doge {
     private Vector3 velocity;
     private Texture dogeImg;
     private int offset;
-
-
-
     private Animation animation;
     
     
@@ -59,7 +56,7 @@ public class Doge {
     }
     
     //en kommentar för att visa merge
-    public void jump(float deltaTime) {
+    public void jump() {
         //sätter hastighet i y-axis enligt Difficulty.dogeJumpVelocity
         velocity.y = Difficulty.getDogeJumpVelocity();
     }
@@ -86,8 +83,7 @@ public class Doge {
     }
     
     public boolean isCollided(Rectangle rect) {
-        if (hitBoxHead.overlaps(rect) || hitBoxBody.overlaps(rect)) return true;
-        return false;
+        return hitBoxHead.overlaps(rect) || hitBoxBody.overlaps(rect);
     }
     public Animation getAnimation() {
         return animation;

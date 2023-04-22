@@ -23,10 +23,8 @@ public class GameScreen implements Screen {
     private Music music;
     private OrthographicCamera camera;
     private FitViewport vp;
-    private Array<Movable> moveableArray;
-    private Array<Ground> groundArray;
+    private Array<Pipe> pipeArray;
     private long pipeSpawnTime;
-    private long groundSpawnTime;
     private boolean isDead;
     private Score score;
     private GameBackground background;
@@ -37,7 +35,7 @@ public class GameScreen implements Screen {
     public GameScreen(final JumpyBirb game, Score score) {
         this.game = game;
         //create doge & ground object with x & y position
-        doge = new Doge(20, game.CAMY / 2);
+        doge = new Doge(20, JumpyBirb.CAMY / 2);
 
         // background music
         music = Gdx.audio.newMusic(Gdx.files.internal("music/GameMusic.mp3"));
@@ -45,27 +43,17 @@ public class GameScreen implements Screen {
 
         // create camera
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, game.CAMX, game.CAMY);
-        vp = new FitViewport(game.CAMX, game.CAMY, camera);
+        camera.setToOrtho(false, JumpyBirb.CAMX, JumpyBirb.CAMY);
+        vp = new FitViewport(JumpyBirb.CAMX, JumpyBirb.CAMY, camera);
 
-//        // Array av ground
-        groundArray = new Array<>();
-        
-//        //Array av pipes
-//        pipeArray = new Array<Pipe>();
+        pipeArray = new Array<>();
 
-        moveableArray = new Array<>();
-//        moveableArray.add(new GameBackgroundSky(0, -75));
-//        moveableArray.add(new GameBackground(0, 0));
-
-//        spawnGround();
         spawnPipes();
 
 
         sky = new GameBackgroundSky(0, 0);
         background = new GameBackground(0, 0);
-        ground = new Ground(0,0, game);
-
+        ground = new Ground(0, 0);
 
 
         isDead = false;
@@ -77,7 +65,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-//        ScreenUtils.clear(0, 0, 0, 1f);
 
         vp.apply();
         camera.update();
@@ -87,21 +74,20 @@ public class GameScreen implements Screen {
         sky.draw(game);
         background.draw(game);
         game.getBatch().draw(doge.getTexture(), doge.getPosition().x, doge.getPosition().y, doge.getTexture().getRegionWidth(), doge.getTexture().getRegionHeight());
-        drawMovable();
+        drawPipe();
         ground.draw(game);
         game.getFont().draw(game.getBatch(), score.getLayout(), score.getX(), score.getY());
         game.getBatch().end();
 
         //spawn pipes in the given time
         if (TimeUtils.nanoTime() - pipeSpawnTime > Difficulty.getPipeSpawnRate()) spawnPipes();
-//        if (TimeUtils.nanoTime() - groundSpawnTime > 3_350_000_000L) spawnGround();
 
-        loopOverMovable(delta);
+        loopOverPipes(delta);
 
 
         doge.update(delta);
 
-        checkPlayerInput(delta);
+        checkPlayerInput();
         checkCollisionGround(ground);
         checkIfHitCeiling();
 
@@ -130,17 +116,17 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-
+        // Not yet implemented
     }
 
     @Override
     public void resume() {
-
+        // Not yet implemented
     }
 
     @Override
     public void hide() {
-
+        // Not yet implemented
     }
 
     @Override
@@ -152,46 +138,24 @@ public class GameScreen implements Screen {
     private void spawnPipes() {
         int isAdding = ThreadLocalRandom.current().nextInt(2);
         int middleSpace = ThreadLocalRandom.current().nextInt(Difficulty.getPipeDistance());
-        Pipe pipe = new Pipe(game.CAMX, game.CAMY / 2 - game.CAMY + (isAdding == 1 ? middleSpace / 2 : -middleSpace / 2));
+        Pipe pipe = new Pipe(JumpyBirb.CAMX, JumpyBirb.CAMY / 2 - JumpyBirb.CAMY + (isAdding == 1 ? middleSpace / 2 : -middleSpace / 2));
 
-        moveableArray.add(pipe);
+        pipeArray.add(pipe);
         pipeSpawnTime = TimeUtils.nanoTime();
     }
 
-    private void spawnGround() {
-        Ground ground = new Ground(game.CAMX, 0, game);
-        moveableArray.add(ground);
-//        groundSpawnTime = TimeUtils.nanoTime();
-    }
+    private void loopOverPipes(float delta) {
+        for (Iterator<Pipe> iter = pipeArray.iterator(); iter.hasNext(); ) {
+            Pipe pipe = iter.next();
+            pipe.move();
 
+            pipe.getSaladAnimation().update(delta);
 
+            checkCollision(pipe);
 
-    private void loopOverMovable(float delta) {
-        for (Iterator<Movable> iter = moveableArray.iterator(); iter.hasNext(); ) {
-            Movable obj = iter.next();
-            obj.move();
+            updateScore(pipe);
 
-
-            if (obj.getClass() == Pipe.class) {
-                Pipe pipe = (Pipe) obj;
-                pipe.getSaladAnimation().update(delta);
-
-                checkCollision(pipe);
-
-                updateScore(pipe);
-            }
-
-            if (obj.getClass() == Ground.class) {
-                Ground ground = (Ground) obj;
-
-
-
-//                if (ground.getPosition().x + ground.getTexture().getWidth() <= game.CAMX) {
-//                    spawnGround();
-//                }
-            }
-
-            obj.remove(iter);
+            pipe.remove(iter);
         }
     }
 
@@ -213,19 +177,18 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void drawMovable() {
+    private void drawPipe() {
 
-        for (Movable obj : moveableArray) {
+        for (Pipe pipe : pipeArray) {
             //minskar koden här rejält, men kräver att vi ritar saker i rätt ordning.
-            obj.draw(game);
+            pipe.draw(game);
+        }
+    }
 
-
-        }}
-    
 
     private void checkIfDead() throws SQLException {
         if (isDead) {
-            score.putHighscore(score.getScore());
+            score.putHighscore(score.getCurrentScore());
             game.setScreen(new DeathScreen(game, score));
             dispose();
         }
@@ -242,9 +205,9 @@ public class GameScreen implements Screen {
 
     }
 
-    private void checkPlayerInput(float delta) {
+    private void checkPlayerInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.justTouched()) {
-            doge.jump(delta);
+            doge.jump();
             doge.getAnimation().setStartJumpAnimation(true);
         }
     }

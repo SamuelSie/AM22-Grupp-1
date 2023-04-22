@@ -16,9 +16,9 @@ public class Ground implements Movable {
     private Vector3 position;
     private int srcX;
 
-    public Ground(int x, int y, JumpyBirb game) {
+    public Ground(int x, int y) {
         texture = new Texture("ground.png");
-        hitBox = new Rectangle(x, y, game.CAMX, texture.getHeight() - 42f);
+        hitBox = new Rectangle(x, y, JumpyBirb.CAMX, texture.getHeight() - 42f);
         position = new Vector3(x, y, 0);
         texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         srcX = 0;

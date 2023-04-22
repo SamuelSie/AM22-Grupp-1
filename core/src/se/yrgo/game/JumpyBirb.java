@@ -17,7 +17,6 @@ public class JumpyBirb extends Game {
     public static final int CAMX = WIDTH / 2;
     public static final int CAMY = HEIGHT / 2;
     private String lastDifficulty;
-    private Score score;
 
     @Override
     public void create() {
@@ -27,14 +26,15 @@ public class JumpyBirb extends Game {
 
         /// ajajaj nu är det rörigt med SQLException!! STÄDA UPP!
         try {
-            score = new Score(CAMX -100, CAMY - 20, font);
+            Score score = new Score(CAMX - 100, CAMY - 20);
+            this.setScreen(new MainMenuScreen(this, score));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Something went wrong when creating DBHandler: " + e.getMessage());
         }
 
-        this.setScreen(new MainMenuScreen(this, score));
     }
 
+    @Override
     public void render() {
         super.render();
     }
@@ -43,6 +43,7 @@ public class JumpyBirb extends Game {
     public String getLastDifficulty() {
         return lastDifficulty;
     }
+
     public void setLastDifficulty(String lastDifficulty) {
         this.lastDifficulty = lastDifficulty;
     }
@@ -55,6 +56,7 @@ public class JumpyBirb extends Game {
         return this.font;
     }
 
+    @Override
     public void dispose() {
         batch.dispose();
         font.dispose();

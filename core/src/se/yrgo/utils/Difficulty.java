@@ -9,6 +9,8 @@ public class Difficulty {
     private static String table = "easy";
     private static int groundSpeed = 2;
 
+    private Difficulty(){}
+
     public static void easy() {
         speed = 100;
         pipeSpawnRate = 300000000000L / speed;
