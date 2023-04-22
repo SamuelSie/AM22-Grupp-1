@@ -58,8 +58,8 @@ public class MainMenuScreen implements Screen {
         skin = new Skin(Gdx.files.internal("skin/skin/comic-ui.json"));
 
         //difficulties
-        buttonGroup = new ButtonGroup();
-        buttonWidth = game.CAMX / 5;
+        buttonGroup = new ButtonGroup<TextButton>();
+        buttonWidth = JumpyBirb.CAMX / 5f;
         buttonHeight = buttonWidth * 0.3f;
 
         // for players to input their names
@@ -75,13 +75,13 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
 
-        layout.setText(game.font, "Press SPACE to start");
+        layout.setText(game.getFont(), "Press SPACE to start");
         music.setLooping(true);
         music.play();
 
         //scene2d stuff
         //creating the stage, table and buttons
-        stage = new Stage(new FitViewport(game.CAMX, game.CAMY));
+        stage = new Stage(new FitViewport(JumpyBirb.CAMX, JumpyBirb.CAMY));
         Table table = new Table();
         table.setFillParent(true);
 
@@ -103,9 +103,6 @@ public class MainMenuScreen implements Screen {
 
         //button functionality
         buttonListeners(startButton, exitButton, easyButton, mediumButton, hardButton);
-//            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
-//
-//            }
 
         //adding the buttons to the table
         table.add(startButton).padBottom(20);
@@ -145,7 +142,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-//        ScreenUtils.clear(0,0,0.2f,1);
         stage.act(delta);
 
         Batch stageBatch = stage.getBatch();
@@ -165,24 +161,22 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-//            vp.update(width, height);
         stage.getViewport().update(width, height, true);
-
     }
 
     @Override
     public void pause() {
-
+        // Not used
     }
 
     @Override
     public void resume() {
-
+        // Not used
     }
 
     @Override
     public void hide() {
-
+        // Not used
     }
 
     @Override
@@ -192,8 +186,6 @@ public class MainMenuScreen implements Screen {
         idleDoge.dispose();
         music.dispose();
         backGround.dispose();
-
-
     }
 
     private void buttonListeners(final TextButton startButton, TextButton exitButton, final TextButton easyButton, final TextButton mediumButton, final TextButton hardButton) {

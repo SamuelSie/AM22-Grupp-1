@@ -6,10 +6,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class Score {
-    private int score;
+    private int currentScore;
     private int highScore;
     private GlyphLayout layout;
     private int x;
@@ -17,17 +16,15 @@ public class Score {
 
     private Sound scoreSound;
     private DBHandler db;
-    private BitmapFont font;
 
 
 
-    public Score(int x, int y, BitmapFont font) throws SQLException{
-        this.score = 0;
+    public Score(int x, int y) throws SQLException{
+        this.currentScore = 0;
         this.highScore = 0;
         layout = new GlyphLayout();
         this.x = x;
         this.y = y;
-        this.font = font;
 
         //placeholder sound for scoring
         scoreSound = Gdx.audio.newSound(Gdx.files.internal("music/points.mp3"));
@@ -36,26 +33,24 @@ public class Score {
 
     public void score() {
         scoreSound.play();
-        score += 1000;
+        currentScore += 1000;
     }
 
     public void newHighScore(){
-        if (score > highScore) {
-            highScore = score;
+        if (currentScore > highScore) {
+            highScore = currentScore;
         }
     }
 
     public String getHighscore() throws SQLException {
-//        GlyphLayout top5 = new GlyphLayout();
         StringBuilder sb = new StringBuilder();
             sb.append("Highscore: " + Difficulty.getTable());
 
-        for(String score : db.getTop5Highscore()){
+        for(String highscore : db.getTop5Highscore()){
             sb.append("\n");
-            sb.append(score);
+            sb.append(highscore);
         }
 
-//        top5.setText(font, sb.toString());
         return sb.toString();
     }
 
@@ -64,23 +59,19 @@ public class Score {
     }
 
     public void resetScore(){
-        score = 0;
+        currentScore = 0;
     }
 
-    public int getScore() {
-        return score;
+    public int getCurrentScore() {
+        return currentScore;
     }
 
     public String scoreToString(){
-        return Integer.toString(score);
+        return Integer.toString(currentScore);
     }
 
     public String highScoreToString() {
         return Integer.toString(highScore);
-    }
-
-    public int getHighScore() {
-        return highScore;
     }
 
     public GlyphLayout getLayout() {

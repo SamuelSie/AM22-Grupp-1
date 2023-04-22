@@ -2,29 +2,21 @@ package se.yrgo.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import se.yrgo.game.screens.MainMenuScreen;
-import se.yrgo.utils.Difficulty;
 import se.yrgo.utils.Score;
 
 import java.sql.SQLException;
 
 public class JumpyBirb extends Game {
-    public SpriteBatch batch;
-    public BitmapFont font;
-
+    private SpriteBatch batch;
+    private BitmapFont font;
     public static final int WIDTH = 960;
     public static final int HEIGHT = 720;
     public static final int CAMX = WIDTH / 2;
     public static final int CAMY = HEIGHT / 2;
-
-
-
     private String lastDifficulty;
-    private Score score;
 
     @Override
     public void create() {
@@ -34,14 +26,15 @@ public class JumpyBirb extends Game {
 
         /// ajajaj nu är det rörigt med SQLException!! STÄDA UPP!
         try {
-            score = new Score(CAMX -100, CAMY - 20, font);
+            Score score = new Score(CAMX - 100, CAMY - 20);
+            this.setScreen(new MainMenuScreen(this, score));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Something went wrong when creating DBHandler: " + e.getMessage());
         }
 
-        this.setScreen(new MainMenuScreen(this, score));
     }
 
+    @Override
     public void render() {
         super.render();
     }
@@ -50,10 +43,20 @@ public class JumpyBirb extends Game {
     public String getLastDifficulty() {
         return lastDifficulty;
     }
+
     public void setLastDifficulty(String lastDifficulty) {
         this.lastDifficulty = lastDifficulty;
     }
 
+    public SpriteBatch getBatch() {
+        return this.batch;
+    }
+
+    public BitmapFont getFont() {
+        return this.font;
+    }
+
+    @Override
     public void dispose() {
         batch.dispose();
         font.dispose();

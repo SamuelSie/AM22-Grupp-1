@@ -11,15 +11,15 @@ import se.yrgo.utils.Difficulty;
 
 import java.util.Iterator;
 
-public class Pipe implements Movable {
+public class Pipe {
     private boolean isScored;
     private Texture kettleImg;
     private Rectangle hitBoxKettle;
     private Rectangle hitBoxChain;
-    private int kettleWidth;
-    private int kettleHeight;
-    private int saladWidth;
-    private int saladHeight;
+    private float kettleWidth;
+    private float kettleHeight;
+    private float saladWidth;
+    private float saladHeight;
 
     private Rectangle hitBoxSaladBody;
     private Rectangle hitBoxSaladHand;
@@ -43,18 +43,18 @@ public class Pipe implements Movable {
         kettleWidth = 40;
         kettleHeight = 250;
         kettleImg = new Texture("rustyKettle.png");
-        hitBoxKettle = new Rectangle(x, y, kettleWidth, 40);
+        hitBoxKettle = new Rectangle(x, y, kettleWidth, 40f);
         hitBoxChain = new Rectangle(x + (kettleWidth / 2), y, kettleWidth / 7, kettleHeight);
 
     }
 
-    @Override
+
     public void draw(JumpyBirb game) {
-        game.batch.draw(getKettleImg(), getPositionKettle().x, getPositionKettle().y, kettleWidth, kettleHeight);
-        game.batch.draw(getSaladFingersImg(), getPositionSalad().x, getPositionSalad().y, saladFingersImg.getWidth() / 3, saladFingersImg.getHeight());
+        game.getBatch().draw(getKettleImg(), getPositionKettle().x, getPositionKettle().y, kettleWidth, kettleHeight);
+        game.getBatch().draw(getSaladFingersImg(), getPositionSalad().x, getPositionSalad().y, saladFingersImg.getWidth() / 3f, saladFingersImg.getHeight());
     }
 
-    @Override
+
     public void move() {
         getPositionSalad().x -= Difficulty.getSpeed() * Gdx.graphics.getDeltaTime();
         getPositionKettle().x -= Difficulty.getSpeed() * Gdx.graphics.getDeltaTime();
@@ -68,8 +68,8 @@ public class Pipe implements Movable {
 
     }
 
-    @Override
-    public void remove(Iterator<Movable> iter) {
+
+    public void remove(Iterator<Pipe> iter) {
         if (getPositionSalad().x + saladWidth < 0) {
             dispose();
             iter.remove();

@@ -4,12 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -19,7 +13,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.sprites.idle.DeathScreenBg;
 import se.yrgo.game.sprites.idle.IdleTrogdor;
-import se.yrgo.utils.Animation;
 import se.yrgo.utils.Difficulty;
 import se.yrgo.utils.Score;
 
@@ -27,33 +20,19 @@ import java.sql.SQLException;
 
 public class DeathScreen implements Screen {
     private final JumpyBirb game;
-    private OrthographicCamera camera;
-    //    private FitViewport vp;
-    private GlyphLayout layout;
-    private GlyphLayout layout2;
-    private GlyphLayout finalScore;
     private DeathScreenBg backGround;
     private IdleTrogdor idleTrogdor;
     private Music music;
     private Score score;
     private Stage stage;
     private Skin skin;
-    private float buttonWidth;
-    private float buttonHeight;
     private boolean canRestart;
     private Timer.Task restartTask;
 
-    public DeathScreen(final JumpyBirb game, Score score) throws SQLException {
+    public DeathScreen(final JumpyBirb game, Score score) {
 
         this.game = game;
         this.score = score;
-
-//        camera = new OrthographicCamera();
-//        camera.setToOrtho(false, game.CAMX, game.CAMY);
-
-//        layout = new GlyphLayout();
-//        layout2 = new GlyphLayout();
-//        finalScore = score.getHighscore();
 
         music = Gdx.audio.newMusic(Gdx.files.internal("music/DeathMusic.mp3"));
         music.setLooping(true);
@@ -72,25 +51,15 @@ public class DeathScreen implements Screen {
         idleTrogdor = new IdleTrogdor();
 
         skin = new Skin(Gdx.files.internal("skin/skin/comic-ui.json"));
-
-        buttonWidth = game.CAMX / 5;
-        buttonHeight = buttonWidth * 0.3f;
-
-
     }
 
     @Override
     public void show() {
-//        layout.setText(game.font, "WELCOME TO YOUR DOOM");
-//        layout2.setText(game.font, "PRESS SPACE TO PLAY AGAIN");
-//        finalScore.setText(game.font, "Round score: " + score.scoreToString() + "\nHighscore: " +
-//                score.highScoreToString());
-
         music.play();
 
-        stage = new Stage(new FitViewport(game.CAMX, game.CAMY));
+        stage = new Stage(new FitViewport(JumpyBirb.CAMX, JumpyBirb.CAMY));
         Table highscoreTable = new Table();
-        highscoreTable.setBounds(game.CAMX / 2, game.CAMY / 2, game.CAMX / 2, game.CAMY / 2);
+        highscoreTable.setBounds(JumpyBirb.CAMX / 2f, JumpyBirb.CAMY / 2f, JumpyBirb.CAMX / 2f, JumpyBirb.CAMY / 2f);
 
 
         TextField.TextFieldStyle textFieldStyle = skin.get(TextField.TextFieldStyle.class);
@@ -150,8 +119,6 @@ public class DeathScreen implements Screen {
         stage.addActor(highscoreTable);
         stage.addActor(idleTrogdor);
 
-
-//        idleTrogdor.toFront();
         Gdx.input.setInputProcessor(stage);
 
 
@@ -159,8 +126,6 @@ public class DeathScreen implements Screen {
 
     @Override
     public void render(float delta) {
-//        ScreenUtils.clear(0.6f, 0.2f, 0.2f, 1);
-
         stage.act(delta);
 
         stage.draw();
@@ -176,23 +141,22 @@ public class DeathScreen implements Screen {
     @Override
     public void resize(int width, int height) {
 
-//        vp.update(width, height);
         stage.getViewport().update(width, height, true);
     }
 
     @Override
     public void pause() {
-
+        // No pause implemented yet
     }
 
     @Override
     public void resume() {
-
+        // No resume implemented yet
     }
 
     @Override
     public void hide() {
-
+        //Not used
     }
 
     @Override
