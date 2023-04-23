@@ -1,20 +1,26 @@
 package se.yrgo.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.sprites.idle.IdleDoge;
 import se.yrgo.utils.Difficulty;
 import se.yrgo.utils.Score;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 
 
 public class MainMenuScreen implements Screen {
@@ -23,19 +29,18 @@ public class MainMenuScreen implements Screen {
     private GlyphLayout layout;
     private Score score;
     private Texture backGround;
-
-    //behöver göra en image av bgTexture för att använda.. tror jag
     private Image backGroundImage;
     private IdleDoge idleDoge;
     private Music music;
     private Stage stage;
     private Skin skin;
 
+    private Table mainTable;
+
     //difficulties
     private ButtonGroup<TextButton> buttonGroup;
     private float buttonWidth;
     private float buttonHeight;
-    private TextField textField;
     private static String playerName;
 
 
@@ -61,11 +66,6 @@ public class MainMenuScreen implements Screen {
         buttonGroup = new ButtonGroup<TextButton>();
         buttonWidth = JumpyBirb.CAMX / 5f;
         buttonHeight = buttonWidth * 0.3f;
-
-        // for players to input their names
-        textField = new TextField("", skin);
-        textField.setMessageText("Enter your doge \n, 3 characters");
-        textField.setMaxLength(3);
     }
 
 
@@ -75,23 +75,23 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
 
-        layout.setText(game.getFont(), "Press SPACE to start");
+//        layout.setText(game.getFont(), "Press SPACE to start");
         music.setLooping(true);
         music.play();
 
         //scene2d stuff
         //creating the stage, table and buttons
         stage = new Stage(new FitViewport(JumpyBirb.CAMX, JumpyBirb.CAMY));
-        Table table = new Table();
-        table.setFillParent(true);
+        mainTable = new Table();
+        mainTable.setFillParent(true);
 
-        TextButton startButton = new TextButton("Start", skin);
+        TextButton playButton = new TextButton("Play", skin);
         TextButton exitButton = new TextButton("Exit", skin);
 
         //difficulties
-        TextButton easyButton = new TextButton("Easy", skin);
-        TextButton mediumButton = new TextButton("Medium", skin);
-        TextButton hardButton = new TextButton("Hard", skin);
+        CheckBox easyButton = new CheckBox("Easy", skin);
+        CheckBox mediumButton = new CheckBox("Medium", skin);
+        CheckBox hardButton = new CheckBox("Hard", skin);
         buttonGroup.add(easyButton);
         buttonGroup.add(mediumButton);
         buttonGroup.add(hardButton);
@@ -102,26 +102,24 @@ public class MainMenuScreen implements Screen {
         exitButton.getLabel().setFontScale(.5f);
 
         //button functionality
-        buttonListeners(startButton, exitButton, easyButton, mediumButton, hardButton);
+        buttonListeners(playButton, exitButton, easyButton, mediumButton, hardButton);
 
         //adding the buttons to the table
-        table.add(startButton).padBottom(20);
-        table.row();
+        mainTable.add(playButton).padBottom(20);
+        mainTable.row();
 
-        table.add(easyButton).size(buttonWidth, buttonHeight);
-        table.row();
-        table.add(mediumButton).size(buttonWidth, buttonHeight);
-        table.row();
-        table.add(hardButton).size(buttonWidth, buttonHeight).padBottom(20);
-        table.row();
-        table.add(exitButton).size(buttonWidth, buttonHeight);
-
+        mainTable.add(easyButton).size(buttonWidth, buttonHeight);
+        mainTable.row();
+        mainTable.add(mediumButton).size(buttonWidth, buttonHeight);
+        mainTable.row();
+        mainTable.add(hardButton).size(buttonWidth, buttonHeight).padBottom(20);
+        mainTable.row();
+        mainTable.add(exitButton).size(buttonWidth, buttonHeight);
 
         //adding the table to the stage
         stage.addActor(backGroundImage);
-        stage.addActor(table);
+        stage.addActor(mainTable);
         stage.addActor(idleDoge);
-        stage.addActor(textField);
 
         //set the input processor to the stage
         Gdx.input.setInputProcessor(stage);
@@ -188,15 +186,11 @@ public class MainMenuScreen implements Screen {
         backGround.dispose();
     }
 
-    private void buttonListeners(final TextButton startButton, TextButton exitButton, final TextButton easyButton, final TextButton mediumButton, final TextButton hardButton) {
-        startButton.addListener(new ClickListener() {
+    private void buttonListeners(final TextButton playButton, TextButton exitButton, final TextButton easyButton, final TextButton mediumButton, final TextButton hardButton) {
+        playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game, score));
-                //fetching the playerName when start is pressed
-                playerName = textField.getText();
-                dispose();
-
+                createWindow();
             }
         });
         easyButton.addListener(new ClickListener() {
@@ -231,6 +225,76 @@ public class MainMenuScreen implements Screen {
                 System.exit(-1);
             }
         });
+    }
+
+    private void createWindow() {
+        mainTable.setVisible(false);
+        BitmapFont fontStyle = skin.getFont("font");
+        Color fontColor = Color.WHITE;
+        Drawable background = skin.newDrawable("white", new Color(0, 0, 0, 0f));
+        Window.WindowStyle style = new Window.WindowStyle(fontStyle, fontColor, background);
+
+        // Creating pop up-window
+        final Window window = new Window("Enter your name (3 letters)", style);
+        window.padTop(20f);
+
+        // Input player name
+
+        final TextField textField = new TextField("", skin);
+        textField.setMaxLength(3);
+        window.add(textField).padBottom(20f);
+
+        // Start game
+        window.row();
+        final TextButton startButton = new TextButton("start", skin);
+        window.add(startButton).size(buttonWidth * 1.5f, buttonHeight * 1.5f).padBottom(20f);
+        // Back to main menu
+        window.row();
+        TextButton backButton = new TextButton("back", skin);
+        backButton.getLabel().setFontScale(0.5f);
+        window.add(backButton).size(buttonWidth, buttonHeight);
+
+        window.pack();
+
+        // Option to press ENTER to play
+        textField.addListener(new InputListener() {
+            public boolean keyUp (InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ENTER) {
+                    simulateClick(startButton);
+                }
+                return false;
+            }
+        });
+
+        window.setPosition(JumpyBirb.CAMX / 2f - window.getWidth() / 2, JumpyBirb.CAMY / 2f - window.getHeight() / 3);
+        stage.addActor(window);
+        startButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new GameScreen(game, score));
+                //fetching the playerName when start is pressed
+                createPlayerName(textField);
+                dispose();
+            }
+
+        });
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mainTable.setVisible(true);
+                window.remove();
+            }
+
+        });
+    }
+
+    private static void createPlayerName(final TextField textField) {
+        String name = textField.getText().toLowerCase();
+        if (name.isEmpty()) {
+            name = "tmp";
+        }
+        playerName = name;
     }
 
     private static void simulateClick(TextButton button) {
