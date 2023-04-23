@@ -41,10 +41,13 @@ public class DBHandler {
             String playerName = MainMenuScreen.getPlayerName();
             String updateString = "INSERT INTO " + Difficulty.getTable() + " VALUES (?, ?)";
 
-        try (Statement stm = conn.createStatement();
-             PreparedStatement pstm = conn.prepareStatement(updateString)) {
+        try (Statement stm = conn.createStatement()) {
             stm.execute("CREATE TABLE IF NOT EXISTS " + Difficulty.getTable() + " (name STRING, score INT)");
 
+        }catch (SQLException e) {
+            throw new SQLException("Something wrong with creating table... " + e.getMessage());
+        }
+        try (PreparedStatement pstm = conn.prepareStatement(updateString)) {
             pstm.setString(1, playerName);
             pstm.setInt(2, score);
             pstm.execute();
