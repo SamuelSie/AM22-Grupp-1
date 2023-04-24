@@ -21,6 +21,13 @@ public class DBHandler {
         List<String> top5 = new ArrayList<>();
 
         try (Statement stm = conn.createStatement()) {
+            stm.execute("CREATE TABLE IF NOT EXISTS " + Difficulty.getTable() + " (name STRING, score INT)");
+
+        }catch (SQLException e) {
+            throw new SQLException("Something wrong with creating table... " + e.getMessage());
+        }
+
+        try (Statement stm = conn.createStatement()) {
 
             ResultSet rs = stm.executeQuery("SELECT name, score FROM " + Difficulty.getTable() + " ORDER BY score DESC LIMIT 5");
 
@@ -41,6 +48,13 @@ public class DBHandler {
         List<String> highscore = new ArrayList<>();
 
         try (Statement stm = conn.createStatement()) {
+            stm.execute("CREATE TABLE IF NOT EXISTS " + table + " (name STRING, score INT)");
+
+        }catch (SQLException e) {
+            throw new SQLException("Something wrong with creating table... " + e.getMessage());
+        }
+
+        try (Statement stm = conn.createStatement()) {
 
             ResultSet rs = stm.executeQuery("SELECT name, score FROM " + table + " ORDER BY score DESC LIMIT 15");
 
@@ -50,7 +64,9 @@ public class DBHandler {
                 sb.append(rs.getString("score"));
                 highscore.add(sb.toString());
             }
-
+            if (highscore.isEmpty()) {
+                highscore.add("No highscore");
+            }
             return highscore;
         } catch (SQLException e) {
             throw new SQLException("Something wrong with getting " + Difficulty.getTable());

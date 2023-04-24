@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import se.yrgo.game.JumpyBirb;
 import se.yrgo.game.sprites.idle.IdleDoge;
@@ -330,7 +331,10 @@ public class MainMenuScreen implements Screen {
 
         // Creating pop up-window
         final Window window = new Window("Highscore", style);
+        window.add().colspan(3);
+        window.padTop(20f);
         window.setFillParent(true);
+        window.center();
 
         // showHighscore style
         Label.LabelStyle labelStyle = new Label.LabelStyle();
@@ -338,29 +342,34 @@ public class MainMenuScreen implements Screen {
         labelStyle.background = skin.newDrawable("window", new Color(0, 0, 0, 0.5f));
         labelStyle.fontColor = Color.WHITE;
 
-        // create three highscores
+        // create three highscores in a table
         try {
             List<String> threeHighscores = score.getAllHighscore();
             String[] difficulties = {"easy", "medium", "hard"};
-            for (int i = 0; i < 3; i++) {
-                Label textField = new Label(difficulties[i], labelStyle);
-                textField.setText(threeHighscores.get(i));
-                window.add(textField);
+            window.getCells().removeIndex(0);
+
+            for (int i = 0; i < threeHighscores.size(); i++) {
+                Label highscore = new Label(difficulties[i], labelStyle);
+                highscore.setAlignment(Align.top);
+                highscore.setText(threeHighscores.get(i));
+                window.add(highscore).fillY().padRight(5f).padLeft(5f);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Something wrong with reading from highscore: " + e.getMessage());
         }
 
         // Back to main menu
+
         window.row();
         TextButton backButton = new TextButton("back", skin);
         backButton.getLabel().setFontScale(0.5f);
-        window.add(backButton).size(buttonWidth, buttonHeight);
+        window.add(backButton).size(buttonWidth, buttonHeight).colspan(3);
 
 //        window.pack();
 
 //        window.setPosition(0, JumpyBirb.CAMY / 2f - window.getHeight() / 3);
         stage.addActor(window);
+
 
         backButton.addListener(new ClickListener() {
             @Override
