@@ -9,7 +9,7 @@ import se.yrgo.utils.Score;
 
 import java.sql.SQLException;
 
-public class JumpyBirb extends Game {
+public class SuchJump extends Game {
     private SpriteBatch batch;
     private BitmapFont font;
     public static final int WIDTH = 960;

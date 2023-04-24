@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import se.yrgo.game.JumpyBirb;
+import se.yrgo.game.SuchJump;
 import se.yrgo.utils.Difficulty;
 
 import java.util.Iterator;
@@ -18,7 +18,7 @@ public class Ground implements Movable {
 
     public Ground(int x, int y) {
         texture = new Texture("ground.png");
-        hitBox = new Rectangle(x, y, JumpyBirb.CAMX, texture.getHeight() - 42f);
+        hitBox = new Rectangle(x, y, SuchJump.CAMX, texture.getHeight() - 42f);
         position = new Vector3(x, y, 0);
         texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         srcX = 0;
@@ -42,7 +42,7 @@ public class Ground implements Movable {
     }
 
     @Override
-    public void draw(JumpyBirb game) {
+    public void draw(SuchJump game) {
         game.getBatch().draw(texture,0,0, srcX, 0, texture.getWidth(), texture.getHeight());
         srcX += Difficulty.getGroundSpeed();
     }

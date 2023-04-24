@@ -8,10 +8,10 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setWindowedMode(JumpyBirb.WIDTH, JumpyBirb.HEIGHT);
+		config.setWindowedMode(SuchJump.WIDTH, SuchJump.HEIGHT);
 		config.useVsync(true);
 		config.setForegroundFPS(60);
-		config.setTitle("jumpyBirb");
-		new Lwjgl3Application(new JumpyBirb(), config);
+		config.setTitle("Such Jump: very scare");
+		new Lwjgl3Application(new SuchJump(), config);
 	}
 }

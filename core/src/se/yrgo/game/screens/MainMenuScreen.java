@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import se.yrgo.game.JumpyBirb;
+import se.yrgo.game.SuchJump;
 import se.yrgo.game.sprites.idle.IdleDoge;
 import se.yrgo.utils.Difficulty;
 import se.yrgo.utils.Score;
@@ -29,7 +28,7 @@ import java.util.List;
 
 public class MainMenuScreen implements Screen {
 
-    public final JumpyBirb game;
+    public final SuchJump game;
     private GlyphLayout layout;
     private Score score;
     private Texture backGround;
@@ -50,7 +49,7 @@ public class MainMenuScreen implements Screen {
     private Texture suchBeautifulTexture;
 
 
-    public MainMenuScreen(final JumpyBirb game, Score score) {
+    public MainMenuScreen(final SuchJump game, Score score) {
         this.game = game;
         this.score = score;
 
@@ -72,7 +71,7 @@ public class MainMenuScreen implements Screen {
 
         //difficulties
         buttonGroup = new ButtonGroup<TextButton>();
-        buttonWidth = JumpyBirb.CAMX / 5f;
+        buttonWidth = SuchJump.CAMX / 5f;
         buttonHeight = buttonWidth * 0.3f;
     }
 
@@ -89,7 +88,7 @@ public class MainMenuScreen implements Screen {
 
         //scene2d stuff
         //creating the stage, table and buttons
-        stage = new Stage(new FitViewport(JumpyBirb.CAMX, JumpyBirb.CAMY));
+        stage = new Stage(new FitViewport(SuchJump.CAMX, SuchJump.CAMY));
         mainTable = new Table();
         mainTable.setFillParent(true);
 
@@ -114,6 +113,14 @@ public class MainMenuScreen implements Screen {
 
         //button functionality
         buttonListeners(playButton, exitButton, easyButton, mediumButton, hardButton, highscoreButton);
+
+        //setting button color
+        playButton.setColor(1f,1f,1f,0.8f);
+        easyButton.setColor(1f,1f,1f,0.8f);
+        mediumButton.setColor(1f,1f,1f,0.8f);
+        hardButton.setColor(1f,1f,1f,0.8f);
+        highscoreButton.setColor(1f,1f,1f,0.8f);
+        exitButton.setColor(1f,1f,1f,0.8f);
 
         //adding the buttons to the table
         mainTable.add(playButton).padBottom(20);
@@ -270,7 +277,7 @@ public class MainMenuScreen implements Screen {
     private void createWindow() {
         mainTable.setVisible(false);
         BitmapFont fontStyle = skin.getFont("font");
-        Color fontColor = Color.WHITE;
+        Color fontColor = Color.BLACK;
         Drawable background = skin.newDrawable("white", new Color(0, 0, 0, 0f));
         Window.WindowStyle style = new Window.WindowStyle(fontStyle, fontColor, background);
 
@@ -282,16 +289,19 @@ public class MainMenuScreen implements Screen {
 
         final TextField textField = new TextField("", skin);
         textField.setMaxLength(3);
+        textField.setColor(1f,1f,1f,0.8f);
         window.add(textField).padBottom(20f);
 
         // Start game
         window.row();
         final TextButton startButton = new TextButton("start", skin);
+        startButton.setColor(1f,1f,1f,0.8f);
         window.add(startButton).size(buttonWidth * 1.5f, buttonHeight * 1.5f).padBottom(20f);
         // Back to main menu
         window.row();
         TextButton backButton = new TextButton("back", skin);
         backButton.getLabel().setFontScale(0.5f);
+        backButton.setColor(1f,1f,1f,0.8f);
         window.add(backButton).size(buttonWidth, buttonHeight);
 
         window.pack();
@@ -306,7 +316,7 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        window.setPosition(JumpyBirb.CAMX / 2f - window.getWidth() / 2, JumpyBirb.CAMY / 2f - window.getHeight() / 3);
+        window.setPosition(SuchJump.CAMX / 2f - window.getWidth() / 2, SuchJump.CAMY / 2f - window.getHeight() / 3);
         stage.addActor(window);
         startButton.addListener(new ClickListener() {
             @Override
@@ -372,6 +382,7 @@ public class MainMenuScreen implements Screen {
         window.row();
         TextButton backButton = new TextButton("back", skin);
         backButton.getLabel().setFontScale(0.5f);
+        backButton.setColor(1f,1f,1f,0.8f);
         window.add(backButton).size(buttonWidth, buttonHeight).colspan(3);
 
 //        window.pack();

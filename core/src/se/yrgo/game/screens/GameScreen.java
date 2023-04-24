@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import se.yrgo.game.JumpyBirb;
+import se.yrgo.game.SuchJump;
 import se.yrgo.game.sprites.*;
 import se.yrgo.utils.Difficulty;
 import se.yrgo.utils.Score;
@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GameScreen implements Screen {
-    private final JumpyBirb game;
+    private final SuchJump game;
     private Doge doge;
     private Music music;
     private OrthographicCamera camera;
@@ -32,10 +32,10 @@ public class GameScreen implements Screen {
     private Ground ground;
 
 
-    public GameScreen(final JumpyBirb game, Score score) {
+    public GameScreen(final SuchJump game, Score score) {
         this.game = game;
         //create doge & ground object with x & y position
-        doge = new Doge(20, JumpyBirb.CAMY / 2);
+        doge = new Doge(20, SuchJump.CAMY / 2);
 
         // background music
         music = Gdx.audio.newMusic(Gdx.files.internal("music/GameMusic.mp3"));
@@ -43,8 +43,8 @@ public class GameScreen implements Screen {
 
         // create camera
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, JumpyBirb.CAMX, JumpyBirb.CAMY);
-        vp = new FitViewport(JumpyBirb.CAMX, JumpyBirb.CAMY, camera);
+        camera.setToOrtho(false, SuchJump.CAMX, SuchJump.CAMY);
+        vp = new FitViewport(SuchJump.CAMX, SuchJump.CAMY, camera);
 
         pipeArray = new Array<>();
 
@@ -141,7 +141,7 @@ public class GameScreen implements Screen {
     private void spawnPipes() {
         int isAdding = ThreadLocalRandom.current().nextInt(2);
         int middleSpace = ThreadLocalRandom.current().nextInt(Difficulty.getPipeDistance());
-        Pipe pipe = new Pipe(JumpyBirb.CAMX, JumpyBirb.CAMY / 2 - JumpyBirb.CAMY + (isAdding == 1 ? middleSpace / 2 : -middleSpace / 2));
+        Pipe pipe = new Pipe(SuchJump.CAMX, SuchJump.CAMY / 2 - SuchJump.CAMY + (isAdding == 1 ? middleSpace / 2 : -middleSpace / 2));
 
         pipeArray.add(pipe);
         pipeSpawnTime = TimeUtils.nanoTime();
@@ -198,8 +198,8 @@ public class GameScreen implements Screen {
     }
 
     private void checkIfHitCeiling() {
-        if (doge.getPosition().y >= (game.CAMY - doge.getTexture().getRegionHeight())) {
-            doge.getPosition().y = (game.CAMY - doge.getTexture().getRegionHeight());
+        if (doge.getPosition().y >= (SuchJump.CAMY - doge.getTexture().getRegionHeight())) {
+            doge.getPosition().y = (SuchJump.CAMY - doge.getTexture().getRegionHeight());
             doge.resetVelocity();
         }
         if (doge.getPosition().y <= 0) {
