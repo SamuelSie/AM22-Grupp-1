@@ -116,9 +116,23 @@ public class MainMenuScreen implements Screen {
         mainTable.row();
         mainTable.add(exitButton).size(buttonWidth, buttonHeight);
 
+
+        //adding dogeWords
+        Texture suchBeautifulTexture = new Texture("such_beautiful.png");
+        Image suchBeautiful = new Image(suchBeautifulTexture);
+        suchBeautiful.setPosition(250, 30);
+        suchBeautiful.setSize(80, 40);
+
+        Texture veryAdventureTexture = new Texture("very_adventure.png");
+        Image veryAdventure = new Image(veryAdventureTexture);
+        veryAdventure.setPosition(110, 80);
+        veryAdventure.setSize(80, 40);
+
         //adding the table to the stage
         stage.addActor(backGroundImage);
         stage.addActor(mainTable);
+        stage.addActor(suchBeautiful);
+        stage.addActor(veryAdventure);
         stage.addActor(idleDoge);
 
         //set the input processor to the stage
