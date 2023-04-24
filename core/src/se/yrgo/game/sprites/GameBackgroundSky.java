@@ -1,11 +1,8 @@
 package se.yrgo.game.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
-import se.yrgo.game.JumpyBirb;
-
-import java.util.Iterator;
+import se.yrgo.game.SuchJump;
 
 public class GameBackgroundSky {
     private Texture background;
@@ -19,7 +16,7 @@ public class GameBackgroundSky {
         srcX = 0;
     }
 
-    public void draw(JumpyBirb game) {
+    public void draw(SuchJump game) {
         game.getBatch().draw(background, position.x, position.y, srcX, 0, background.getWidth(), background.getHeight());
         srcX += 0;
     }
