@@ -46,6 +46,8 @@ public class MainMenuScreen implements Screen {
     private float buttonWidth;
     private float buttonHeight;
     private static String playerName;
+    private Texture veryAdventureTexture;
+    private Texture suchBeautifulTexture;
 
 
     public MainMenuScreen(final JumpyBirb game, Score score) {
@@ -57,6 +59,8 @@ public class MainMenuScreen implements Screen {
         backGround = new Texture("mainMenuBg.png");
         //lägger in texture i image
         backGroundImage = new Image(backGround);
+        veryAdventureTexture = new Texture("very_adventure.png");
+        suchBeautifulTexture = new Texture("such_beautiful.png");
 
         idleDoge = new IdleDoge();
 
@@ -127,15 +131,17 @@ public class MainMenuScreen implements Screen {
 
 
         //adding dogeWords
-        Texture suchBeautifulTexture = new Texture("such_beautiful.png");
+
         Image suchBeautiful = new Image(suchBeautifulTexture);
         suchBeautiful.setPosition(250, 30);
         suchBeautiful.setSize(90, 40);
 
-        Texture veryAdventureTexture = new Texture("very_adventure.png");
+
         Image veryAdventure = new Image(veryAdventureTexture);
-        veryAdventure.setPosition(110, 80);
+        veryAdventure.setPosition(50, 80);
         veryAdventure.setSize(90, 40);
+
+
 
         //adding the table to the stage
         stage.addActor(backGroundImage);
@@ -207,6 +213,9 @@ public class MainMenuScreen implements Screen {
         idleDoge.dispose();
         music.dispose();
         backGround.dispose();
+        veryAdventureTexture.dispose();
+        suchBeautifulTexture.dispose();
+
     }
 
     private void buttonListeners(final TextButton playButton, TextButton exitButton, final TextButton easyButton,
