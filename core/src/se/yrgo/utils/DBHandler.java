@@ -37,6 +37,26 @@ public class DBHandler {
         }
     }
 
+    public List<String> get15Highscore(String table) throws SQLException {
+        List<String> highscore = new ArrayList<>();
+
+        try (Statement stm = conn.createStatement()) {
+
+            ResultSet rs = stm.executeQuery("SELECT name, score FROM " + table + " ORDER BY score DESC LIMIT 15");
+
+            while (rs.next()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(rs.getString("name") + ": ");
+                sb.append(rs.getString("score"));
+                highscore.add(sb.toString());
+            }
+
+            return highscore;
+        } catch (SQLException e) {
+            throw new SQLException("Something wrong with getting " + Difficulty.getTable());
+        }
+    }
+
     public void putHighScore(int score) throws SQLException {
             String playerName = MainMenuScreen.getPlayerName();
             String updateString = "INSERT INTO " + Difficulty.getTable() + " VALUES (?, ?)";

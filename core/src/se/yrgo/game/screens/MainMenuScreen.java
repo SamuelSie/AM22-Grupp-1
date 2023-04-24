@@ -22,6 +22,9 @@ import se.yrgo.game.sprites.idle.IdleDoge;
 import se.yrgo.utils.Difficulty;
 import se.yrgo.utils.Score;
 
+import java.sql.SQLException;
+import java.util.List;
+
 
 public class MainMenuScreen implements Screen {
 
@@ -101,8 +104,11 @@ public class MainMenuScreen implements Screen {
         hardButton.getLabel().setFontScale(.5f);
         exitButton.getLabel().setFontScale(.5f);
 
+        TextButton highscoreButton = new TextButton("Highscore", skin);
+        highscoreButton.getLabel().setFontScale(0.5f);
+
         //button functionality
-        buttonListeners(playButton, exitButton, easyButton, mediumButton, hardButton);
+        buttonListeners(playButton, exitButton, easyButton, mediumButton, hardButton, highscoreButton);
 
         //adding the buttons to the table
         mainTable.add(playButton).padBottom(20);
@@ -113,6 +119,8 @@ public class MainMenuScreen implements Screen {
         mainTable.add(mediumButton).size(buttonWidth, buttonHeight);
         mainTable.row();
         mainTable.add(hardButton).size(buttonWidth, buttonHeight).padBottom(20);
+        mainTable.row();
+        mainTable.add(highscoreButton).size(buttonWidth, buttonHeight);
         mainTable.row();
         mainTable.add(exitButton).size(buttonWidth, buttonHeight);
 
@@ -186,7 +194,9 @@ public class MainMenuScreen implements Screen {
         backGround.dispose();
     }
 
-    private void buttonListeners(final TextButton playButton, TextButton exitButton, final TextButton easyButton, final TextButton mediumButton, final TextButton hardButton) {
+    private void buttonListeners(final TextButton playButton, TextButton exitButton, final TextButton easyButton,
+                                 final TextButton mediumButton, final TextButton hardButton,
+                                 final TextButton highscoreButton) {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -215,6 +225,12 @@ public class MainMenuScreen implements Screen {
                 hardButton.getStyle().checked = hardButton.getStyle().down;
                 game.setLastDifficulty("hard");
                 Difficulty.hard();
+            }
+        });
+        highscoreButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showHighscore();
             }
         });
         exitButton.addListener(new ClickListener() {
@@ -258,7 +274,7 @@ public class MainMenuScreen implements Screen {
 
         // Option to press ENTER to play
         textField.addListener(new InputListener() {
-            public boolean keyUp (InputEvent event, int keycode) {
+            public boolean keyUp(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ENTER) {
                     simulateClick(startButton);
                 }
@@ -278,6 +294,59 @@ public class MainMenuScreen implements Screen {
             }
 
         });
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mainTable.setVisible(true);
+                window.remove();
+            }
+
+        });
+    }
+
+    private void showHighscore() {
+        mainTable.setVisible(false);
+
+        // Window style
+        BitmapFont fontStyle = skin.getFont("font");
+        Color fontColor = Color.BLACK;
+        Drawable background = skin.newDrawable("window", new Color(0, 0, 0, 0f));
+        Window.WindowStyle style = new Window.WindowStyle(fontStyle, fontColor, background);
+
+        // Creating pop up-window
+        final Window window = new Window("Highscore", style);
+        window.setFillParent(true);
+
+        // showHighscore style
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = skin.getFont("font");
+        labelStyle.background = skin.newDrawable("window", new Color(0, 0, 0, 0.5f));
+        labelStyle.fontColor = Color.WHITE;
+
+        // create three highscores
+        try {
+            List<String> threeHighscores = score.getAllHighscore();
+            String[] difficulties = {"easy", "medium", "hard"};
+            for (int i = 0; i < 3; i++) {
+                Label textField = new Label(difficulties[i], labelStyle);
+                textField.setText(threeHighscores.get(i));
+                window.add(textField);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Something wrong with reading from highscore: " + e.getMessage());
+        }
+
+        // Back to main menu
+        window.row();
+        TextButton backButton = new TextButton("back", skin);
+        backButton.getLabel().setFontScale(0.5f);
+        window.add(backButton).size(buttonWidth, buttonHeight);
+
+//        window.pack();
+
+//        window.setPosition(0, JumpyBirb.CAMY / 2f - window.getHeight() / 3);
+        stage.addActor(window);
 
         backButton.addListener(new ClickListener() {
             @Override
