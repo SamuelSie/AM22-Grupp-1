@@ -229,8 +229,9 @@ public class MainMenuScreen implements Screen {
 
     private void createWindow() {
         mainTable.setVisible(false);
-        BitmapFont fontStyle = skin.getFont("font");
-        Color fontColor = Color.WHITE;
+        BitmapFont fontStyle = skin.getFont("button");
+        fontStyle.getData().setScale(0.7f,0.7f);
+        Color fontColor = Color.BLACK;
         Drawable background = skin.newDrawable("white", new Color(0, 0, 0, 0f));
         Window.WindowStyle style = new Window.WindowStyle(fontStyle, fontColor, background);
 
@@ -240,7 +241,8 @@ public class MainMenuScreen implements Screen {
 
         // Input player name
 
-        final TextField textField = new TextField("", skin);
+        final TextField textField = new TextField("",skin);
+        textField.getStyle().font.getData().setScale(0.7f,0.7f);
         textField.setMaxLength(3);
         window.add(textField).padBottom(20f);
 
