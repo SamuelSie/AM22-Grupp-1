@@ -29,7 +29,9 @@ public class DeathScreen implements Screen {
     private Skin skin;
     private boolean canRestart;
     private Timer.Task restartTask;
-    TextButton playAgain;
+    private TextButton playAgain;
+    private Texture burninatingTexture;
+    private Texture ouchTexture;
     
     public DeathScreen(final JumpyBirb game, Score score) {
 
@@ -44,6 +46,8 @@ public class DeathScreen implements Screen {
         backGround = new DeathScreenBg();
 
         idleTrogdor = new IdleTrogdor();
+        burninatingTexture = new Texture("much_burninating.png");
+        ouchTexture = new Texture("ouch.png");
 
         skin = new Skin(Gdx.files.internal("skin/skin/comic-ui.json"));
         playAgain = new TextButton("Press to play again", skin);
@@ -130,12 +134,12 @@ public class DeathScreen implements Screen {
         });
 
         //adding doge words
-        Texture burninatingTexture = new Texture("much_burninating.png");
+
         Image burninating = new Image(burninatingTexture);
         burninating.setPosition(230, 50);
         burninating.setSize(100, 40);
 
-        Texture ouchTexture = new Texture("ouch.png");
+
         Image ouch = new Image(ouchTexture);
         ouch.setPosition(115, 80);
         ouch.setSize(60, 30);
@@ -192,5 +196,7 @@ public class DeathScreen implements Screen {
         music.dispose();
         idleTrogdor.dispose();
         backGround.dispose();
+        ouchTexture.dispose();
+        burninatingTexture.dispose();
     }
 }

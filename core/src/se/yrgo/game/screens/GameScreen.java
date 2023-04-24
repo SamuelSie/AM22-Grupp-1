@@ -133,6 +133,9 @@ public class GameScreen implements Screen {
     public void dispose() {
         music.dispose();
         doge.dispose();
+        background.dispose();
+        sky.dispose();
+        ground.dispose();
     }
 
     private void spawnPipes() {
