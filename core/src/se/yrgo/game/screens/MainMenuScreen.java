@@ -407,8 +407,8 @@ public class MainMenuScreen implements Screen {
 
     private static void createPlayerName(final TextField textField) {
         String name = textField.getText().toLowerCase();
-        if (name.isEmpty()) {
-            name = "tmp";
+        if (name.length() < 3) {
+            name = "n/a";
         }
         playerName = name;
     }
