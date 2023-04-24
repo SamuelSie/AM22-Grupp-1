@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -128,6 +129,17 @@ public class DeathScreen implements Screen {
             }
         });
 
+        //adding doge words
+        Texture burninatingTexture = new Texture("much_burninating.png");
+        Image burninating = new Image(burninatingTexture);
+        burninating.setPosition(230, 50);
+        burninating.setSize(100, 40);
+
+        Texture ouchTexture = new Texture("ouch.png");
+        Image ouch = new Image(ouchTexture);
+        ouch.setPosition(115, 80);
+        ouch.setSize(60, 30);
+
         table.add(playAgain);
         table.row();
         table.add(backToMenu);
@@ -136,6 +148,8 @@ public class DeathScreen implements Screen {
         stage.addActor(table);
         stage.addActor(highscoreTable);
         stage.addActor(idleTrogdor);
+        stage.addActor(burninating);
+        stage.addActor(ouch);
 
         Gdx.input.setInputProcessor(stage);
 
