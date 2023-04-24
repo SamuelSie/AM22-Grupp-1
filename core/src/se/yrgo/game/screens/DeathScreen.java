@@ -28,7 +28,8 @@ public class DeathScreen implements Screen {
     private Skin skin;
     private boolean canRestart;
     private Timer.Task restartTask;
-
+    TextButton playAgain;
+    
     public DeathScreen(final JumpyBirb game, Score score) {
 
         this.game = game;
@@ -37,20 +38,36 @@ public class DeathScreen implements Screen {
         music = Gdx.audio.newMusic(Gdx.files.internal("music/DeathMusic.mp3"));
         music.setLooping(true);
 
-        canRestart = false;
-
-        restartTask = new Timer.Task() {
-            public void run() {
-                canRestart = true;
-            }
-        };
-        Timer.schedule(restartTask, 1f);
+       
 
         backGround = new DeathScreenBg();
 
         idleTrogdor = new IdleTrogdor();
 
         skin = new Skin(Gdx.files.internal("skin/skin/comic-ui.json"));
+        playAgain = new TextButton("Press to play again", skin);
+        playAgain.getLabel().setFontScale(.5f);
+        delayRestart();
+    }
+    
+    private void delayRestart(){
+        canRestart = false;
+        playAgain.setDisabled(true);
+        restartTask = new Timer.Task() {
+            public void run() {
+                canRestart = true;
+                playAgain.setDisabled(false);
+            }
+        };
+        Timer.schedule(restartTask, 1f);
+    }
+    
+    private void restart(){
+        if (canRestart && (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || playAgain.isChecked())) {
+            restartTask.cancel();
+            game.setScreen(new GameScreen(game, score));
+            dispose();
+        }
     }
 
     @Override
@@ -89,17 +106,18 @@ public class DeathScreen implements Screen {
         table.setFillParent(true);
 
 
-        TextButton playAgain = new TextButton("Press to play again", skin);
+        
         TextButton backToMenu = new TextButton("Press to get back to menu", skin);
 
-        playAgain.getLabel().setFontScale(.5f);
+        
         backToMenu.getLabel().setFontScale(.5f);
 
         playAgain.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game, score));
-                dispose();
+                delayRestart();
+               // game.setScreen(new GameScreen(game,score));
+               // dispose();
             }
         });
         backToMenu.addListener(new ClickListener() {
@@ -129,13 +147,8 @@ public class DeathScreen implements Screen {
         stage.act(delta);
 
         stage.draw();
-
-        //Add delay before screen transition
-        if (canRestart && (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))) {
-            restartTask.cancel();
-            game.setScreen(new GameScreen(game, score));
-            dispose();
-        }
+        
+        restart();
     }
 
     @Override
