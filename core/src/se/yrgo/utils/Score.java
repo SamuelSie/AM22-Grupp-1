@@ -2,10 +2,11 @@ package se.yrgo.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Score {
     private int currentScore;
@@ -18,8 +19,7 @@ public class Score {
     private DBHandler db;
 
 
-
-    public Score(int x, int y) throws SQLException{
+    public Score(int x, int y) throws SQLException {
         this.currentScore = 0;
         this.highScore = 0;
         layout = new GlyphLayout();
@@ -36,7 +36,7 @@ public class Score {
         currentScore += 1000;
     }
 
-    public void newHighScore(){
+    public void newHighScore() {
         if (currentScore > highScore) {
             highScore = currentScore;
         }
@@ -44,9 +44,9 @@ public class Score {
 
     public String getHighscore() throws SQLException {
         StringBuilder sb = new StringBuilder();
-            sb.append("Highscore: " + Difficulty.getTable());
+        sb.append("Highscore: " + Difficulty.getTable());
 
-        for(String highscore : db.getTop5Highscore()){
+        for (String highscore : db.getTop5Highscore()) {
             sb.append("\n");
             sb.append(highscore);
         }
@@ -58,7 +58,7 @@ public class Score {
         db.putHighScore(score);
     }
 
-    public void resetScore(){
+    public void resetScore() {
         currentScore = 0;
     }
 
@@ -66,12 +66,26 @@ public class Score {
         return currentScore;
     }
 
-    public String scoreToString(){
+    public String scoreToString() {
         return Integer.toString(currentScore);
     }
 
-    public String highScoreToString() {
-        return Integer.toString(highScore);
+    public List<String> getAllHighscore() throws SQLException {
+        String[] difficulties = {"easy", "medium", "hard"};
+        List<String> highscores = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < difficulties.length; i++) {
+            sb.append(difficulties[i]);
+            for (String highscore : db.get15Highscore(difficulties[i])) {
+                sb.append("\n");
+                sb.append(highscore);
+            }
+            highscores.add(sb.toString());
+            sb.setLength(0);
+        }
+
+        return highscores;
     }
 
     public GlyphLayout getLayout() {
