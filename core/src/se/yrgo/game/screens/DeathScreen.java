@@ -115,7 +115,7 @@ public class DeathScreen implements Screen {
         playAgain.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                delayRestart();
+               // delayRestart();
                // game.setScreen(new GameScreen(game,score));
                // dispose();
             }
