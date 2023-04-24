@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import se.yrgo.game.JumpyBirb;
+import se.yrgo.game.SuchJump;
 import se.yrgo.utils.Animation;
 import se.yrgo.utils.Difficulty;
 
@@ -49,7 +49,7 @@ public class Pipe {
     }
 
 
-    public void draw(JumpyBirb game) {
+    public void draw(SuchJump game) {
         game.getBatch().draw(getKettleImg(), getPositionKettle().x, getPositionKettle().y, kettleWidth, kettleHeight);
         game.getBatch().draw(getSaladFingersImg(), getPositionSalad().x, getPositionSalad().y, saladFingersImg.getWidth() / 3f, saladFingersImg.getHeight());
     }

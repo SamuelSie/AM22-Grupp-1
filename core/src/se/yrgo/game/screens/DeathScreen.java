@@ -4,13 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import se.yrgo.game.JumpyBirb;
+import se.yrgo.game.SuchJump;
 import se.yrgo.game.sprites.idle.DeathScreenBg;
 import se.yrgo.game.sprites.idle.IdleTrogdor;
 import se.yrgo.utils.Difficulty;
@@ -19,7 +20,7 @@ import se.yrgo.utils.Score;
 import java.sql.SQLException;
 
 public class DeathScreen implements Screen {
-    private final JumpyBirb game;
+    private final SuchJump game;
     private DeathScreenBg backGround;
     private IdleTrogdor idleTrogdor;
     private Music music;
@@ -28,9 +29,11 @@ public class DeathScreen implements Screen {
     private Skin skin;
     private boolean canRestart;
     private Timer.Task restartTask;
-    TextButton playAgain;
+    private TextButton playAgain;
+    private Texture burninatingTexture;
+    private Texture ouchTexture;
     
-    public DeathScreen(final JumpyBirb game, Score score) {
+    public DeathScreen(final SuchJump game, Score score) {
 
         this.game = game;
         this.score = score;
@@ -43,10 +46,13 @@ public class DeathScreen implements Screen {
         backGround = new DeathScreenBg();
 
         idleTrogdor = new IdleTrogdor();
+        burninatingTexture = new Texture("much_burninating.png");
+        ouchTexture = new Texture("ouch.png");
 
         skin = new Skin(Gdx.files.internal("skin/skin/comic-ui.json"));
-        playAgain = new TextButton("Press to play again", skin);
-        playAgain.getLabel().setFontScale(.5f);
+        playAgain = new TextButton("Play again", skin);
+        playAgain.getLabel().setFontScale(.4f);
+        playAgain.setColor(1f,1f,1f,0.8f);
         delayRestart();
     }
     
@@ -74,9 +80,9 @@ public class DeathScreen implements Screen {
     public void show() {
         music.play();
 
-        stage = new Stage(new FitViewport(JumpyBirb.CAMX, JumpyBirb.CAMY));
+        stage = new Stage(new FitViewport(SuchJump.CAMX, SuchJump.CAMY));
         Table highscoreTable = new Table();
-        highscoreTable.setBounds(JumpyBirb.CAMX / 2f, JumpyBirb.CAMY / 2f, JumpyBirb.CAMX / 2f, JumpyBirb.CAMY / 2f);
+        highscoreTable.setBounds(SuchJump.CAMX / 2f, SuchJump.CAMY / 2f, SuchJump.CAMX / 2f, SuchJump.CAMY / 2f);
 
 
         TextField.TextFieldStyle textFieldStyle = skin.get(TextField.TextFieldStyle.class);
@@ -100,6 +106,7 @@ public class DeathScreen implements Screen {
             throw new RuntimeException("Something wrong with reading from highscore: " + e.getMessage());
         }
         highscoreTable.toFront();
+        highscoreTable.setColor(1f,1f,1f,0.8f);
 
 
         Table table = new Table();
@@ -107,10 +114,9 @@ public class DeathScreen implements Screen {
 
 
         
-        TextButton backToMenu = new TextButton("Press to get back to menu", skin);
-
-        
-        backToMenu.getLabel().setFontScale(.5f);
+        TextButton backToMenu = new TextButton("Back to menu", skin);
+        backToMenu.getLabel().setFontScale(.4f);
+        backToMenu.setColor(1f,1f,1f,0.8f);
 
         playAgain.addListener(new ClickListener() {
             @Override
@@ -128,14 +134,29 @@ public class DeathScreen implements Screen {
             }
         });
 
-        table.add(playAgain);
+        //adding doge words
+
+        Image burninating = new Image(burninatingTexture);
+        burninating.setPosition(230, 50);
+        burninating.setSize(100, 40);
+
+
+        Image ouch = new Image(ouchTexture);
+        ouch.setPosition(115, 80);
+        ouch.setSize(60, 30);
+
+        float buttonWidth = SuchJump.CAMX / 5f;
+        float buttonHeight = buttonWidth * 0.3f;
+        table.add(playAgain).size(buttonWidth, buttonHeight);
         table.row();
-        table.add(backToMenu);
+        table.add(backToMenu).size(buttonWidth, buttonHeight);
 
         stage.addActor(backGround);
         stage.addActor(table);
         stage.addActor(highscoreTable);
         stage.addActor(idleTrogdor);
+        stage.addActor(burninating);
+        stage.addActor(ouch);
 
         Gdx.input.setInputProcessor(stage);
 
@@ -178,5 +199,7 @@ public class DeathScreen implements Screen {
         music.dispose();
         idleTrogdor.dispose();
         backGround.dispose();
+        ouchTexture.dispose();
+        burninatingTexture.dispose();
     }
 }
