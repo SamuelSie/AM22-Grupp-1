@@ -121,6 +121,18 @@ public class MainMenuScreen implements Screen {
         hardButton.setColor(1f,1f,1f,0.8f);
         highscoreButton.setColor(1f,1f,1f,0.8f);
         exitButton.setColor(1f,1f,1f,0.8f);
+    
+        //Setting button-text opacity
+        Color textColor = easyButton.getLabel().getColor();
+        textColor.a =1.5f;
+    
+        textColor = mediumButton.getLabel().getColor();
+        textColor.a =1.5f;
+    
+        textColor = hardButton.getLabel().getColor();
+        textColor.a =1.5f;
+        
+        
 
         //adding the buttons to the table
         mainTable.add(playButton).padBottom(20);
