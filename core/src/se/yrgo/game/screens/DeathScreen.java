@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -112,7 +113,7 @@ public class DeathScreen implements Screen {
         Table table = new Table();
         table.setFillParent(true);
 
-
+        Label showScore = new Label("Wow! You got: " + score.getCurrentScore() + " points!", labelStyle);
         
         TextButton backToMenu = new TextButton("Back to menu", skin);
         backToMenu.getLabel().setFontScale(.4f);
@@ -147,6 +148,8 @@ public class DeathScreen implements Screen {
 
         float buttonWidth = SuchJump.CAMX / 5f;
         float buttonHeight = buttonWidth * 0.3f;
+        table.add(showScore);
+        table.row();
         table.add(playAgain).size(buttonWidth, buttonHeight);
         table.row();
         table.add(backToMenu).size(buttonWidth, buttonHeight);
